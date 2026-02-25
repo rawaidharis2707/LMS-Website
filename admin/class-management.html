@@ -1,0 +1,417 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class & Batch Management - Admin Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="admissions.html" class="sidebar-link"><i
+                            class="fas fa-user-plus"></i><span>Admissions</span></a></li>
+                <li class="sidebar-menu-item"><a href="timetable-input.html" class="sidebar-link"><i
+                            class="fas fa-calendar-plus"></i><span>Timetable Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="class-management.html" class="sidebar-link active"><i
+                            class="fas fa-school"></i><span>Class Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="subject-assignment.html" class="sidebar-link"><i
+                            class="fas fa-book"></i><span>Subject Assignment</span></a></li>
+                <li class="sidebar-menu-item"><a href="student-promotion.html" class="sidebar-link"><i
+                            class="fas fa-level-up-alt"></i><span>Student Promotion</span></a></li>
+                <li class="sidebar-menu-item"><a href="data-correction.html" class="sidebar-link"><i
+                            class="fas fa-user-edit"></i><span>Data Correction</span></a></li>
+                <li class="sidebar-menu-item"><a href="fee-vouchers.html" class="sidebar-link"><i
+                            class="fas fa-receipt"></i><span>Fee Vouchers</span></a></li>
+                <li class="sidebar-menu-item"><a href="fines.html" class="sidebar-link"><i
+                            class="fas fa-exclamation-triangle"></i><span>Fine Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="teacher-attendance.html" class="sidebar-link"><i
+                            class="fas fa-user-clock"></i><span>Teacher Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="discount-management.html" class="sidebar-link"><i
+                            class="fas fa-percentage"></i><span>Discount Management</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h1 class="page-title mb-0">Class Management</h1>
+            </div>
+
+            <div class="user-menu">
+                <!-- Global Search Trigger -->
+                <div class="search-trigger me-3 d-none d-md-flex align-items-center" onclick="globalSearch.openSearch()"
+                    style="cursor: pointer; background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <i class="fas fa-search text-muted me-2"></i>
+                    <span class="text-muted small">Search (Ctrl+K)</span>
+                </div>
+
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">System Alerts</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar shadow-sm"><span>AD</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name" id="userNameDisplay">Admin User</div>
+                    <div class="small text-muted" id="userRoleDisplay">Administrator</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content px-4 py-4">
+            <!-- Main Content -->
+            <div id="class-management-area">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card-modern animate-fade-in shadow-lg border-0 h-100">
+                            <div class="card-header bg-white border-0 py-4 px-4 border-bottom">
+                                <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-plus-circle text-primary me-2"></i>
+                                    Add New Class</h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <form id="classForm">
+                                    <!-- Batch Selection -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold small text-uppercase tracking-wider">Academic
+                                            Batch (Year)</label>
+                                        <input class="form-control bg-light border-0 py-2 px-3 shadow-none" type="text"
+                                            id="classBatchInput" required placeholder="e.g. 2024-2026">
+                                    </div>
+
+                                    <!-- Level Selection -->
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <label
+                                                class="form-label fw-bold small text-uppercase tracking-wider">Education
+                                                Level</label>
+                                            <select class="form-select bg-light border-0 py-2 shadow-none"
+                                                id="educationLevel" required onchange="updateGradeOptions()">
+                                                <option value="">Select Level...</option>
+                                                <option value="Matric">Matriculation</option>
+                                                <option value="Intermediate">Intermediate (HSSC)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold small text-uppercase tracking-wider">Grade
+                                                / Class</label>
+                                            <select class="form-select bg-light border-0 py-2 shadow-none"
+                                                id="className" required>
+                                                <option value="">Select Level First</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Group/Field Selection -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold small text-uppercase tracking-wider">Discipline
+                                            / Group</label>
+                                        <select class="form-select bg-light border-0 py-2 shadow-none" id="classGroup"
+                                            required>
+                                            <option value="">Select Grade First</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-6">
+                                            <label
+                                                class="form-label fw-bold small text-uppercase tracking-wider">Section</label>
+                                            <input type="text"
+                                                class="form-control bg-light border-0 py-2 px-3 shadow-none"
+                                                id="classSection" required placeholder="e.g. A, B">
+                                        </div>
+                                        <div class="col-6">
+                                            <label
+                                                class="form-label fw-bold small text-uppercase tracking-wider">Class Strength</label>
+                                            <input type="number"
+                                                class="form-control bg-light border-0 py-2 px-3 shadow-none"
+                                                id="classCapacity" required placeholder="40">
+                                        </div>
+                                    </div>
+
+                                    <i class="fas fa-layer-group me-2"></i> Save Class Information
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <!-- Stats -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4">
+                                <div
+                                    class="card-modern animate-fade-in p-4 shadow-sm h-100 text-center border-0 border-top border-primary border-4">
+                                    <h3 class="fw-bold mb-1 text-primary" id="totalClasses">0</h3>
+                                    <small class="text-muted small text-uppercase fw-bold tracking-wider">Total
+                                        Classes</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="card-modern animate-fade-in p-4 shadow-sm h-100 text-center border-0 border-top border-success border-4">
+                                    <h3 class="fw-bold mb-1 text-success" id="totalEnrolled">0</h3>
+                                    <small class="text-muted small text-uppercase fw-bold tracking-wider">Total
+                                        Students</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div
+                                    class="card-modern animate-fade-in p-4 shadow-sm h-100 text-center border-0 border-top border-warning border-4">
+                                    <h3 class="fw-bold mb-1 text-warning" id="meanCapacity">0</h3>
+                                    <small class="text-muted small text-uppercase fw-bold tracking-wider">Average
+                                        Capacity</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-modern animate-fade-in shadow-lg border-0">
+                            <div class="card-header bg-white border-0 py-4 px-4 border-bottom">
+                                <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-list-check text-success me-2"></i>
+                                    Active Classes</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive" style="max-height: 500px;">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="bg-light text-muted small text-uppercase fw-bold sticky-top">
+                                            <tr class="border-0">
+                                                <th class="ps-4">Batch</th>
+                                                <th>Class Details</th>
+                                                <th>Section</th>
+                                                <th>Strength</th>
+                                                <th class="pe-4 text-end">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="classTableBody">
+                                            <!-- Dynamic Content -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/enhancements.js"></script>
+    <script src="../assets/js/student-functions.js"></script>
+    <script src="../assets/js/class-functions.js"></script>
+    <script>
+        protectPage('admin');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+
+            // --- CLASS LOGIC ---
+            if (typeof initClassStorage === 'function') initClassStorage();
+            // if (typeof initStudentStorage === 'function') initStudentStorage();
+
+            loadClassesTable();
+            updateClassStats();
+
+            // DYNAMIC UI LOGIC
+            // Ensure updateGradeOptions is available in global scope if called by HTML onchange, 
+            // but here it's defined inside Listener. 
+            // Actually it's defined in global scope in original script below line 391?
+            // Re-defining it here or using existing one.
+            window.updateGradeOptions = function () {
+                const level = document.getElementById('educationLevel').value;
+                const gradeSelect = document.getElementById('className');
+                const groupSelect = document.getElementById('classGroup');
+
+                gradeSelect.innerHTML = '<option value="">Select Grade...</option>';
+                groupSelect.innerHTML = '<option value="">Select Grade First</option>';
+
+                if (level === 'Matric') {
+                    ['Matric Part-I (9th)', 'Matric Part-II (10th)'].forEach(g => {
+                        gradeSelect.innerHTML += `<option value="${g}">${g}</option>`;
+                    });
+                } else if (level === 'Intermediate') {
+                    ['Inter Part-I (11th)', 'Inter Part-II (12th)'].forEach(g => {
+                        gradeSelect.innerHTML += `<option value="${g}">${g}</option>`;
+                    });
+                }
+            };
+
+            // Triggered by grade selection
+            document.getElementById('className').addEventListener('change', function () {
+                const level = document.getElementById('educationLevel').value;
+                const groupSelect = document.getElementById('classGroup');
+                groupSelect.innerHTML = '<option value="">Select Discipline...</option>';
+
+                if (level === 'Matric') {
+                    const matricGroups = ['Science (Biology)', 'Science (Computer)', 'Arts'];
+                    matricGroups.forEach(g => groupSelect.innerHTML += `<option value="${g}">${g}</option>`);
+                } else if (level === 'Intermediate') {
+                    const interGroups = ['F.Sc Pre-Medical', 'F.Sc Pre-Engineering', 'ICS (Physics)', 'ICS (Stats)', 'I.Com', 'F.A'];
+                    interGroups.forEach(g => groupSelect.innerHTML += `<option value="${g}">${g}</option>`);
+                }
+            });
+
+            // FORM HANDLER UPDATE
+            document.getElementById('classForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const name = document.getElementById('className').value;
+                const section = document.getElementById('classSection').value;
+                const capacity = document.getElementById('classCapacity').value;
+                const batchName = document.getElementById('classBatchInput').value.trim(); // Manual Manual
+                const level = document.getElementById('educationLevel').value;
+                const group = document.getElementById('classGroup').value;
+
+                // addClass now accepts batch string directly
+                const result = addClass(name, section, capacity, batchName, level, group);
+
+                if (result.success) {
+                    showToast(result.message, 'success');
+                    this.reset();
+                    loadClassesTable();
+                    updateClassStats();
+                } else {
+                    showToast(result.message, 'warning');
+                }
+            });
+        });
+
+        function loadClassesTable() {
+            const classes = getAllClasses();
+            const tbody = document.getElementById('classTableBody');
+            tbody.innerHTML = '';
+
+            if (classes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">No classes found</td></tr>';
+            } else {
+                classes.forEach(cls => {
+                    // cls.batch is now stored directly. Fallback to cls.batchId lookup logic if older data exists?
+                    // We assume new data or migration. 
+                    // Simple display logic: Use cls.batch if available.
+
+                    let batchDisplay = cls.batch || 'N/A';
+                    // Backward compatibility check if needed (but user asked for refactor so likely fresh or okay to break old display)
+                    if (!cls.batch && cls.batchId) {
+                        const batches = JSON.parse(localStorage.getItem('batches') || '[]');
+                        const b = batches.find(bat => bat.id == cls.batchId);
+                        if (b) batchDisplay = b.name;
+                    }
+
+                    const level = cls.level || 'General';
+                    const group = cls.group || '-';
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="ps-4">
+                            <span class="badge-modern bg-primary-subtle text-primary fw-bold tracking-tight">${batchDisplay}</span>
+                            <div class="small text-muted mt-1">${level}</div>
+                        </td>
+                        <td>
+                            <div class="fw-bold text-dark">${cls.name}</div>
+                            <small class="text-muted">${cls.gradeLevel || ''}</small>
+                        </td>
+                        <td>
+                            <span class="badge-modern bg-info-subtle text-info fw-bold mb-1">${cls.section}</span>
+                             <div class="small fw-bold text-dark">${group}</div>
+                        </td>
+                        <td>
+                            <div class="progress" style="height: 6px; width: 60px;">
+                                <div class="progress-bar bg-primary" style="width: 75%"></div>
+                            </div>
+                            <small class="text-muted d-block mt-1">${cls.capacity} Seats</small>
+                        </td>
+                        <td class="pe-4 text-end">
+                            <button class="btn btn-sm btn-outline-danger lift" onclick="confirmDeleteClass(${cls.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+            document.getElementById('totalClasses').innerText = classes.length;
+        }
+
+        function confirmDeleteClass(id) {
+            if (confirm('Are you sure you want to delete this class?')) {
+                deleteClass(id);
+                showToast('Class deleted', 'success');
+                loadClassesTable();
+                updateClassStats();
+            }
+        }
+
+        function updateClassStats() {
+            // 2. Total Enrolled
+            const students = typeof getAllStudents === 'function' ? getAllStudents() : [];
+            document.getElementById('totalEnrolled').innerText = students.length.toLocaleString();
+
+            // 3. Mean Capacity
+            const classes = getAllClasses();
+            if (classes.length > 0) {
+                const totalCap = classes.reduce((sum, c) => sum + (parseInt(c.capacity) || 0), 0);
+                const avg = Math.round(totalCap / classes.length);
+                document.getElementById('meanCapacity').innerText = avg;
+            } else {
+                document.getElementById('meanCapacity').innerText = '0';
+            }
+        }
+    </script>
+</body>
+
+</html>

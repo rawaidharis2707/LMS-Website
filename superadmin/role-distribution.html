@@ -1,0 +1,382 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role Distribution - Super Admin Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="role-distribution.html" class="sidebar-link active"><i
+                            class="fas fa-user-shield"></i><span>Roles & Permissions</span></a></li>
+                <li class="sidebar-menu-item"><a href="finance.html" class="sidebar-link"><i
+                            class="fas fa-money-bill-wave"></i><span>Funds Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="salary.html" class="sidebar-link"><i
+                            class="fas fa-wallet"></i><span>Salary Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="teacher-attendance.html" class="sidebar-link"><i
+                            class="fas fa-clipboard-check"></i><span>Teacher Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="reports.html" class="sidebar-link"><i
+                            class="fas fa-file-alt"></i><span>Reports</span></a></li>
+
+                <li class="sidebar-menu-item"><a href="activity-logs.html" class="sidebar-link"><i
+                            class="fas fa-history"></i><span>Activity Logs</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle"><i
+                        class="fas fa-bars fs-4"></i></button>
+                <h1 class="page-title mb-0">Role Distribution & Permissions</h1>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar"><span>SA</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold">Super Admin</div>
+                    <div class="small text-muted">System Administrator</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-user-plus text-primary me-2"></i> Assign Role</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="roleForm">
+                                <div class="mb-3">
+                                    <label class="form-label">User</label>
+                                    <input class="form-control" list="userListOptions" id="userSearchInput" required
+                                        placeholder="Type name or email to search...">
+                                    <datalist id="userListOptions">
+                                        <option value="John Doe (john@example.com)">
+                                        <option value="Jane Smith (jane@example.com)">
+                                        <option value="Michael Brown (michael@example.com)">
+                                    </datalist>
+                                    <div class="form-text small">Search for an existing user to assign a role.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Role</label>
+                                    <select class="form-select" id="roleSelect" required>
+                                        <option value="">Choose role...</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="teacher">Teacher</option>
+                                        <option value="accountant">Accountant</option>
+                                    </select>
+                                </div>
+
+                                <!-- Category Permissions (Hidden by default, shown for Admin/Accountant) -->
+                                <div id="permissionContainer" class="mb-3 border rounded p-3 bg-light d-none">
+                                    <label class="form-label fw-bold mb-2">Category Access</label>
+                                    <div class="row g-2">
+                                        <!-- Teacher/Academic Permissions -->
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input permission-check" type="checkbox"
+                                                    value="academics" id="permAcademics">
+                                                <label class="form-check-label" for="permAcademics">Academic
+                                                    Management</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input permission-check" type="checkbox"
+                                                    value="students" id="permStudents">
+                                                <label class="form-check-label" for="permStudents">Student
+                                                    Management</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Admin/Finance Permissions -->
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input permission-check" type="checkbox"
+                                                    value="finance" id="permFinance">
+                                                <label class="form-check-label" for="permFinance">Finance & Fee</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input permission-check" type="checkbox"
+                                                    value="salary" id="permSalary">
+                                                <label class="form-check-label" for="permSalary">Salary &
+                                                    Payroll</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input permission-check" type="checkbox"
+                                                    value="admissions" id="permAdmissions">
+                                                <label class="form-check-label" for="permAdmissions">Admissions</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input permission-check" type="checkbox"
+                                                    value="attendance" id="permAttendance">
+                                                <label class="form-check-label" for="permAttendance">Teacher
+                                                    Attendance</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-text small mt-2 text-primary"><i class="fas fa-info-circle"></i>
+                                        Select allowed categories for this role.</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-check me-2"></i> Assign Role
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-chart-pie text-info me-2"></i> Role Distribution
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <div class="bg-light p-3 rounded text-center">
+                                            <i class="fas fa-user-tie fa-2x text-danger mb-2"></i>
+                                            <h4 class="fw-bold mb-1" id="countSuperAdmin">0</h4>
+                                            <small class="text-muted">Super Admins</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="bg-light p-3 rounded text-center">
+                                            <i class="fas fa-user-shield fa-2x text-warning mb-2"></i>
+                                            <h4 class="fw-bold mb-1" id="countAdmin">0</h4>
+                                            <small class="text-muted">Admins</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="bg-light p-3 rounded text-center">
+                                            <i class="fas fa-chalkboard-teacher fa-2x text-success mb-2"></i>
+                                            <h4 class="fw-bold mb-1" id="countTeacher">0</h4>
+                                            <small class="text-muted">Teachers</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="bg-light p-3 rounded text-center">
+                                            <i class="fas fa-user-graduate fa-2x text-primary mb-2"></i>
+                                            <h4 class="fw-bold mb-1" id="countStudent">0</h4>
+                                            <small class="text-muted">Students</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-users text-success me-2"></i> User Roles</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Last Login</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">Admin User</td>
+                                        <td>admin@demo.com</td>
+                                        <td><span class="badge bg-warning">Admin</span></td>
+                                        <td>Dec 10, 2024</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1"><i
+                                                    class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Sarah Johnson</td>
+                                        <td>teacher@demo.com</td>
+                                        <td><span class="badge bg-success">Teacher</span></td>
+                                        <td>Dec 10, 2024</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1"><i
+                                                    class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/activity-functions.js"></script>
+    <script>
+        protectPage('superadmin');
+        protectPage('superadmin');
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+            loadRoleData();
+
+            // Toggle Permissions Logic
+            document.getElementById('roleSelect').addEventListener('change', function () {
+                const role = this.value;
+                const permContainer = document.getElementById('permissionContainer');
+
+                // Show permissions if role is admin or accountant (or any role needing granular access)
+                if (role === 'admin' || role === 'accountant' || role === 'teacher') {
+                    permContainer.classList.remove('d-none');
+                } else {
+                    permContainer.classList.add('d-none');
+                }
+            });
+
+            document.getElementById('roleForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Capture Inputs
+                const searchVal = document.getElementById('userSearchInput').value;
+                const role = document.getElementById('roleSelect').value;
+
+                // Extract email from "Name (email)" format
+                const emailMatch = searchVal.match(/\(([^)]+)\)/);
+                const email = emailMatch ? emailMatch[1] : searchVal;
+
+                // Capture Permissions
+                const permissions = [];
+                document.querySelectorAll('.permission-check:checked').forEach(cb => {
+                    permissions.push(cb.value);
+                });
+
+                if (updateUserRole(email, role, permissions)) {
+                    showToast('Role assigned successfully!', 'success');
+                    this.reset();
+                    document.getElementById('permissionContainer').classList.add('d-none');
+                    loadRoleData(); // Refresh UI
+                } else {
+                    showToast('User not found or error updating.', 'danger');
+                }
+            });
+        });
+
+        function loadRoleData() {
+            const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
+
+            // 1. Update Stats
+            document.getElementById('countSuperAdmin').innerText = users.filter(u => u.role === 'superadmin').length;
+            document.getElementById('countAdmin').innerText = users.filter(u => u.role === 'admin').length;
+            document.getElementById('countTeacher').innerText = users.filter(u => u.role === 'teacher').length;
+            document.getElementById('countStudent').innerText = users.filter(u => u.role === 'student').length;
+
+            // 2. Populate Datalist
+            const datalist = document.getElementById('userListOptions');
+            datalist.innerHTML = '';
+            users.forEach(u => {
+                const opt = document.createElement('option');
+                opt.value = `${u.name} (${u.email})`;
+                datalist.appendChild(opt);
+            });
+
+            // 3. Populate Table
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+
+            // Should pagination be added? For now, list all or top 50
+            users.slice(0, 50).forEach(u => {
+                let badgeClass = 'bg-secondary';
+                if (u.role === 'admin') badgeClass = 'bg-warning';
+                if (u.role === 'teacher') badgeClass = 'bg-success';
+                if (u.role === 'student') badgeClass = 'bg-primary';
+                if (u.role === 'superadmin') badgeClass = 'bg-dark';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="fw-bold">${u.name}</td>
+                    <td>${u.email}</td>
+                    <td><span class="badge ${badgeClass}">${u.role.toUpperCase()}</span></td>
+                    <td>${u.lastLogin || 'Never'}</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteUser('${u.email}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateUserRole(email, newRole, permissions) {
+            const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
+            const index = users.findIndex(u => u.email === email);
+
+            if (index !== -1) {
+                users[index].role = newRole;
+                users[index].permissions = permissions;
+                localStorage.setItem('lms_users', JSON.stringify(users));
+
+                // Log activity
+                logActivity('Update', `Changed role of ${email} to ${newRole}`, 'Super Admin', 'superadmin');
+                return true;
+            }
+            return false;
+        }
+
+        function deleteUser(email) {
+            if (!confirm('Are you sure you want to delete this user?')) return;
+
+            const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
+            const newUsers = users.filter(u => u.email !== email);
+            localStorage.setItem('lms_users', JSON.stringify(newUsers));
+
+            logActivity('Delete', `Deleted user ${email}`, 'Super Admin', 'superadmin');
+            loadRoleData();
+            showToast('User deleted.', 'info');
+        }
+    </script>
+</body>
+
+</html>

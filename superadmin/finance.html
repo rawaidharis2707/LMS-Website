@@ -1,0 +1,426 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funds Management - Super Admin Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="role-distribution.html" class="sidebar-link"><i
+                            class="fas fa-user-shield"></i><span>Roles & Permissions</span></a></li>
+                <li class="sidebar-menu-item"><a href="finance.html" class="sidebar-link active"><i
+                            class="fas fa-money-bill-wave"></i><span>Funds Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="salary.html" class="sidebar-link"><i
+                            class="fas fa-wallet"></i><span>Salary Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="teacher-attendance.html" class="sidebar-link"><i
+                            class="fas fa-clipboard-check"></i><span>Teacher Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="reports.html" class="sidebar-link"><i
+                            class="fas fa-file-alt"></i><span>Reports</span></a></li>
+
+                <li class="sidebar-menu-item"><a href="activity-logs.html" class="sidebar-link"><i
+                            class="fas fa-history"></i><span>Activity Logs</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle"><i
+                        class="fas fa-bars fs-4"></i></button>
+                <h1 class="page-title mb-0">Funds Management</h1>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar"><span>SA</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold">Super Admin</div>
+                    <div class="small text-muted">System Administrator</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content">
+            <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs mb-4" id="financeTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard"
+                        type="button" role="tab"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="expenses-tab" data-bs-toggle="tab" data-bs-target="#expenses"
+                        type="button" role="tab"><i class="fas fa-receipt me-2"></i>Expenses</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports"
+                        type="button" role="tab"><i class="fas fa-print me-2"></i>Reports</button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="financeTabsContent">
+
+                <!-- 1. DASHBOARD TAB -->
+                <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+                    <!-- KPI Cards -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="stat-widget widget-success text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="opacity-75 mb-1">Total Revenue</h6>
+                                        <h3 class="fw-bold mb-0" id="kpiRevenue">$0</h3>
+                                    </div>
+                                    <div class="stat-widget-icon bg-white bg-opacity-25"><i
+                                            class="fas fa-hand-holding-usd"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-widget widget-danger text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="opacity-75 mb-1">Total Expenses</h6>
+                                        <h3 class="fw-bold mb-0" id="kpiExpenses">$0</h3>
+                                    </div>
+                                    <div class="stat-widget-icon bg-white bg-opacity-25"><i
+                                            class="fas fa-file-invoice-dollar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-widget widget-info text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="opacity-75 mb-1">Net Profit</h6>
+                                        <h3 class="fw-bold mb-0" id="kpiProfit">$0</h3>
+                                    </div>
+                                    <div class="stat-widget-icon bg-white bg-opacity-25"><i
+                                            class="fas fa-chart-line"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-widget widget-warning text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="opacity-75 mb-1">Pending Fees</h6>
+                                        <h3 class="fw-bold mb-0" id="kpiPending">$1,250</h3>
+                                    </div>
+                                    <div class="stat-widget-icon bg-white bg-opacity-25"><i class="fas fa-clock"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-header bg-white border-0 py-3">
+                                    <h5 class="mb-0 fw-bold">Revenue vs Expenses</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height: 350px;">
+                                        <canvas id="financeOverviewChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-header bg-white border-0 py-3">
+                                    <h5 class="mb-0 fw-bold">Expense Breakdown</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height: 350px;">
+                                        <canvas id="expenseBreakdownChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- 3. EXPENSES TAB -->
+                <div class="tab-pane fade" id="expenses" role="tabpanel">
+                    <div class="card border-0 shadow-sm">
+                        <div
+                            class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Expense Records</h5>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-success" onclick="exportFinanceData()">
+                                    <i class="fas fa-file-excel me-2"></i> Export All to Excel
+                                </button>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+                                    <i class="fas fa-plus-circle me-2"></i> Add Expense
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Title/Category</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Method</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="expenseTableBody">
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. REPORTS TAB -->
+                <div class="tab-pane fade" id="reports" role="tabpanel">
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-chart-line text-primary me-2"></i> Financial
+                                Report Generator</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="reportForm" class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Report Type</label>
+                                    <select class="form-select" id="reportType" onchange="toggleReportDates()">
+                                        <option value="daily">Daily Report</option>
+                                        <option value="monthly" selected>Monthly Report</option>
+                                        <option value="yearly">Yearly Report</option>
+                                        <option value="custom">Custom Date Range</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 report-date d-none" id="dateExactBox">
+                                    <label class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" id="reportDate">
+                                </div>
+                                <div class="col-md-3 report-date" id="dateMonthBox">
+                                    <label class="form-label">Select Month</label>
+                                    <input type="month" class="form-control" id="reportMonth">
+                                </div>
+                                <div class="col-md-3 report-date d-none" id="dateYearBox">
+                                    <label class="form-label">Select Year</label>
+                                    <select class="form-select" id="reportYear">
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 report-date d-none" id="dateCustomBox">
+                                    <label class="form-label">Date Range</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" id="reportStartDate">
+                                        <span class="input-group-text">to</span>
+                                        <input type="date" class="form-control" id="reportEndDate">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <button type="button" class="btn btn-primary w-100" onclick="generateReport()"><i
+                                            class="fas fa-search me-2"></i> Generate</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="reportResult" class="d-none">
+                        <div class="card border-0 shadow-sm">
+                            <div
+                                class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 fw-bold">Report Summary</h5>
+                                <div>
+                                    <button class="btn btn-outline-danger btn-sm me-2" onclick="printReport()"><i
+                                            class="fas fa-file-pdf me-2"></i> Print PDF</button>
+                                    <button class="btn btn-outline-success btn-sm" onclick="exportReportCSV()"><i
+                                            class="fas fa-file-excel me-2"></i> Export Excel</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center mb-4">
+                                    <div class="col-md-3">
+                                        <div class="p-3 bg-light rounded">
+                                            <h6 class="text-muted">Total Income</h6>
+                                            <h4 class="fw-bold text-success" id="repIncome">$0</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-3 bg-light rounded">
+                                            <h6 class="text-muted">Total Expense</h6>
+                                            <h4 class="fw-bold text-danger" id="repExpense">$0</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-3 bg-light rounded">
+                                            <h6 class="text-muted">Net Profit</h6>
+                                            <h4 class="fw-bold text-primary" id="repProfit">$0</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-3 bg-light rounded">
+                                            <h6 class="text-muted">Transactions</h6>
+                                            <h4 class="fw-bold" id="repCount">0</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped" id="reportTable">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Type</th>
+                                                <th>Category</th>
+                                                <th>Description</th>
+                                                <th>Method</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Income Modal -->
+    <div class="modal fade" id="addIncomeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Add Income (Credit)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="incomeForm">
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" name="category" required>
+                                <option value="Fee Collection">Fee Collection</option>
+                                <option value="Grant">Grant/Donation</option>
+                                <option value="Other Income">Other Income</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-control" name="amount" required step="0.01">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Payment Method</label>
+                            <select class="form-select" name="method" required>
+                                <option value="Cash">Cash</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
+                                <option value="Online">Online/Card</option>
+                                <option value="Cheque">Cheque</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" name="date" required id="incomeDate">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="2" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Save Income</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Add Expense Modal -->
+    <div class="modal fade" id="addExpenseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Add Expense (Debit)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="expenseForm">
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" name="category" required>
+                                <option value="Utilities">Utilities (Electricity/Water)</option>
+                                <option value="Salaries">Staff Salaries</option>
+                                <option value="Maintenance">Maintenance/Repairs</option>
+                                <option value="Supplies">Stationery/Supplies</option>
+                                <option value="Marketing">Marketing/Ads</option>
+                                <option value="Other Expense">Other Expense</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Amount</label>
+                            <input type="number" class="form-control" name="amount" required step="0.01">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Payment Method</label>
+                            <select class="form-select" name="method" required>
+                                <option value="Cash">Cash</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
+                                <option value="Online">Online/Card</option>
+                                <option value="Cheque">Cheque</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" name="date" required id="expenseDate">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="2" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">Save Expense</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/finance-functions.js"></script>
+    <script>
+        protectPage('superadmin');
+    </script>
+</body>
+
+</html>

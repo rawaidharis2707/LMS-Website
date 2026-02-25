@@ -1,0 +1,742 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Lumina International Academy</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand">
+                <i class="fas fa-university"></i>
+                <span>LUMINA ACADEMY</span>
+            </a>
+        </div>
+
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="profile.html" class="sidebar-link">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="subjects.html" class="sidebar-link">
+                        <i class="fas fa-book"></i>
+                        <span>Subjects</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="timetable.html" class="sidebar-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Time Table</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="attendance.html" class="sidebar-link">
+                        <i class="fas fa-user-check"></i>
+                        <span>Attendance</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="results.html" class="sidebar-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Results</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="assignments.html" class="sidebar-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>Assignments</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="quizzes.html" class="sidebar-link">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Quizzes</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="notes.html" class="sidebar-link">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Notes & PDFs</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="lectures.html" class="sidebar-link">
+                        <i class="fas fa-video"></i>
+                        <span>Lecture Videos</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="announcements.html" class="sidebar-link">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="fees.html" class="sidebar-link">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span>Fee Details</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="fines.html" class="sidebar-link">
+                        <i class="fas fa-exclamation-triangle"></i><span>Fine Details</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="fee-vouchers.html" class="sidebar-link">
+                        <i class="fas fa-receipt"></i><span>Fee Vouchers</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()">
+                <i class="fas fa-sign-out-alt me-2"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h1 class="page-title mb-0">Dashboard</h1>
+            </div>
+
+            <div class="user-menu">
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">Notifications</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar">
+                    <span class="user-name">JD</span>
+                </div>
+
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name">John Doe</div>
+                    <div class="small text-muted student-class">Class 10-A</div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Welcome Hero -->
+            <div class="card-modern mb-4 gradient-overlay animate-fade-in"
+                style="background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200'); background-size: cover; background-position: center;">
+                <div class="card-body text-white p-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="fw-bold mb-3"
+                                style="font-family: 'Bungee', sans-serif; font-size: 2.5rem; color: #FFF; text-shadow: 0 2px 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(14, 165, 233, 0.6);">
+                                Welcome back, <span class="user-name">John Doe</span>!</h2>
+                            <p class="mb-3 fs-5">Here's your academic overview for today</p>
+                            <div class="d-flex gap-3 flex-wrap">
+                                <span class="badge badge-modern bg-white text-primary"><i
+                                        class="fas fa-calendar me-2"></i><span id="currentDate"></span></span>
+                                <span class="badge badge-modern bg-white text-primary"><i
+                                        class="fas fa-clock me-2"></i><span id="currentTime"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end d-none d-md-block">
+                            <i class="fas fa-graduation-cap"
+                                style="font-size: 6rem; opacity: 0.4; animation: bounce 3s infinite;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Stats Widgets -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-6 col-lg-3 animate-fade-in" style="animation-delay: 0.1s;">
+                    <div class="stat-widget-modern lift">
+                        <div class="stat-icon-modern mb-3">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <p class="text-muted mb-1 text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                            Overall Attendance</p>
+                        <h2 class="fw-bold mb-2"
+                            style="font-family: 'Bungee', sans-serif; color: var(--primary-color);">92.5%</h2>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge badge-success-modern"><i class="fas fa-arrow-up me-1"></i> Good</span>
+                            <small class="text-muted">vs 90% last month</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 animate-fade-in" style="animation-delay: 0.2s;">
+                    <div class="stat-widget-modern lift">
+                        <div class="stat-icon-modern mb-3"
+                            style="background: linear-gradient(135deg, #10B981, #059669);">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <p class="text-muted mb-1 text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                            Pending Assignments</p>
+                        <h2 class="fw-bold mb-2"
+                            style="font-family: 'Bungee', sans-serif; color: var(--success-color);">2</h2>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge badge-warning-modern"><i class="fas fa-clock me-1"></i> This Week</span>
+                            <small class="text-muted">1 overdue</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 animate-fade-in" style="animation-delay: 0.3s;">
+                    <div class="stat-widget-modern lift">
+                        <div class="stat-icon-modern mb-3"
+                            style="background: linear-gradient(135deg, #3B82F6, #2563EB);">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <p class="text-muted mb-1 text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                            Upcoming Tests</p>
+                        <h2 class="fw-bold mb-2" style="font-family: 'Bungee', sans-serif; color: #3B82F6;">1</h2>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge badge-info-modern"><i class="fas fa-calendar me-1"></i> Next Week</span>
+                            <small class="text-muted">Mathematics</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 animate-fade-in" style="animation-delay: 0.4s;">
+                    <div class="stat-widget-modern lift">
+                        <div class="stat-icon-modern mb-3"
+                            style="background: linear-gradient(135deg, #F59E0B, #D97706);">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <p class="text-muted mb-1 text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Fee
+                            Status</p>
+                        <h2 class="fw-bold mb-2" style="font-family: 'Bungee', sans-serif; color: #F59E0B;">PKR
+                            1,500</h2>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge badge-danger-modern"><i class="fas fa-exclamation-circle me-1"></i>
+                                Pending</span>
+                            <a href="fees.html" class="text-decoration-none small">Pay Now Â»</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card-modern animate-fade-in mb-4">
+                        <div
+                            class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-chart-line text-primary me-2"></i> Attendance
+                                Trend</h5>
+                            <small class="text-muted">Last 6 Weeks</small>
+                        </div>
+                        <div class="card-body" style="height: 300px;">
+                            <canvas id="attendanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Today's Schedule -->
+                    <div class="card-modern animate-fade-in">
+                        <div class="card-header bg-white border-0 py-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 fw-bold"><i class="fas fa-calendar-day text-primary me-2"></i> Today's
+                                    Schedule</h5>
+                                <a href="timetable.html" class="btn btn-sm btn-outline-primary">View Full Timetable</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="todaySchedule">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card-modern animate-fade-in mb-4">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-chart-bar text-info me-2"></i> Performance</h5>
+                        </div>
+                        <div class="card-body" style="height: 250px;">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Announcements Feed -->
+                    <div class="card-modern animate-fade-in" id="announcementsFeed">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-bullhorn text-warning me-2"></i> Announcements
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="announcementsList" class="timeline-modern"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Assignments -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-tasks text-success me-2"></i> Recent
+                            Assignments</h5>
+                        <a href="assignments.html" class="btn btn-sm btn-outline-success">View All</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Subject</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assignmentsTable">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links (Moved and Modernized) -->
+            <div class="row g-4 mt-2">
+                <div class="col-12">
+                    <div class="card-modern">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                                <a href="notes.html" class="btn btn-outline-primary btn-sm rounded-pill px-4">
+                                    <i class="fas fa-file-pdf me-2"></i> Download Notes
+                                </a>
+                                <a href="lectures.html" class="btn btn-outline-success btn-sm rounded-pill px-4">
+                                    <i class="fas fa-video me-2"></i> Watch Lectures
+                                </a>
+                                <a href="fees.html" class="btn btn-outline-warning btn-sm rounded-pill px-4 font-sm">
+                                    <i class="fas fa-dollar-sign me-2"></i> Pay Fees
+                                </a>
+                                <a href="results.html" class="btn btn-outline-info btn-sm rounded-pill px-4">
+                                    <i class="fas fa-chart-bar me-2"></i> View Results
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/enhancements.js"></script>
+    <script src="../assets/js/charts.js"></script>
+    <script src="../assets/js/assignment-functions.js"></script>
+    <script src="../assets/js/announcement-functions.js"></script>
+    <script src="../assets/js/timetable-functions.js"></script>
+
+    <script>
+        // Protect page - require student role
+        protectPage('student');
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+            initAssignmentStorage();
+            initAnnouncementStorage();
+            initTimetableStorage();
+            loadTodaySchedule();
+            loadRecentAssignments();
+            loadAnnouncements();
+            loadStudentDynamicCharts(); // Added
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        });
+
+        function loadStudentDynamicCharts() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return;
+
+            // --- 1. ATTENDANCE DATA ---
+            const allAttendance = JSON.parse(localStorage.getItem('lms_attendance') || '[]');
+            const studentAttendance = allAttendance.filter(a => a.studentId === currentUser.email || a.studentName === currentUser.name);
+
+            let present = 0;
+            let absent = 0;
+            let leave = 0;
+
+            if (studentAttendance.length === 0) {
+                // FALLBACK: Demo Data
+                present = 95;
+                absent = 5;
+                leave = 0;
+            } else {
+                studentAttendance.forEach(a => {
+                    if (a.status === 'Present') present++;
+                    else if (a.status === 'Absent') absent++;
+                    else leave++;
+                });
+            }
+
+            // Update Circle Chart
+            const ctx1 = document.getElementById('attendanceChart');
+            const existingChart1 = Chart.getChart(ctx1);
+            if (existingChart1) {
+                existingChart1.destroy();
+            }
+
+            window.attendanceChartInstance = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Present', 'Absent', 'Leave'],
+                    datasets: [{
+                        data: [present, absent, leave],
+                        backgroundColor: ['#10b981', '#ef4444', '#f59e0b'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Update Percentage Text
+            const total = present + absent + leave;
+            const perc = total > 0 ? Math.round((present / total) * 100) : 0;
+            const percText = document.querySelector('.attendance-circle .h1');
+            if (percText) percText.innerText = total > 0 ? `${perc}%` : 'N/A';
+
+            // --- UPDATE DASHBOARD WIDGETS ---
+            // 1. Attendance Widget
+            const attEl = document.getElementById('dashboardAttendanceVal');
+            if (attEl) attEl.innerText = total > 0 ? `${perc}%` : '0%';
+
+            // 2. Assignments Widget
+            // We need to fetch assignments
+            const allAssignments = JSON.parse(localStorage.getItem('lms_assignments') || '[]');
+            const myClass = currentUser.class || '10-A';
+            const pendingCount = allAssignments.filter(a => a.class === myClass).length;
+            // Ideally we check if *student* has submitted, but for now just Total Assignments for class is a rough proxy 
+            // or we assume 0 if no specific tracking.
+            // Let's mock "Pending" as "Total Assignments" for now since we don't have per-student submission tracking fully built here.
+
+            const assEl = document.getElementById('dashboardAssignmentsVal');
+            if (assEl) assEl.innerText = `${pendingCount} Assigned`;
+
+            // 3. Fee Widget
+            // Need lms_vouchers or lms_fees
+            const vouchers = JSON.parse(localStorage.getItem('lms_vouchers') || '[]');
+            const myVoucher = vouchers.find(v => v.studentId === currentUser.id || v.studentName === currentUser.name && v.status === 'Unpaid');
+            const feeEl = document.getElementById('dashboardFeeVal');
+            if (feeEl) {
+                if (myVoucher) {
+                    feeEl.innerText = 'Pending';
+                    feeEl.classList.remove('text-success');
+                    feeEl.classList.add('text-danger');
+                } else {
+                    feeEl.innerText = 'Paid';
+                    feeEl.classList.remove('text-danger');
+                    // Check if we want to confirm if ANY paid voucher exists? 
+                    // If no data at all, maybe show "No Dues".
+                    if (vouchers.length === 0) feeEl.innerText = 'No Dues';
+                }
+            }
+
+            // 4. Result Widget
+            // Use scores array from below
+
+
+
+            // --- 2. PERFORMANCE DATA (MARKS) ---
+            try {
+                const allMarks = JSON.parse(localStorage.getItem('lms_marks') || '[]');
+                const studentMarks = allMarks.filter(m => m.studentId === currentUser.email);
+
+                let subjects = [];
+                let scores = [];
+
+                if (studentMarks && studentMarks.length > 0) {
+                    studentMarks.forEach(m => {
+                        subjects.push(m.subject);
+                        if (m.totalMarks > 0) {
+                            const score = Math.round((parseInt(m.obtMarks) / parseInt(m.totalMarks)) * 100);
+                            scores.push(score);
+                        } else {
+                            scores.push(0);
+                        }
+                    });
+                }
+
+                // FALLBACK: Demo Data
+                if (subjects.length === 0) {
+                    subjects = ['Math', 'Physics', 'Bio', 'Eng', 'CS'];
+                    scores = [85, 92, 78, 88, 95];
+                }
+
+                // Update Result Widget
+                const resEl = document.getElementById('dashboardResultVal');
+                const gradEl = document.getElementById('dashboardResultGrade');
+
+                if (scores.length > 0) {
+                    // Calculate average of displayed subjects? Or take latest?
+                    // Let's take average of these scores for the "Recent Result" summary
+                    const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+                    if (resEl) resEl.innerText = `${avg}%`;
+
+                    let g = 'F';
+                    if (avg >= 90) g = 'A+';
+                    else if (avg >= 80) g = 'A';
+                    else if (avg >= 70) g = 'B';
+                    else if (avg >= 60) g = 'C';
+                    else if (avg >= 50) g = 'D';
+
+                    if (gradEl) gradEl.innerText = `Grade ${g}`;
+                } else {
+                    if (resEl) resEl.innerText = 'N/A';
+                    if (gradEl) gradEl.innerText = 'No Data';
+                }
+
+                const ctx2 = document.getElementById('performanceChart');
+                const existingChart2 = Chart.getChart(ctx2);
+                if (existingChart2) {
+                    existingChart2.destroy();
+                }
+
+                window.performanceChartInstance = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: subjects,
+                        datasets: [{
+                            label: 'Subject Score (%)',
+                            data: scores,
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 6,
+                            barThickness: 20
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: { display: false }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        return context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error("Error rendering Performance Chart:", err);
+            }
+        }
+
+        // Update date and time
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+            const dateEl = document.getElementById('currentDate');
+            const timeEl = document.getElementById('currentTime');
+
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', dateOptions);
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', timeOptions);
+        }
+
+        // Load today's schedule
+        function loadTodaySchedule() {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const today = days[new Date().getDay()];
+
+            // Try to get from modern timetable system first
+            const user = getSession() ? getSession().userData : null;
+            const className = user ? user.class : '10-A';
+            const schedule = getTimetableForClass(className, today);
+
+            const scheduleContainer = document.getElementById('todaySchedule');
+
+            if (schedule.length === 0) {
+                scheduleContainer.innerHTML = '<p class="text-muted text-center py-4">No classes scheduled for today.</p>';
+                return;
+            }
+
+            let html = '<div class="timeline">';
+            schedule.forEach(period => {
+                html += `
+                    <div class="d-flex mb-3 pb-3 border-bottom animate-fade-in">
+                        <div class="me-3">
+                            <div class="bg-primary text-white rounded p-2 text-center" style="min-width: 85px;">
+                                <small class="fw-bold">${period.time}</small>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-bold">${period.subject}</h6>
+                            <small class="text-muted">
+                                <i class="fas fa-user-circle me-1"></i> ${period.teacher || 'TBA'}
+                                <span class="ms-3"><i class="fas fa-map-marker-alt me-1"></i> ${period.room || 'TBA'}</span>
+                            </small>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            scheduleContainer.innerHTML = html;
+        }
+
+        // Load recent assignments
+        function loadRecentAssignments() {
+            const allAssignments = getAllAssignments();
+            const user = getSession() ? getSession().userData : null;
+            const studentId = user ? (user.rollNumber || user.id) : null;
+
+            // Get last 3 assignments relevant to the student's class
+            const userClass = user ? user.class : '10-A';
+            const assignments = allAssignments
+                .filter(a => a.class === userClass)
+                .slice(0, 3);
+
+            const tableBody = document.getElementById('assignmentsTable');
+            if (assignments.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No recent assignments found.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            assignments.forEach(assignment => {
+                const status = getSubmissionStatus(assignment.id, studentId);
+                const statusBadge = {
+                    'pending': '<span class="badge bg-warning text-dark">Pending</span>',
+                    'submitted': '<span class="badge bg-info">Submitted</span>',
+                    'graded': '<span class="badge bg-success">Graded</span>'
+                }[status] || '<span class="badge bg-secondary">Unknown</span>';
+
+                const action = status === 'pending' ?
+                    '<a href="assignments.html" class="btn btn-sm btn-primary">Submit</a>' :
+                    '<a href="assignments.html" class="btn btn-sm btn-outline-primary">View</a>';
+
+                html += `
+                    <tr class="animate-fade-in">
+                        <td class="fw-bold">${assignment.title}</td>
+                        <td>${assignment.subject}</td>
+                        <td>${formatDate(assignment.dueDate, 'short')}</td>
+                        <td>${statusBadge}</td>
+                        <td>${action}</td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = html;
+        }
+
+        // Load announcements
+        function loadAnnouncements() {
+            const user = getSession() ? getSession().userData : { role: 'student' };
+            const announcements = getAnnouncementsForUser('student', user).slice(0, 3);
+            const container = document.getElementById('announcementsList');
+
+            if (announcements.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center py-4">No recent announcements.</p>';
+                return;
+            }
+
+            let html = '';
+            announcements.forEach(announcement => {
+                const badgeClass = announcement.priority === 'high' ? 'bg-danger' : (announcement.priority === 'medium' ? 'bg-info text-dark' : 'bg-success');
+
+                html += `
+                    <div class="mb-3 p-3 bg-light rounded animate-fade-in">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="fw-bold mb-0 text-truncate">${announcement.title}</h6>
+                            <span class="badge ${badgeClass}" style="font-size: 0.65rem;">${announcement.priority.toUpperCase()}</span>
+                        </div>
+                        <p class="small text-muted mb-0 text-truncate-2">${announcement.content}</p>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+
+</html>

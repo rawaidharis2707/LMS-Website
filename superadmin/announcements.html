@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - Super Admin Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link active"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="role-distribution.html" class="sidebar-link"><i
+                            class="fas fa-user-shield"></i><span>Roles & Permissions</span></a></li>
+                <li class="sidebar-menu-item"><a href="finance.html" class="sidebar-link"><i
+                            class="fas fa-money-bill-wave"></i><span>Funds Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="salary.html" class="sidebar-link"><i
+                            class="fas fa-wallet"></i><span>Salary Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="teacher-attendance.html" class="sidebar-link"><i
+                            class="fas fa-clipboard-check"></i><span>Teacher Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="reports.html" class="sidebar-link"><i
+                            class="fas fa-file-alt"></i><span>Reports</span></a></li>
+
+                <li class="sidebar-menu-item"><a href="activity-logs.html" class="sidebar-link"><i
+                            class="fas fa-history"></i><span>Activity Logs</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle"><i
+                        class="fas fa-bars fs-4"></i></button>
+                <h1 class="page-title mb-0">Announcements</h1>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar"><span>SA</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name">Super Admin</div>
+                    <div class="small text-muted">System Administrator</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content px-4 py-4">
+            <div class="row g-4">
+                <!-- Posting Form -->
+                <div class="col-lg-5">
+                    <div class="card border-0 shadow-lg animate-fade-in">
+                        <div class="card-header bg-white border-0 py-4 px-4 border-bottom">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-paper-plane text-primary me-2"></i>
+                                <span id="formTitle">Create Announcement</span>
+                            </h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <form id="announcementForm">
+                                <input type="hidden" id="editId">
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold small text-uppercase tracking-wider">Announcement
+                                        Title</label>
+                                    <input type="text" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                        id="annTitle" required placeholder="Subject line...">
+                                </div>
+                                <div class="mb-4">
+                                    <label
+                                        class="form-label fw-bold small text-uppercase tracking-wider">Message</label>
+                                    <textarea class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                        id="annMessage" rows="5" required
+                                        placeholder="Type your message here..."></textarea>
+                                </div>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small text-uppercase tracking-wider">Target
+                                            Audience</label>
+                                        <select class="form-select bg-light border-0 py-2 shadow-none" id="annTarget"
+                                            required>
+                                            <option value="">Select Target...</option>
+                                            <option value="all">Everyone (Global)</option>
+                                            <option value="students">All Students</option>
+                                            <option value="teachers">All Teachers</option>
+                                            <option value="class">Specific Class</option>
+                                            <option value="user">Specific User (By Name)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-label fw-bold small text-uppercase tracking-wider">Priority</label>
+                                        <select class="form-select bg-light border-0 py-2 shadow-none" id="annPriority"
+                                            required>
+                                            <option value="low">Standard</option>
+                                            <option value="medium" selected>Important</option>
+                                            <option value="high">Critical</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Dynamic Inputs -->
+                                <div id="dynamicTargetContainer" class="mb-4 d-none animate-fade-in">
+                                    <!-- Target specifics like Class dropdown or User Name input will go here -->
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 py-3 fw-bold lift shadow-sm mt-2"
+                                    id="submitBtn">
+                                    <i class="fas fa-bullhorn me-2"></i> Post Announcement
+                                </button>
+                                <button type="button" class="btn btn-light w-100 py-3 fw-bold mt-2 d-none"
+                                    id="cancelBtn" onclick="resetFormState()">
+                                    Cancel Editing
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History List -->
+                <div class="col-lg-7">
+                    <div class="card border-0 shadow-lg animate-fade-in">
+                        <div
+                            class="card-header bg-white border-0 py-4 px-4 border-bottom d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-history text-success me-2"></i>
+                                Announcement History</h5>
+                            <div class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2"
+                                id="historyCount">0 Records</div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="mb-4">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0"><i
+                                            class="fas fa-search text-muted"></i></span>
+                                    <input type="text" class="form-control border-start-0 ps-0" id="searchAnnouncements"
+                                        placeholder="Find in history...">
+                                </div>
+                            </div>
+                            <div id="announcementsContainer" style="max-height: 600px; overflow-y: auto;">
+                                <!-- Announcements will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/announcement-functions.js"></script>
+    <script src="../assets/js/class-functions.js"></script>
+    <script src="../assets/js/activity-functions.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script>
+        protectPage('superadmin');
+
+        let allAnnouncements = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+            initAnnouncementStorage();
+            loadAnnouncements();
+
+            const form = document.getElementById('announcementForm');
+            const targetSelect = document.getElementById('annTarget');
+            const dynamicContainer = document.getElementById('dynamicTargetContainer');
+
+            // Handling Target Selection Change
+            targetSelect.addEventListener('change', function () {
+                const target = this.value;
+                dynamicContainer.innerHTML = '';
+                dynamicContainer.classList.add('d-none');
+
+                if (target === 'class') {
+                    dynamicContainer.classList.remove('d-none');
+                    dynamicContainer.innerHTML = `
+                        <label class="form-label fw-bold small text-uppercase tracking-wider">Target Class</label>
+                        <select id="annTargetValue" class="form-select bg-light border-0 py-2 shadow-none" required>
+                            <option value="">Select Class...</option>
+                        </select>
+                    `;
+                    populateClassSelect(document.getElementById('annTargetValue'));
+                } else if (target === 'user') {
+                    dynamicContainer.classList.remove('d-none');
+                    dynamicContainer.innerHTML = `
+                        <label class="form-label fw-bold small text-uppercase tracking-wider">Target User Name</label>
+                        <input type="text" id="annTargetValue" class="form-control bg-light border-0 py-2 shadow-none" required placeholder="Enter exact name (e.g. John Doe)">
+                    `;
+                }
+            });
+
+            // Form Submission
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const id = document.getElementById('editId').value;
+                const title = document.getElementById('annTitle').value;
+                const content = document.getElementById('annMessage').value;
+                const target = document.getElementById('annTarget').value;
+                const priority = document.getElementById('annPriority').value;
+                const targetValueInput = document.getElementById('annTargetValue');
+                const targetValue = targetValueInput ? targetValueInput.value : '';
+
+                const data = {
+                    title,
+                    content,
+                    target,
+                    targetValue,
+                    priority,
+                    author: 'Super Admin'
+                };
+
+                if (id) {
+                    if (updateAnnouncement(id, data)) {
+                        showToast('Announcement updated!', 'success');
+                        logActivity('Update', `Updated announcement: ${title}`, 'Super Admin', 'superadmin');
+                    }
+                } else {
+                    addAnnouncement(data);
+                    showToast('Announcement posted!', 'success');
+                    logActivity('Create', `Posted announcement: ${title}`, 'Super Admin', 'superadmin');
+                }
+
+                resetFormState();
+                loadAnnouncements();
+            });
+
+            // Search Filter
+            document.getElementById('searchAnnouncements').addEventListener('input', filterAnnouncements);
+        });
+
+        function loadAnnouncements() {
+            // Super Admin sees everything
+            allAnnouncements = getAllAnnouncements();
+            // Sort by Date (Newest first)
+            allAnnouncements.sort((a, b) => new Date(b.date) - new Date(a.date));
+            renderList(allAnnouncements);
+        }
+
+        function filterAnnouncements() {
+            const query = this.value.toLowerCase();
+            const filtered = allAnnouncements.filter(item =>
+                item.title.toLowerCase().includes(query) ||
+                item.content.toLowerCase().includes(query) ||
+                item.author.toLowerCase().includes(query)
+            );
+            renderList(filtered);
+        }
+
+        function renderList(list) {
+            const container = document.getElementById('announcementsContainer');
+            const historyCount = document.getElementById('historyCount');
+            container.innerHTML = '';
+            historyCount.innerText = `${list.length} Records`;
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5 opacity-50">
+                        <div class="display-4 text-muted mb-3"><i class="fas fa-bullhorn"></i></div>
+                        <p class="fw-bold">No broadcast history found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach(item => {
+                const borderClass = item.priority === 'high' ? 'danger' : (item.priority === 'medium' ? 'warning' : 'success');
+                const badgeClass = item.priority === 'high' ? 'bg-danger' : (item.priority === 'medium' ? 'bg-warning text-dark' : 'bg-success');
+
+                let targetDisplay = 'Global';
+                if (item.target === 'students') targetDisplay = 'Students Only';
+                if (item.target === 'teachers') targetDisplay = 'Teachers Only';
+                if (item.target === 'class') targetDisplay = `Class: ${item.targetValue}`;
+                if (item.target === 'user') targetDisplay = `User: ${item.targetValue}`;
+
+                const card = document.createElement('div');
+                card.className = 'card-modern mb-3 p-3 border-start border-4 animate-fade-in lift';
+                card.style.borderColor = `var(--bs-${borderClass})`;
+                card.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <h6 class="fw-bold mb-0">${item.title}</h6>
+                            <small class="text-muted">${new Date(item.date).toLocaleString()}</small>
+                        </div>
+                        <span class="badge ${badgeClass} small">${item.priority.toUpperCase()}</span>
+                    </div>
+                    <p class="small text-muted mb-3">${item.content}</p>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                        <div class="small fw-bold text-dark"><i class="fas fa-users me-1 text-primary"></i> ${targetDisplay}</div>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editItem(${item.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteItem(${item.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.editItem = function (id) {
+            const item = getAnnouncementById(id);
+            if (!item) return;
+
+            document.getElementById('editId').value = item.id;
+            document.getElementById('annTitle').value = item.title;
+            document.getElementById('annMessage').value = item.content;
+            document.getElementById('annTarget').value = item.target;
+            document.getElementById('annPriority').value = item.priority;
+
+            // Trigger change event to show dynamic inputs
+            const targetSelect = document.getElementById('annTarget');
+            const event = new Event('change');
+            targetSelect.dispatchEvent(event);
+
+            // Set value for dynamic input
+            const targetValueInput = document.getElementById('annTargetValue');
+            if (targetValueInput) targetValueInput.value = item.targetValue || '';
+
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save me-2"></i> Update Announcement';
+            document.getElementById('formTitle').innerText = 'Modify Announcement';
+            document.getElementById('cancelBtn').classList.remove('d-none');
+        };
+
+        window.deleteItem = function (id) {
+            if (confirm('Permanently delete this announcement?')) {
+                deleteAnnouncement(id);
+                loadAnnouncements();
+                showToast('Announcement removed', 'success');
+            }
+        };
+
+        window.resetFormState = function () {
+            document.getElementById('announcementForm').reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('dynamicTargetContainer').classList.add('d-none');
+            document.getElementById('dynamicTargetContainer').innerHTML = '';
+
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-bullhorn me-2"></i> Post Announcement';
+            document.getElementById('formTitle').innerText = 'System Broadcast';
+            document.getElementById('cancelBtn').classList.add('d-none');
+        };
+    </script>
+</body>
+
+</html>

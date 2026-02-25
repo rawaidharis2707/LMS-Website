@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Correction - Admin Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="admissions.html" class="sidebar-link"><i
+                            class="fas fa-user-plus"></i><span>Admissions</span></a></li>
+                <li class="sidebar-menu-item"><a href="timetable-input.html" class="sidebar-link"><i
+                            class="fas fa-calendar-plus"></i><span>Timetable Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="class-management.html" class="sidebar-link"><i
+                            class="fas fa-users-cog"></i><span>Class Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="subject-assignment.html" class="sidebar-link"><i
+                            class="fas fa-chalkboard-teacher"></i><span>Subject Assignment</span></a></li>
+                <li class="sidebar-menu-item"><a href="student-promotion.html" class="sidebar-link"><i
+                            class="fas fa-user-graduate"></i><span>Student Promotion</span></a></li>
+                <li class="sidebar-menu-item"><a href="data-correction.html" class="sidebar-link active"><i
+                            class="fas fa-edit"></i><span>Data Correction</span></a></li>
+                <li class="sidebar-menu-item"><a href="fee-vouchers.html" class="sidebar-link"><i
+                            class="fas fa-file-invoice-dollar"></i><span>Fee Vouchers</span></a></li>
+                <li class="sidebar-menu-item"><a href="fines.html" class="sidebar-link"><i
+                            class="fas fa-exclamation-triangle"></i><span>Fine Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="discount-management.html" class="sidebar-link"><i
+                            class="fas fa-percent"></i><span>Discounts</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h1 class="page-title mb-0">Data Correction</h1>
+            </div>
+
+            <div class="user-menu">
+                <!-- Global Search Trigger -->
+                <div class="search-trigger me-3 d-none d-md-flex align-items-center" onclick="globalSearch.openSearch()"
+                    style="cursor: pointer; background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <i class="fas fa-search text-muted me-2"></i>
+                    <span class="text-muted small">Search (Ctrl+K)</span>
+                </div>
+
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">System Alerts</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar shadow-sm"><span>AD</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name" id="userNameDisplay">Admin User</div>
+                    <div class="small text-muted" id="userRoleDisplay">Administrator</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content">
+            <div class="card-modern animate-fade-in shadow-lg border-0 mb-4">
+                <div class="card-header bg-white border-0 py-4 px-4 border-bottom">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-search text-primary me-2"></i> Data Correction</h5>
+                    <p class="text-muted small mb-0 mt-1">Identify student profiles requiring administrative
+                        rectification.</p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <div class="col-md-5">
+                            <label class="form-label fw-bold small text-uppercase tracking-wider">Roll No</label>
+                            <input type="text" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                placeholder="Roll No..." id="searchInput">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold small text-uppercase tracking-wider">Class</label>
+                            <select class="form-select bg-light border-0 py-3 px-4 shadow-none">
+                                <option value="">All Classes</option>
+                                <option value="10-A">Class 10-A</option>
+                                <option value="10-B">Class 10-B</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-primary w-100 py-3 fw-bold lift shadow-sm" onclick="searchStudent()">
+                                <i class="fas fa-search me-2"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-modern animate-fade-in shadow-lg border-0" id="editCard" style="display: none;">
+                <div class="card-header bg-white border-0 py-4 px-4 border-bottom">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-edit text-success me-2"></i> Update Profile
+                        Data</h5>
+                    <p class="text-muted small mb-0 mt-1">Modify core identity and academic parameters for the selected
+                        record.</p>
+                </div>
+                <div class="card-body p-4">
+                    <form id="correctionForm">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase tracking-wider">Name</label>
+                                <input type="text" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                    id="editName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase tracking-wider">Father
+                                    Name</label>
+                                <input type="text" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                    id="editFatherName" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold small text-uppercase tracking-wider">Date of Birth
+                                <input type="date" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                    id="editDob" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold small text-uppercase tracking-wider">Class</label>
+                                <select class="form-select bg-light border-0 py-3 px-4 shadow-none" id="editClass"
+                                    required>
+                                    <option value="" disabled selected>Select Class</option>
+                                    <option value="10-A">Class 10-A</option>
+                                    <option value="10-B">Class 10-B</option>
+                                    <option value="9-A">Class 9-A</option>
+                                    <option value="9-B">Class 9-B</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold small text-uppercase tracking-wider">Roll No</label>
+                                <input type="text" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                    id="editRoll" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase tracking-wider">Email</label>
+                                <input type="email" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                    id="editEmail" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase tracking-wider">Phone No</label>
+                                <input type="tel" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                    id="editPhone">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold small text-uppercase tracking-wider">Address</label>
+                                <textarea class="form-control bg-light border-0 py-3 px-4 shadow-none" id="editAddress"
+                                    rows="2"></textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-check custom-checkbox">
+                                    <input class="form-check-input shadow-none" type="checkbox" id="feeOption">
+                                    <label class="form-check-label fw-bold text-muted small text-uppercase"
+                                        for="feeOption">
+                                        Profile update fee ($10)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-12 pt-3">
+                                <button type="submit" class="btn btn-success px-5 py-3 fw-bold lift shadow-sm me-3">
+                                    <i class="fas fa-save me-2"></i> Update Profile
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary px-5 py-3 fw-bold lift"
+                                    onclick="cancelEdit()">
+                                    <i class="fas fa-times me-2"></i> Discard
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/enhancements.js"></script>
+    <script>
+        protectPage('admin');
+        let currentStudentEmail = null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+
+            document.getElementById('correctionForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!currentStudentEmail) return;
+
+                const students = JSON.parse(localStorage.getItem('lms_students') || '[]');
+                const index = students.findIndex(s => s.email === currentStudentEmail);
+
+                if (index === -1) {
+                    showToast('Student record not found.', 'danger');
+                    return;
+                }
+
+                // Update details
+                students[index].name = document.getElementById('editName').value;
+                students[index].fatherName = document.getElementById('editFatherName').value;
+                students[index].dob = document.getElementById('editDob').value;
+                students[index].class = document.getElementById('editClass').value;
+                students[index].rollNumber = document.getElementById('editRoll').value;
+                students[index].phone = document.getElementById('editPhone').value;
+                students[index].address = document.getElementById('editAddress').value;
+                // Email is the key, usually not editable easily without re-indexing, keeping it read-only for now or verify uniqueness if changed. 
+                // For safety in this quick fix, we won't edit email.
+
+                // Fee Logic
+                const withFee = document.getElementById('feeOption').checked;
+                if (withFee) {
+                    const transactions = JSON.parse(localStorage.getItem('lms_finance_transactions') || '[]');
+                    transactions.push({
+                        id: Date.now().toString(),
+                        date: new Date().toISOString().split('T')[0],
+                        type: 'credit',
+                        category: 'Fine',
+                        description: `Data Correction Fee - ${students[index].name} (${students[index].rollNumber})`,
+                        amount: 10,
+                        method: 'System',
+                        status: 'Completed',
+                        audit: { createdBy: 'Admin', createdAt: new Date().toISOString() }
+                    });
+                    localStorage.setItem('lms_finance_transactions', JSON.stringify(transactions));
+                }
+
+                localStorage.setItem('lms_students', JSON.stringify(students));
+
+                // Also update global user list if present
+                const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
+                const userIdx = users.findIndex(u => u.email === currentStudentEmail);
+                if (userIdx !== -1) {
+                    users[userIdx].name = students[index].name;
+                    localStorage.setItem('lms_users', JSON.stringify(users));
+                }
+
+                showToast(withFee ? 'Record updated & $10 fee applied.' : 'Record updated successfully.', 'success');
+                logActivity('Update', `Corrected data for ${students[index].name}`, 'Admin', 'admin');
+
+                setTimeout(() => {
+                    document.getElementById('editCard').style.display = 'none';
+                    document.getElementById('searchInput').value = '';
+                    currentStudentEmail = null;
+                }, 1500);
+            });
+        });
+
+        function searchStudent() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!query) {
+                showToast('Please enter a name or roll number.', 'warning');
+                return;
+            }
+
+            const students = JSON.parse(localStorage.getItem('lms_students') || '[]');
+            const student = students.find(s =>
+                s.name.toLowerCase().includes(query) ||
+                (s.rollNumber && s.rollNumber.toLowerCase() === query)
+            );
+
+            if (!student) {
+                showToast('Student not found.', 'danger');
+                return;
+            }
+
+            currentStudentEmail = student.email;
+
+            // Populate Form
+            document.getElementById('editName').value = student.name || '';
+            document.getElementById('editFatherName').value = student.fatherName || '';
+            document.getElementById('editDob').value = student.dob || '';
+            document.getElementById('editClass').value = student.class || '';
+            document.getElementById('editRoll').value = student.rollNumber || '';
+            document.getElementById('editEmail').value = student.email || '';
+            document.getElementById('editPhone').value = student.phone || '';
+            document.getElementById('editAddress').value = student.address || '';
+
+            // Show Card
+            document.getElementById('editCard').style.display = 'block';
+            document.getElementById('editCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function cancelEdit() {
+            document.getElementById('editCard').style.display = 'none';
+            currentStudentEmail = null;
+        }
+    </script>
+</body>
+
+</html>

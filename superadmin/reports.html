@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Super Admin Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="role-distribution.html" class="sidebar-link"><i
+                            class="fas fa-user-shield"></i><span>Roles & Permissions</span></a></li>
+                <li class="sidebar-menu-item"><a href="finance.html" class="sidebar-link"><i
+                            class="fas fa-money-bill-wave"></i><span>Funds Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="salary.html" class="sidebar-link"><i
+                            class="fas fa-wallet"></i><span>Salary Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="teacher-attendance.html" class="sidebar-link"><i
+                            class="fas fa-clipboard-check"></i><span>Teacher Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="reports.html" class="sidebar-link active"><i
+                            class="fas fa-file-alt"></i><span>Reports</span></a></li>
+                <li class="sidebar-menu-item"><a href="activity-logs.html" class="sidebar-link"><i
+                            class="fas fa-history"></i><span>Activity Logs</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h1 class="page-title mb-0">System Reports</h1>
+            </div>
+
+            <div class="user-menu">
+                <div class="user-avatar"><span>SA</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name">Super Admin</div>
+                    <div class="small text-muted">System Administrator</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content px-4 py-4">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in h-100 lift text-center p-4">
+                        <div class="bg-primary-subtle rounded-circle p-4 d-inline-block mb-3"
+                            style="width: 100px; height: 100px;">
+                            <i class="fas fa-chart-line fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Overall Performance</h5>
+                        <p class="text-muted small mb-4">System-wide academic performance metrics and historical
+                            analytics.</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary flex-grow-1 lift fw-bold"
+                                onclick="generateReport('performance')">
+                                <i class="fas fa-file-pdf me-2"></i> PDF
+                            </button>
+                            <button class="btn btn-outline-primary lift fw-bold" onclick="exportToExcel('performance')">
+                                <i class="fas fa-file-excel me-2"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in h-100 lift text-center p-4">
+                        <div class="bg-success-subtle rounded-circle p-4 d-inline-block mb-3"
+                            style="width: 100px; height: 100px;">
+                            <i class="fas fa-user-check fa-3x text-success"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Attendance Summary</h5>
+                        <p class="text-muted small mb-4">School-wide monthly attendance reports with percentage
+                            breakdown.</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-success flex-grow-1 lift fw-bold"
+                                onclick="generateReport('attendance')">
+                                <i class="fas fa-file-pdf me-2"></i> PDF
+                            </button>
+                            <button class="btn btn-outline-success lift fw-bold" onclick="exportToExcel('attendance')">
+                                <i class="fas fa-file-excel me-2"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in h-100 lift text-center p-4">
+                        <div class="bg-info-subtle rounded-circle p-4 d-inline-block mb-3"
+                            style="width: 100px; height: 100px;">
+                            <i class="fas fa-hand-holding-usd fa-3x text-info"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Funds Reports</h5>
+                        <p class="text-muted small mb-4">Comprehensive revenue, expense, and profit analysis reports.
+                        </p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-info flex-grow-1 lift fw-bold text-white"
+                                onclick="generateReport('finance')">
+                                <i class="fas fa-file-pdf me-2"></i> PDF
+                            </button>
+                            <button class="btn btn-outline-info lift fw-bold" onclick="exportToExcel('finance')">
+                                <i class="fas fa-file-excel me-2"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in h-100 lift text-center p-4">
+                        <div class="bg-warning-subtle rounded-circle p-4 d-inline-block mb-3"
+                            style="width: 100px; height: 100px;">
+                            <i class="fas fa-users-cog fa-3x text-warning"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">User Activity</h5>
+                        <p class="text-muted small mb-4">Detailed logs and analytics of user interactions across
+                            portals.</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-warning flex-grow-1 lift fw-bold text-dark"
+                                onclick="generateReport('activity')">
+                                <i class="fas fa-file-pdf me-2"></i> PDF
+                            </button>
+                            <button class="btn btn-outline-warning lift fw-bold text-dark"
+                                onclick="exportToExcel('activity')">
+                                <i class="fas fa-file-excel me-2"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in h-100 lift text-center p-4">
+                        <div class="bg-danger-subtle rounded-circle p-4 d-inline-block mb-3"
+                            style="width: 100px; height: 100px;">
+                            <i class="fas fa-exclamation-triangle fa-3x text-danger"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Critical Alerts</h5>
+                        <p class="text-muted small mb-4">Identify system issues, unpaid dues, and performance
+                            bottlenecks.</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-danger flex-grow-1 lift fw-bold" onclick="generateReport('alerts')">
+                                <i class="fas fa-file-pdf me-2"></i> PDF
+                            </button>
+                            <button class="btn btn-outline-danger lift fw-bold" onclick="exportToExcel('alerts')">
+                                <i class="fas fa-file-excel me-2"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in h-100 lift text-center p-4">
+                        <div class="bg-secondary-subtle rounded-circle p-4 d-inline-block mb-3"
+                            style="width: 100px; height: 100px;">
+                            <i class="fas fa-file-pdf fa-3x text-secondary"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Custom Reports</h5>
+                        <p class="text-muted small mb-4">Build system-wide reports with custom filters and data points.
+                        </p>
+                        <button class="btn btn-secondary w-100 lift fw-bold" onclick="generateReport('custom')">
+                            <i class="fas fa-sliders-h me-2"></i> Configure Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-modern animate-fade-in mt-5 shadow-lg">
+                <div class="card-header bg-white border-0 py-4 px-4 border-bottom">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-history me-2 text-primary"></i> Report Archives
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4">Report Description</th>
+                                    <th>Category</th>
+                                    <th>Generation Date</th>
+                                    <th class="pe-4 text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center">
+                                            <i class="far fa-file-pdf text-danger fs-4 me-3"></i>
+                                            <span class="fw-bold">Annual Financial Summary (2024)</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-modern bg-info-subtle text-info">Funds</span>
+                                    </td>
+                                    <td class="text-muted">Dec 25, 2024, 10:30 AM</td>
+                                    <td class="pe-4 text-end">
+                                        <button class="btn btn-sm btn-outline-primary lift"><i
+                                                class="fas fa-download"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center">
+                                            <i class="far fa-file-pdf text-danger fs-4 me-3"></i>
+                                            <span class="fw-bold">User Access & Security Audit</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-modern bg-warning-subtle text-warning">Security</span></td>
+                                    <td class="text-muted">Dec 20, 2024, 04:15 PM</td>
+                                    <td class="pe-4 text-end">
+                                        <button class="btn btn-sm btn-outline-primary lift"><i
+                                                class="fas fa-download"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/report-functions.js"></script>
+    <script>
+        protectPage('superadmin');
+        document.addEventListener('DOMContentLoaded', initDashboardUser);
+    </script>
+</body>
+
+</html>

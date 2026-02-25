@@ -1,0 +1,444 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance - Student Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-university"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="profile.html" class="sidebar-link"><i
+                            class="fas fa-user"></i><span>My Profile</span></a></li>
+                <li class="sidebar-menu-item"><a href="subjects.html" class="sidebar-link"><i
+                            class="fas fa-book"></i><span>Subjects</span></a></li>
+                <li class="sidebar-menu-item"><a href="timetable.html" class="sidebar-link"><i
+                            class="fas fa-calendar-alt"></i><span>Time Table</span></a></li>
+                <li class="sidebar-menu-item"><a href="attendance.html" class="sidebar-link active"><i
+                            class="fas fa-user-check"></i><span>Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="results.html" class="sidebar-link"><i
+                            class="fas fa-chart-bar"></i><span>Results</span></a></li>
+                <li class="sidebar-menu-item"><a href="assignments.html" class="sidebar-link"><i
+                            class="fas fa-tasks"></i><span>Assignments</span></a></li>
+                <li class="sidebar-menu-item"><a href="quizzes.html" class="sidebar-link"><i
+                            class="fas fa-question-circle"></i><span>Quizzes</span></a></li>
+                <li class="sidebar-menu-item"><a href="notes.html" class="sidebar-link"><i
+                            class="fas fa-file-pdf"></i><span>Notes & PDFs</span></a></li>
+                <li class="sidebar-menu-item"><a href="lectures.html" class="sidebar-link"><i
+                            class="fas fa-video"></i><span>Lecture Videos</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="fees.html" class="sidebar-link"><i
+                            class="fas fa-dollar-sign"></i><span>Fee Details</span></a></li>
+                <li class="sidebar-menu-item"><a href="fines.html" class="sidebar-link"><i
+                            class="fas fa-exclamation-triangle"></i><span>Fine Details</span></a></li>
+                <li class="sidebar-menu-item"><a href="fee-vouchers.html" class="sidebar-link"><i
+                            class="fas fa-receipt"></i><span>Fee Vouchers</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle"><i
+                        class="fas fa-bars fs-4"></i></button>
+                <h1 class="page-title mb-0">Attendance</h1>
+            </div>
+            <div class="user-menu">
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">Notifications</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar text-white"><span>JD</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name">John Doe</div>
+                    <div class="small text-muted student-class">Class 10-A</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content">
+            <div class="row g-4 mb-4">
+                <div class="col-md-12">
+                    <div class="card-modern animate-fade-in">
+                        <div class="card-body text-center p-5">
+                            <div class="mb-3">
+                                <i class="fas fa-user-check fa-5x text-success"></i>
+                            </div>
+                            <h2 class="fw-bold mb-2">Overall Attendance</h2>
+                            <h1 class="display-3 fw-bold text-success mb-3">92.5%</h1>
+                            <div class="progress mb-3" style="height: 30px;">
+                                <div class="progress-bar bg-success" style="width: 92.5%;">92.5%</div>
+                            </div>
+                            <p class="text-muted" id="attendanceMessage">You're doing great! Keep it up!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-modern animate-fade-in mb-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-chart-pie text-primary me-2"></i> Subject-Wise Attendance
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover text-center align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Present</th>
+                                    <th>Total</th>
+                                    <th>Percentage</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subjectAttendanceTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="card-modern animate-fade-in h-100">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-calendar-check text-info me-2"></i> Monthly Trend
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="monthlyTrend"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card-modern animate-fade-in h-100">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-chart-pie text-primary me-2"></i> Subject Analysis
+                            </h5>
+                        </div>
+                        <div class="card-body" style="height: 300px;">
+                            <canvas id="subjectAttendanceRadar"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/enhancements.js"></script>
+    <script src="../assets/js/charts.js"></script>
+    <script src="../assets/js/attendance-functions.js"></script>
+    <script>
+        protectPage('student');
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+            initAttendanceStorage();
+            calculateAndLoadAttendance();
+        });
+
+        function calculateAndLoadAttendance() {
+            // In a real app, this comes from the logged-in user session
+            const currentUser = getCurrentUser();
+            // Use ID from auth if available, fallback to demo ID
+            const studentId = currentUser && currentUser.id ? currentUser.id : '2024-10A-015';
+
+            const records = getStudentAttendance(studentId);
+
+            // --- Overall Stats ---
+            const total = records.length;
+            const present = records.filter(r => r.status === 'Present').length;
+
+            // DEFAULT / EMPTY STATE
+            if (total === 0) {
+                // Determine UI elements
+                const overallEl = document.querySelector('.display-3');
+                const progressBar = document.querySelector('.progress-bar');
+                const messageEl = document.getElementById('attendanceMessage');
+                const iconEl = document.querySelector('.card-body .fas.fa-user-check');
+
+                if (overallEl) overallEl.innerText = "100%"; // Start positive!
+                if (progressBar) {
+                    progressBar.style.width = "100%";
+                    progressBar.innerText = "100%";
+                    progressBar.className = "progress-bar bg-success progress-bar-striped progress-bar-animated";
+                }
+                if (iconEl) {
+                    iconEl.className = "fas fa-user-graduate fa-5x text-success animate-bounce";
+                }
+                if (messageEl) {
+                    messageEl.innerText = "Welcome! Your attendance journey begins now.";
+                    messageEl.className = "text-success fw-bold";
+                }
+            } else {
+                // REAL CALCULATION
+                let overallPct = (present / total) * 100;
+                overallPct = Math.round(overallPct * 10) / 10;
+
+                // Update Overall UI
+                const overallEl = document.querySelector('.display-3');
+                if (overallEl) overallEl.innerText = `${overallPct}%`;
+
+                const progressBar = document.querySelector('.progress-bar');
+                const messageEl = document.getElementById('attendanceMessage');
+                const iconEl = document.querySelector('.card-body .fas.fa-user-check');
+
+                if (progressBar) {
+                    progressBar.style.width = `${overallPct}%`;
+                    progressBar.innerText = `${overallPct}%`;
+
+                    progressBar.classList.remove('bg-success', 'bg-warning', 'bg-danger', 'progress-bar-striped', 'progress-bar-animated');
+                    if (iconEl) iconEl.classList.remove('text-success', 'text-warning', 'text-danger', 'fa-user-graduate', 'animate-bounce');
+                    if (iconEl && !iconEl.classList.contains('fa-user-check')) iconEl.className = "fas fa-user-check fa-5x"; // Reset icon
+
+                    let message = "";
+                    let colorClass = "";
+
+                    if (overallPct >= 90) {
+                        colorClass = 'bg-success';
+                        if (iconEl) iconEl.classList.add('text-success');
+                        message = "Excellent attendance! Keep it up!";
+                    } else if (overallPct >= 75) {
+                        colorClass = 'bg-warning';
+                        if (iconEl) iconEl.classList.add('text-warning');
+                        message = "You're doing okay, but try not to miss more classes.";
+                    } else {
+                        colorClass = 'bg-danger';
+                        if (iconEl) iconEl.classList.add('text-danger');
+                        message = "Warning: Your attendance is low. Please improve immediately.";
+                    }
+
+                    progressBar.classList.add(colorClass);
+                    if (messageEl) {
+                        messageEl.innerText = message;
+                        messageEl.className = overallPct >= 75 ? 'text-muted' : 'text-danger fw-bold';
+                    }
+                }
+            }
+
+            // --- Subject Stats ---
+            const subjects = {};
+            records.forEach(r => {
+                if (!subjects[r.subject]) {
+                    subjects[r.subject] = { present: 0, total: 0 };
+                }
+                subjects[r.subject].total++;
+                if (r.status === 'Present') subjects[r.subject].present++;
+            });
+
+            const tbody = document.getElementById('subjectAttendanceTable');
+            let html = '';
+
+            if (Object.keys(subjects).length === 0) {
+                html = '<tr><td colspan="5" class="text-center text-muted">No attendance records found.</td></tr>';
+            } else {
+                for (const [subName, data] of Object.entries(subjects)) {
+                    const subPct = (data.present / data.total) * 100;
+                    const statusBadge = subPct >= 90 ? '<span class="badge bg-success">Excellent</span>' :
+                        subPct >= 75 ? '<span class="badge bg-warning">Good</span>' :
+                            '<span class="badge bg-danger">Low</span>';
+                    const colorClass = subPct >= 90 ? 'bg-success' : subPct >= 75 ? 'bg-warning' : 'bg-danger';
+
+                    html += `
+                        <tr>
+                            <td class="fw-bold">${subName}</td>
+                            <td>${data.present}</td>
+                            <td>${data.total}</td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar ${colorClass}" style="width: ${subPct}%;">${subPct.toFixed(1)}%</div>
+                                </div>
+                            </td>
+                            <td>${statusBadge}</td>
+                        </tr>
+                    `;
+                }
+            }
+            tbody.innerHTML = html;
+
+            // --- Monthly Trend ---
+            loadMonthlyTrend(records);
+
+            // --- Subject Analysis (Radar Chart) ---
+            renderSubjectRadar(subjects);
+        }
+
+        function renderSubjectRadar(subjectsData) {
+            const ctx = document.getElementById('subjectAttendanceRadar');
+            if (!ctx) return;
+
+            // Destroy existing if any
+            const existingChart = Chart.getChart(ctx);
+            if (existingChart) existingChart.destroy();
+
+            // Prepare Data
+            let labels = Object.keys(subjectsData);
+            let dataPoints = labels.map(sub => {
+                const d = subjectsData[sub];
+                return Math.round((d.present / d.total) * 100);
+            });
+
+            // FALLBACK: Demo Data if empty
+            if (labels.length === 0) {
+                labels = ['Math', 'Physics', 'Chemistry', 'Biology', 'English', 'Computer'];
+                dataPoints = [85, 90, 75, 88, 92, 95];
+
+                // Indicate Demo Mode
+                const titleEl = document.querySelector('#subjectAttendanceRadar').closest('.card-body').previousElementSibling.querySelector('h5');
+                if (titleEl) titleEl.innerHTML = '<i class="fas fa-chart-pie text-primary me-2"></i> Subject Analysis <span class="badge bg-soft-info text-info small ms-2">Demo View</span>';
+            } else {
+                // Reset Title if real data
+                const titleEl = document.querySelector('#subjectAttendanceRadar').closest('.card-body').previousElementSibling.querySelector('h5');
+                if (titleEl) titleEl.innerHTML = '<i class="fas fa-chart-pie text-primary me-2"></i> Subject Analysis';
+            }
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Attendance %',
+                        data: dataPoints,
+                        fill: true,
+                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                        borderColor: '#0ea5e9',
+                        pointBackgroundColor: '#0ea5e9',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#0ea5e9'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: { borderWidth: 3 }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: { display: true },
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20,
+                                display: false // Hide internal ticker numbers for cleaner look if desirable, or keep true
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function loadMonthlyTrend(records) {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const monthStats = {};
+
+            // Init current year's months
+            const currentYear = new Date().getFullYear();
+
+            records.forEach(r => {
+                const date = new Date(r.date);
+                if (date.getFullYear() === currentYear) {
+                    const mIndex = date.getMonth();
+                    if (!monthStats[mIndex]) monthStats[mIndex] = { present: 0, total: 0 };
+                    monthStats[mIndex].total++;
+                    if (r.status === 'Present') monthStats[mIndex].present++;
+                }
+            });
+
+            const container = document.getElementById('monthlyTrend');
+            let html = '<div class="row g-3 justify-content-center">';
+
+            // Show last 6 months or all active months
+            // For simplicity, just show months that have data
+            const activeMonths = Object.keys(monthStats).sort((a, b) => a - b);
+
+            if (activeMonths.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">No data available for trend analysis.</p>';
+                return;
+            }
+
+            activeMonths.forEach(mIdx => {
+                const stat = monthStats[mIdx];
+                const pct = Math.round((stat.present / stat.total) * 100);
+
+                html += `
+                    <div class="col-md-2 col-4">
+                        <div class="text-center">
+                            <div class="mb-2 fw-bold small">${months[mIdx]}</div>
+                            <div class="progress" style="height: 100px; width: 20px; margin: 0 auto; background-color: #e9ecef;">
+                                <div class="progress-bar bg-primary" style="width: 100%; height: ${pct}%;" 
+                                     data-bs-toggle="tooltip" title="${pct}%"></div>
+                            </div>
+                            <div class="mt-2 small fw-bold">${pct}%</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+
+</html>

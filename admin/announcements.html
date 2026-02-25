@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - Admin Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="admissions.html" class="sidebar-link"><i
+                            class="fas fa-user-plus"></i><span>Admissions</span></a></li>
+                <li class="sidebar-menu-item"><a href="timetable-input.html" class="sidebar-link"><i
+                            class="fas fa-calendar-plus"></i><span>Timetable Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link active"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="class-management.html" class="sidebar-link"><i
+                            class="fas fa-users-cog"></i><span>Class Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="subject-assignment.html" class="sidebar-link"><i
+                            class="fas fa-chalkboard-teacher"></i><span>Subject Assignment</span></a></li>
+                <li class="sidebar-menu-item"><a href="student-promotion.html" class="sidebar-link"><i
+                            class="fas fa-user-graduate"></i><span>Student Promotion</span></a></li>
+                <li class="sidebar-menu-item"><a href="data-correction.html" class="sidebar-link"><i
+                            class="fas fa-edit"></i><span>Data Correction</span></a></li>
+                <li class="sidebar-menu-item"><a href="fee-vouchers.html" class="sidebar-link"><i
+                            class="fas fa-file-invoice-dollar"></i><span>Fee Vouchers</span></a></li>
+                <li class="sidebar-menu-item"><a href="fines.html" class="sidebar-link"><i
+                            class="fas fa-exclamation-triangle"></i><span>Fine Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="discount-management.html" class="sidebar-link"><i
+                            class="fas fa-percent"></i><span>Discounts</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h1 class="page-title mb-0">Announcements</h1>
+            </div>
+
+            <div class="user-menu">
+                <!-- Global Search Trigger -->
+                <div class="search-trigger me-3 d-none d-md-flex align-items-center" onclick="globalSearch.openSearch()"
+                    style="cursor: pointer; background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <i class="fas fa-search text-muted me-2"></i>
+                    <span class="text-muted small">Search (Ctrl+K)</span>
+                </div>
+
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">Alerts</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar"><span>AD</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name" id="userNameDisplay">Admin User</div>
+                    <div class="small text-muted" id="userRoleDisplay">Administrator</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content px-4 py-4">
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="card-modern animate-fade-in shadow-lg border-0">
+                        <div class="card-header bg-white border-0 py-4 px-4 border-bottom">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-pencil-alt text-primary me-2"></i> <span
+                                    id="formTitle">Send Announcement</span></h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <form id="announcementForm">
+                                <input type="hidden" id="editId">
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold small text-uppercase tracking-wider">Title</label>
+                                    <input type="text" class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                        id="annTitle" required placeholder="Enter headline here...">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold small text-uppercase tracking-wider">Description</label>
+                                    <textarea class="form-control bg-light border-0 py-3 px-4 shadow-none"
+                                        id="annMessage" rows="5" required
+                                        placeholder="Detailed message content..."></textarea>
+                                </div>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold small text-uppercase tracking-wider">Target
+                                            Group</label>
+                                        <select class="form-select bg-light border-0 py-2 shadow-none" id="annTarget"
+                                            required>
+                                            <option value="">Audience...</option>
+                                            <option value="all">Everyone</option>
+                                            <option value="students">Students</option>
+                                            <option value="teachers">Teachers</option>
+                                            <option value="class">Specific Class</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label
+                                            class="form-label fw-bold small text-uppercase tracking-wider">Priority</label>
+                                        <select class="form-select bg-light border-0 py-2 shadow-none" id="annPriority"
+                                            required>
+                                            <option value="low">Standard</option>
+                                            <option value="medium" selected>Important</option>
+                                            <option value="high">Critical</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Class input will be inserted here via JS -->
+                                <button type="submit" class="btn btn-primary w-100 py-3 fw-bold lift shadow-sm mt-2"
+                                    id="submitBtn">
+                                    <i class="fas fa-paper-plane me-2"></i> Send Announcement
+                                </button>
+                                <button type="button" class="btn btn-light w-100 py-3 fw-bold mt-2 d-none"
+                                    id="cancelBtn" onclick="resetFormState()">
+                                    Revert to New
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="card-modern animate-fade-in shadow-lg border-0">
+                        <div
+                            class="card-header bg-white border-0 py-4 px-4 border-bottom d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-history text-success me-2"></i> Sent
+                                History</h5>
+                            <div class="badge-modern bg-success-subtle text-success fw-bold" id="historyCount">0 Total
+                            </div>
+                        </div>
+                        <div class="card-body p-4" style="max-height: 700px; overflow-y: auto;"
+                            id="announcementListContainer">
+                            <!-- List Container -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/enhancements.js"></script>
+    <script src="../assets/js/announcement-functions.js"></script>
+    <script src="../assets/js/class-functions.js"></script>
+    <script src="../assets/js/activity-functions.js"></script>
+    <script>
+        protectPage('admin');
+
+        window.deleteItem = function (id) {
+            if (confirm('Delete this announcement?')) {
+                const currentUser = getCurrentUser();
+                const userName = currentUser ? currentUser.name : 'Admin';
+                const userRole = currentUser ? currentUser.role : 'admin';
+
+                deleteAnnouncement(id);
+                logActivity('Delete', 'Deleted announcement', userName, userRole);
+                loadAnnouncementsList();
+                showToast('Deleted', 'success');
+            }
+        };
+
+        window.editItem = function (id) {
+            const item = getAnnouncementById(id);
+            if (!item) return;
+
+            document.getElementById('editId').value = item.id;
+            document.getElementById('annTitle').value = item.title;
+            document.getElementById('annMessage').value = item.content;
+            document.getElementById('annTarget').value = item.target;
+            document.getElementById('annPriority').value = item.priority;
+
+            // Handle Dynamic Class Input
+            const classInputDiv = document.getElementById('classInputContainer');
+            if (item.target === 'class') {
+                classInputDiv.classList.remove('d-none');
+                document.getElementById('annClassVal').value = item.targetValue || '';
+            } else {
+                classInputDiv.classList.add('d-none');
+                document.getElementById('annClassVal').value = '';
+            }
+
+            // Update UI
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save me-2"></i> Update Broadcast';
+            document.getElementById('submitBtn').classList.replace('btn-primary', 'btn-warning');
+            document.getElementById('formTitle').innerText = 'Modify Broadcast';
+            document.getElementById('cancelBtn').classList.remove('d-none');
+        };
+
+        window.resetFormState = function () {
+            document.getElementById('announcementForm').reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('classInputContainer').classList.add('d-none');
+
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-paper-plane me-2"></i> Deploy Broadcast';
+            document.getElementById('submitBtn').classList.replace('btn-warning', 'btn-primary');
+            document.getElementById('formTitle').innerText = 'Broadcast Message';
+            document.getElementById('cancelBtn').classList.add('d-none');
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                initDashboardUser();
+                initAnnouncementStorage();
+                loadAnnouncementsList();
+
+                const form = document.getElementById('announcementForm');
+                const targetSelect = document.getElementById('annTarget');
+
+                // Inject Class Input Container
+                const classInputDiv = document.createElement('div');
+                classInputDiv.className = 'mb-4 d-none animate-fade-in';
+                classInputDiv.id = 'classInputContainer';
+                classInputDiv.innerHTML = '<label class="form-label fw-bold small text-uppercase tracking-wider">Class Reference</label><select id="annClassVal" class="form-select bg-light border-0 py-2 shadow-none"><option value="">Select Target Class...</option></select>';
+
+                targetSelect.closest('.col-md-6').parentElement.after(classInputDiv);
+
+                targetSelect.addEventListener('change', function () {
+                    if (this.value === 'class') {
+                        classInputDiv.classList.remove('d-none');
+                        // Populate only when shown if not empty
+                        const select = document.getElementById('annClassVal');
+                        if (select.options.length <= 1) {
+                            populateClassSelect(select);
+                        }
+                    } else {
+                        classInputDiv.classList.add('d-none');
+                    }
+                });
+
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const id = document.getElementById('editId').value;
+                    const title = document.getElementById('annTitle').value;
+                    const message = document.getElementById('annMessage').value;
+                    const target = document.getElementById('annTarget').value;
+                    const priority = document.getElementById('annPriority').value;
+                    const classVal = document.getElementById('annClassVal').value;
+
+                    if (!target) {
+                        alert('Please select a target audience.');
+                        return;
+                    }
+                    if (target === 'class' && !classVal) {
+                        alert('Please enter a class name.');
+                        return;
+                    }
+
+                    const currentUser = getCurrentUser();
+                    const userName = currentUser ? currentUser.name : 'Admin';
+                    const userRole = currentUser ? currentUser.role : 'admin';
+
+                    const data = {
+                        title: title,
+                        content: message,
+                        target: target,
+                        targetValue: classVal,
+                        priority: priority,
+                        author: userName
+                    };
+
+                    if (id) {
+                        if (updateAnnouncement(id, data)) {
+                            showToast('Announcement updated successfully!', 'success');
+                            logActivity('Update', `Updated announcement: ${data.title}`, userName, userRole);
+                            resetFormState();
+                            loadAnnouncementsList();
+                        } else {
+                            showToast('Error updating announcement', 'danger');
+                        }
+                    } else {
+                        addAnnouncement(data);
+                        showToast('Announcement posted successfully!', 'success');
+                        logActivity('Create', `Posted announcement: ${data.title}`, userName, userRole);
+                        resetFormState();
+                        loadAnnouncementsList();
+                    }
+                });
+            } catch (err) {
+                console.error('Announcement Error:', err);
+                alert('An error occurred. Check console.');
+            }
+        });
+
+        function loadAnnouncementsList() {
+            const list = getAllAnnouncements();
+            const container = document.getElementById('announcementListContainer');
+            const historyCount = document.getElementById('historyCount');
+
+            if (!container) return;
+
+            container.innerHTML = '';
+            historyCount.innerText = `${list.length} Records`;
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5 opacity-50">
+                        <i class="fas fa-mail-bulk fa-4x mb-3"></i>
+                        <p class="fs-5 fw-bold mb-0">No Broadcast History</p>
+                        <p class="small">Deploy your first message to see it here.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.sort((a, b) => b.id - a.id).forEach(item => {
+                const priorityData = {
+                    high: { class: 'danger', icon: 'exclamation-triangle' },
+                    medium: { class: 'warning', icon: 'info-circle' },
+                    low: { class: 'success', icon: 'check-circle' }
+                };
+                const theme = priorityData[item.priority] || priorityData.medium;
+
+                let targetText = 'Global (Everyone)';
+                if (item.target === 'students') targetText = 'Students Only';
+                if (item.target === 'teachers') targetText = 'Teachers Only';
+                if (item.target === 'class') targetText = `Class ${item.targetValue}`;
+
+                const card = document.createElement('div');
+                card.className = `card-modern mb-3 p-4 border-start border-${theme.class} border-4 animate-fade-in lift`;
+                card.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-${theme.class}-subtle text-${theme.class} rounded-circle p-2 me-3 small" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-${theme.icon}"></i>
+                            </div>
+                            <h6 class="fw-bold mb-0 text-dark">${item.title}</h6>
+                        </div>
+                        <span class="badge-modern bg-${theme.class}-subtle text-${theme.class} fw-bold">${item.priority.toUpperCase()}</span>
+                    </div>
+                    <p class="text-muted small mb-4">${item.content}</p>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                        <div>
+                            <div class="small fw-bold text-dark"><i class="fas fa-users me-1 text-primary"></i> ${targetText}</div>
+                            <div class="small text-muted opacity-75 mt-1">${new Date(item.date).toLocaleString()}</div>
+                        </div>
+                        <div class="btn-group shadow-none">
+                            <button class="btn btn-sm btn-outline-primary lift me-1" onclick="editItem(${item.id})" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-danger lift" onclick="deleteItem(${item.id})" title="Delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+</body>
+
+</html>

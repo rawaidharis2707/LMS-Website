@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Attendance - Teacher Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="marks-input.html" class="sidebar-link"><i
+                            class="fas fa-edit"></i><span>Marks Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="remarks.html" class="sidebar-link"><i
+                            class="fas fa-comments"></i><span>Student Remarks</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-assignments.html" class="sidebar-link"><i
+                            class="fas fa-upload"></i><span>Upload Assignments</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-notes.html" class="sidebar-link"><i
+                            class="fas fa-file-upload"></i><span>Upload Notes</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-lectures.html" class="sidebar-link"><i
+                            class="fas fa-video"></i><span>Upload Lectures</span></a></li>
+                <li class="sidebar-menu-item"><a href="create-quiz.html" class="sidebar-link"><i
+                            class="fas fa-plus-circle"></i><span>Create Quiz</span></a></li>
+                <li class="sidebar-menu-item"><a href="attendance-input.html" class="sidebar-link"><i
+                            class="fas fa-check-square"></i><span>Attendance Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="my-attendance.html" class="sidebar-link active"><i
+                            class="fas fa-calendar-check"></i><span>My Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="timetable.html" class="sidebar-link"><i
+                            class="fas fa-calendar-alt"></i><span>Timetable</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h1 class="page-title mb-0">My Attendance Overview</h1>
+            </div>
+
+            <div class="user-menu">
+                <!-- Global Search Trigger -->
+                <div class="search-trigger me-3 d-none d-md-flex align-items-center" onclick="globalSearch.openSearch()"
+                    style="cursor: pointer; background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <i class="fas fa-search text-muted me-2"></i>
+                    <span class="text-muted small">Search (Ctrl+K)</span>
+                </div>
+
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">Notifications</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar"><span>SJ</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name" id="userNameDisplay">Sarah Johnson</div>
+                    <div class="small text-muted" id="userRoleDisplay">Mathematics Teacher</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content px-4 py-4">
+            <div class="card-modern animate-fade-in mb-4 overflow-hidden border-0 shadow-lg">
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <div
+                            class="col-lg-4 bg-primary text-white p-5 d-flex flex-column align-items-center justify-content-center text-center">
+                            <div class="circular-progress-modern mb-4">
+                                <i class="fas fa-user-check fa-4x mb-3 text-white"></i>
+                                <h1 class="display-3 fw-bold mb-0 text-white" id="attendancePctHeader">0.0%</h1>
+                                <p class="text-white text-uppercase tracking-wider">Overall Rating</p>
+                            </div>
+                            <div class="w-100 px-4">
+                                <div class="progress bg-white-50" style="height: 10px; border-radius: 5px;">
+                                    <div class="progress-bar bg-white shadow-sm" role="progressbar" style="width: 0%"
+                                        id="attendanceProgressBar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 p-5">
+                            <h4 class="fw-bold text-dark mb-4">Performance Summary</h4>
+                            <div class="row g-4">
+                                <div class="col-sm-6 col-md-3">
+                                    <div
+                                        class="p-4 rounded-4 bg-light border-start border-4 border-primary shadow-sm hover-up">
+                                        <h6 class="text-muted small text-uppercase fw-bold mb-2">Total Workdays</h6>
+                                        <h3 class="fw-bold mb-0 text-dark" id="statTotal">0</h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div
+                                        class="p-4 rounded-4 bg-light border-start border-4 border-success shadow-sm hover-up">
+                                        <h6 class="text-muted small text-uppercase fw-bold mb-2">Days Present</h6>
+                                        <h3 class="fw-bold mb-0 text-success" id="statPresent">0</h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div
+                                        class="p-4 rounded-4 bg-light border-start border-4 border-danger shadow-sm hover-up">
+                                        <h6 class="text-muted small text-uppercase fw-bold mb-2">Days Absent</h6>
+                                        <h3 class="fw-bold mb-0 text-danger" id="statAbsent">0</h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div
+                                        class="p-4 rounded-4 bg-light border-start border-4 border-warning shadow-sm hover-up">
+                                        <h6 class="text-muted small text-uppercase fw-bold mb-2">Approved Leaves</h6>
+                                        <h3 class="fw-bold mb-0 text-warning" id="statLeave">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 p-4 rounded-4 bg-primary-subtle border-0 d-flex align-items-center">
+                                <div class="me-4 text-primary fs-2">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-primary mb-1">Excellent Continuity!</h6>
+                                    <p class="text-primary-emphasis mb-0 small">You are among the top 10% of teachers
+                                        with the most consistent attendance this semester.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="card-modern animate-fade-in h-100 shadow-sm">
+                        <div
+                            class="card-header bg-white border-0 py-4 px-4 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-chart-line me-2 text-primary"></i>
+                                Monthly Insights</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0" id="monthlyTable">
+                                    <thead class="bg-light text-muted small text-uppercase">
+                                        <tr>
+                                            <th class="ps-4">Month Period</th>
+                                            <th class="text-center">Days</th>
+                                            <th class="text-center">Attendance %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="card-modern animate-fade-in h-100 shadow-sm">
+                        <div
+                            class="card-header bg-white border-0 py-4 px-4 d-flex justify-content-between align-items-center border-bottom">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-history me-2 text-secondary"></i> Daily
+                                Access Log</h5>
+                            <button class="btn btn-sm btn-outline-primary lift" onclick="window.print()">
+                                <i class="fas fa-download me-1"></i> Export PDF
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                                <table class="table table-hover align-middle mb-0" id="dailyTable">
+                                    <thead class="bg-light text-muted small text-uppercase sticky-top">
+                                        <tr>
+                                            <th class="ps-4">Date</th>
+                                            <th class="text-center">Status Badge</th>
+                                            <th class="text-center">Check-In</th>
+                                            <th class="text-center">Check-Out</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/enhancements.js"></script>
+    <script src="../assets/js/teacher-attendance-functions.js"></script>
+    <script>
+        protectPage('teacher');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+            initTeacherAttendance(); // Initialize mock data if empty
+            loadMyAttendance();
+        });
+
+        function loadMyAttendance() {
+            // In real app, user.email or user.id matches teacherId used in admin attendance
+            const user = getCurrentUser();
+
+            // Use email as ID since admin stores records with email
+            const teacherId = user.email || 'teacher@demo.com'; // fallback if needed
+
+            const records = getTeacherMyAttendance(teacherId);
+
+            // Calculate Stats
+            let present = 0, absent = 0, leave = 0, total = records.length;
+
+            records.forEach(r => {
+                if (r.status === 'Present' || r.status === 'Late') present++;
+                else if (r.status === 'Absent') absent++;
+                else if (r.status === 'Leave') leave++;
+            });
+
+            const percentage = total > 0 ? ((present / total) * 100).toFixed(1) : '0.0';
+
+            // Update UI Stats
+            document.getElementById('attendancePctHeader').innerText = percentage + '%';
+            document.getElementById('attendanceProgressBar').style.width = percentage + '%';
+
+            document.getElementById('statTotal').innerText = total;
+            document.getElementById('statPresent').innerText = present;
+            document.getElementById('statAbsent').innerText = absent;
+            document.getElementById('statLeave').innerText = leave;
+
+            // Update Monthly Table
+            // Group by Month
+            const months = {};
+            records.forEach(r => {
+                const date = new Date(r.date);
+                const monthName = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+                if (!months[monthName]) {
+                    months[monthName] = { total: 0, present: 0, absent: 0, leave: 0 };
+                }
+
+                months[monthName].total++;
+                if (r.status === 'Present' || r.status === 'Late') months[monthName].present++;
+                else if (r.status === 'Absent') months[monthName].absent++;
+            });
+
+            const tbody = document.querySelector('#monthlyTable tbody');
+            tbody.innerHTML = '';
+
+            if (Object.keys(months).length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No attendance records found</td></tr>';
+            }
+
+            Object.keys(months).forEach(month => {
+                const data = months[month];
+                const pct = ((data.present / data.total) * 100).toFixed(1);
+                const color = pct > 90 ? 'success' : pct > 75 ? 'primary' : 'warning';
+
+                const tr = document.createElement('tr');
+                tr.className = 'animate-fade-in';
+                tr.innerHTML = `
+                    <td class="ps-4">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-light rounded p-2 me-3">
+                                <i class="far fa-calendar-check text-primary"></i>
+                            </div>
+                            <span class="fw-bold text-dark">${month}</span>
+                        </div>
+                    </td>
+                    <td class="text-center text-muted small">${data.total} Days</td>
+                    <td class="text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="progress flex-grow-1 me-2" style="height: 6px; width: 60px;">
+                                <div class="progress-bar bg-${color}" style="width: ${pct}%"></div>
+                            </div>
+                            <span class="fw-bold text-${color} small">${pct}%</span>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Populate Daily Table
+            // Sort by Date Descending
+            records.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            const dailyBody = document.querySelector('#dailyTable tbody');
+            dailyBody.innerHTML = '';
+
+            if (records.length === 0) {
+                dailyBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">No attendance records found</td></tr>';
+            }
+
+            records.forEach(r => {
+                const statusColor = r.status === 'Present' ? 'success' :
+                    r.status === 'Absent' ? 'danger' :
+                        r.status === 'Leave' ? 'warning' : 'primary';
+
+                const tr = document.createElement('tr');
+                tr.className = 'animate-fade-in';
+                tr.innerHTML = `
+                    <td class="ps-4">
+                        <div class="fw-bold text-dark">${formatDate(r.date)}</div>
+                        <div class="small text-muted">Checked in by system</div>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge-modern bg-${statusColor}-subtle text-${statusColor} fw-bold">
+                            <i class="fas fa-circle font-xs me-1"></i> ${r.status}
+                        </span>
+                    </td>
+                    <td class="text-center text-dark font-sm fw-medium">${r.checkIn || '--:--'}</td>
+                    <td class="text-center text-dark font-sm fw-medium">${r.checkOut || '--:--'}</td>
+                `;
+                dailyBody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+
+</html>

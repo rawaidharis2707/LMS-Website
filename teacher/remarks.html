@@ -1,0 +1,389 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Remarks - Teacher Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="marks-input.html" class="sidebar-link"><i
+                            class="fas fa-edit"></i><span>Marks Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="remarks.html" class="sidebar-link active"><i
+                            class="fas fa-comments"></i><span>Student Remarks</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-assignments.html" class="sidebar-link"><i
+                            class="fas fa-upload"></i><span>Upload Assignments</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-notes.html" class="sidebar-link"><i
+                            class="fas fa-file-upload"></i><span>Upload Notes</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-lectures.html" class="sidebar-link"><i
+                            class="fas fa-video"></i><span>Upload Lectures</span></a></li>
+                <li class="sidebar-menu-item"><a href="create-quiz.html" class="sidebar-link"><i
+                            class="fas fa-plus-circle"></i><span>Create Quiz</span></a></li>
+                <li class="sidebar-menu-item"><a href="attendance-input.html" class="sidebar-link"><i
+                            class="fas fa-check-square"></i><span>Attendance Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="my-attendance.html" class="sidebar-link"><i
+                            class="fas fa-calendar-check"></i><span>My Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="timetable.html" class="sidebar-link"><i
+                            class="fas fa-calendar-alt"></i><span>Timetable</span></a></li>
+                <li class="sidebar-menu-item"><a href="notifications.html" class="sidebar-link"><i
+                            class="fas fa-bell"></i><span>Notifications</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h1 class="page-title mb-0">Student Remarks</h1>
+            </div>
+
+            <div class="user-menu">
+                <!-- Global Search Trigger -->
+                <div class="search-trigger me-3 d-none d-md-flex align-items-center" onclick="globalSearch.openSearch()"
+                    style="cursor: pointer; background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <i class="fas fa-search text-muted me-2"></i>
+                    <span class="text-muted small">Search (Ctrl+K)</span>
+                </div>
+
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">Notifications</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar"><span>SJ</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name" id="userNameDisplay">Sarah Johnson</div>
+                    <div class="small text-muted" id="userRoleDisplay">Mathematics Teacher</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content px-4 py-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card-modern animate-fade-in mb-4">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h5 class="mb-0 fw-bold text-primary"><i class="fas fa-user-plus me-2"></i> Add New Remark
+                            </h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <form id="remarkForm">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Select Student</label>
+                                    <input type="text" class="form-control bg-light border-0" id="studentSelect"
+                                        list="studentSuggestions" placeholder="Type student name or ID..."
+                                        autocomplete="off" required>
+                                    <datalist id="studentSuggestions">
+                                        <!-- Dynamic suggestions will be loaded here -->
+                                    </datalist>
+                                    <small class="text-muted" id="studentInfo">Students from your assigned
+                                        classes</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Remark Type</label>
+                                    <select class="form-select bg-light border-0" id="remarkType" required>
+                                        <option value="">Choose type...</option>
+                                        <option value="Positive">Positive</option>
+                                        <option value="Needs Improvement">Needs Improvement</option>
+                                        <option value="Behavioral">Behavioral</option>
+                                        <option value="Academic">Academic</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Remark Details</label>
+                                    <textarea class="form-control bg-light border-0" rows="5" id="remarkText" required
+                                        placeholder="Type your feedback here..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 py-2 lift fw-bold">
+                                    <i class="fas fa-save me-2"></i> Process & Save Remark
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card-modern animate-fade-in shadow-lg">
+                        <div
+                            class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-history me-2 text-info"></i> Recent
+                                Timeline
+                            </h5>
+                            <input type="text" class="form-control form-control-sm" id="remarkSearch"
+                                placeholder="Search student..." style="max-width: 200px;" oninput="filterRemarks()">
+                        </div>
+                        <div class="card-body p-4" style="max-height: 520px; overflow-y: auto;">
+                            <div class="mb-4 pb-3 border-bottom">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="fw-bold mb-0 text-dark">John Doe</h6>
+                                        <p class="text-muted small mb-0">Class 10-A â€¢ ST001</p>
+                                    </div>
+                                    <span class="badge-modern bg-success-subtle text-success fw-bold">Positive</span>
+                                </div>
+                                <p class="text-muted mb-2 small">Excellent performance in recent test. Shows great
+                                    understanding of concepts.</p>
+                                <div class="d-flex align-items-center">
+                                    <i class="far fa-clock text-light me-1 small"></i>
+                                    <small class="text-light">2 days ago</small>
+                                </div>
+                            </div>
+                            <div class="mb-4 pb-3 border-bottom">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="fw-bold mb-0 text-dark">Jane Smith</h6>
+                                        <p class="text-muted small mb-0">Class 10-A â€¢ ST002</p>
+                                    </div>
+                                    <span class="badge-modern bg-warning-subtle text-warning fw-bold">Needs
+                                        Improvement</span>
+                                </div>
+                                <p class="text-muted mb-2 small">Needs to focus more on homework completion and deadline
+                                    adherence.</p>
+                                <div class="d-flex align-items-center">
+                                    <i class="far fa-clock text-light me-1 small"></i>
+                                    <small class="text-light">5 days ago</small>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="fw-bold mb-0 text-dark">Mike Johnson</h6>
+                                        <p class="text-muted small mb-0">Class 10-B â€¢ ST003</p>
+                                    </div>
+                                    <span class="badge-modern bg-info-subtle text-info fw-bold">Academic</span>
+                                </div>
+                                <p class="text-muted mb-2 small">Good improvement in problem-solving skills and
+                                    participation.</p>
+                                <div class="d-flex align-items-center">
+                                    <i class="far fa-clock text-light me-1 small"></i>
+                                    <small class="text-light">1 week ago</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/enhancements.js"></script>
+    <script src="../assets/js/student-functions.js"></script>
+    <script src="../assets/js/subject-assignment-functions.js"></script>
+    <script src="../assets/js/remark-functions.js"></script>
+    <script>
+        protectPage('teacher');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+            initStudentStorage();
+            initRemarkStorage();
+            loadRecentTimeline();
+
+            // Populate student suggestions based on teacher's assigned classes
+            populateStudentSuggestions();
+            loadRecentTimeline();
+
+            document.getElementById('remarkForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const studentSelect = document.getElementById('studentSelect');
+                if (!studentSelect.value) return;
+
+                // Parse student info from input value format: "Student Name - RollNumber"
+                const inputValue = studentSelect.value.trim();
+                const parts = inputValue.split(' - ');
+                const studentName = parts[0] || inputValue;
+                const studentId = parts[1] || inputValue;
+
+                // Get additional student details if possible
+                const student = getStudentByRoll(studentId);
+
+                const data = {
+                    studentId: studentId,
+                    studentName: studentName,
+                    class: student ? student.class : '10-A',
+                    type: document.getElementById('remarkType').value,
+                    text: document.getElementById('remarkText').value,
+                    teacher: getCurrentUser().name
+                };
+
+                addRemark(data);
+
+                showToast('Remark added successfully!', 'success');
+                this.reset();
+                loadRecentTimeline();
+            });
+        });
+
+        function populateStudentSuggestions() {
+            const datalist = document.getElementById('studentSuggestions');
+            const studentInfo = document.getElementById('studentInfo');
+            const session = getSession();
+            const teacherId = session && session.userData ? (session.userData.teacherId || 'T001') : 'T001';
+
+            // Get teacher's assignments to find their classes
+            const assignments = getTeacherAssignments(teacherId);
+            const uniqueClasses = [...new Set(assignments.map(a => a.className))];
+
+            if (uniqueClasses.length === 0) {
+                if (studentInfo) {
+                    studentInfo.textContent = 'No classes assigned';
+                    studentInfo.classList.add('text-danger');
+                }
+                return;
+            }
+
+            // Get all students from assigned classes
+            let allStudents = [];
+            uniqueClasses.forEach(className => {
+                const classStudents = getStudentsByClass(className);
+                allStudents = allStudents.concat(classStudents);
+            });
+
+            // Remove duplicates based on student ID
+            const uniqueStudents = allStudents.filter((student, index, self) =>
+                index === self.findIndex((s) => (s.id || s.roll) === (student.id || student.roll))
+            );
+
+            // Populate datalist
+            datalist.innerHTML = '';
+            uniqueStudents.forEach(student => {
+                const option = document.createElement('option');
+                option.value = `${student.name} - ${student.roll}`;
+                datalist.appendChild(option);
+            });
+
+            if (studentInfo) {
+                studentInfo.textContent = `${uniqueStudents.length} student(s) from your ${uniqueClasses.length} class(es)`;
+                studentInfo.classList.add('text-success');
+            }
+        }
+
+        function loadStudentDropdown() {
+            const select = document.getElementById('studentSelect');
+            // Assuming teacher is for 10-A (demo) or filter by teacher's classes
+            const students = getAllStudents();
+            // Filter mostly for a specific class for demo clarity, or just verify context
+            // For now, load all or just 10-A
+            const classStudents = students.filter(s => s.class === '10-A' || s.class === 'Class 10-A');
+
+            select.innerHTML = '<option value="">Choose student...</option>';
+            classStudents.forEach(s => {
+                select.innerHTML += `<option value="${s.rollNumber}">${s.name} - ${s.rollNumber}</option>`;
+            });
+        }
+
+        function loadRecentTimeline() {
+            const container = document.querySelector('.card-body[style*="overflow-y"]');
+            const allRemarks = getAllRemarks();
+            // Filter for this teacher
+            const teacherName = getCurrentUser().name;
+            const myRemarks = allRemarks.filter(r => r.teacher === teacherName || r.teacher === 'Sarah Johnson'); // Fallback for demo ID
+
+            if (myRemarks.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted py-3">No remarks added yet.</p>';
+                return;
+            }
+
+            let html = '';
+            myRemarks.forEach(r => {
+                const badgeColor = {
+                    'Positive': 'success',
+                    'Needs Improvement': 'warning',
+                    'Maintained': 'info',
+                    'Behavioral': 'danger',
+                    'Academic': 'primary'
+                }[r.type] || 'secondary';
+
+                html += `
+            <div class="mb-4 pb-3 border-bottom animate-fade-in">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <h6 class="fw-bold mb-0 text-dark">${r.studentName}</h6>
+                        <p class="text-muted small mb-0">${r.class} â€¢ ${r.studentId}</p>
+                    </div>
+                    <span class="badge-modern bg-${badgeColor}-subtle text-${badgeColor} fw-bold">${r.type}</span>
+                </div>
+                <p class="text-muted mb-2 small">${r.text}</p>
+                <div class="d-flex align-items-center">
+                    <i class="far fa-clock text-muted me-1 small"></i>
+                    <small class="text-muted">${new Date(r.date).toLocaleDateString()}</small>
+                </div>
+            </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function filterRemarks() {
+            const searchInput = document.getElementById('remarkSearch');
+            const searchTerm = searchInput.value.toLowerCase();
+            const remarkItems = document.querySelectorAll('.card-body[style*="overflow-y"] > div');
+
+            remarkItems.forEach(item => {
+                const studentName = item.querySelector('h6')?.textContent.toLowerCase() || '';
+                if (studentName.includes(searchTerm)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

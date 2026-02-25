@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizzes - Student Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-university"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="profile.html" class="sidebar-link"><i
+                            class="fas fa-user"></i><span>My Profile</span></a></li>
+                <li class="sidebar-menu-item"><a href="subjects.html" class="sidebar-link"><i
+                            class="fas fa-book"></i><span>Subjects</span></a></li>
+                <li class="sidebar-menu-item"><a href="timetable.html" class="sidebar-link"><i
+                            class="fas fa-calendar-alt"></i><span>Time Table</span></a></li>
+                <li class="sidebar-menu-item"><a href="attendance.html" class="sidebar-link"><i
+                            class="fas fa-user-check"></i><span>Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="results.html" class="sidebar-link"><i
+                            class="fas fa-chart-bar"></i><span>Results</span></a></li>
+                <li class="sidebar-menu-item"><a href="assignments.html" class="sidebar-link"><i
+                            class="fas fa-tasks"></i><span>Assignments</span></a></li>
+                <li class="sidebar-menu-item"><a href="quizzes.html" class="sidebar-link active"><i
+                            class="fas fa-question-circle"></i><span>Quizzes</span></a></li>
+                <li class="sidebar-menu-item"><a href="notes.html" class="sidebar-link"><i
+                            class="fas fa-file-pdf"></i><span>Notes & PDFs</span></a></li>
+                <li class="sidebar-menu-item"><a href="lectures.html" class="sidebar-link"><i
+                            class="fas fa-video"></i><span>Lecture Videos</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="fees.html" class="sidebar-link"><i
+                            class="fas fa-dollar-sign"></i><span>Fee Details</span></a></li>
+                <li class="sidebar-menu-item"><a href="fines.html" class="sidebar-link"><i
+                            class="fas fa-exclamation-triangle"></i><span>Fine Details</span></a></li>
+                <li class="sidebar-menu-item"><a href="fee-vouchers.html" class="sidebar-link"><i
+                            class="fas fa-receipt"></i><span>Fee Vouchers</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle"><i
+                        class="fas fa-bars fs-4"></i></button>
+                <h1 class="page-title mb-0">Quizzes & Tests</h1>
+            </div>
+            <div class="user-menu">
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">Notifications</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar"><span class="user-name">JD</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name">John Doe</div>
+                    <div class="small text-muted student-class">Class 10-A</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in border-start border-success border-4">
+                        <div class="card-body">
+                            <p class="text-muted mb-1">Completed</p>
+                            <h3 class="fw-bold mb-0" id="statCompleted">0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in border-start border-warning border-4">
+                        <div class="card-body">
+                            <p class="text-muted mb-1">Available</p>
+                            <h3 class="fw-bold mb-0" id="statAvailable">0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-modern animate-fade-in border-start border-primary border-4">
+                        <div class="card-body">
+                            <p class="text-muted mb-1">Avg. Score</p>
+                            <h3 class="fw-bold mb-0" id="statAvgScore">0%</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quizzesContainer"></div>
+        </div>
+    </main>
+
+    <!-- Quiz Taking Modal -->
+    <div class="modal fade" id="quizModal" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="quizModalTitle">Taking Quiz</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="quizQuestionsBody"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="submitQuizAnswers()">Submit Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result View Modal -->
+    <div class="modal fade" id="resultModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Quiz Result</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center" id="resultModalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/search.js"></script>
+    <script src="../assets/js/enhancements.js"></script>
+    <script src="../assets/js/charts.js"></script>
+    <script src="../assets/js/quiz-functions.js"></script>
+    <script>
+        protectPage('student');
+
+        let currentQuizId = null;
+        let currentScore = 0;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+            initQuizStorage();
+            loadQuizzes();
+        });
+
+        function loadQuizzes() {
+            const quizzes = getAllQuizzes();
+            const container = document.getElementById('quizzesContainer');
+            const currentUser = getCurrentUser();
+            const results = getAllQuizResults();
+
+            if (quizzes.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">No quizzes available.</p>';
+                return;
+            }
+
+            // Filter for student's class (if applicable) - For now show all or match class
+            // let myQuizzes = quizzes.filter(q => q.class === currentUser.userData.class);
+            // using all for demo flexibility
+
+            let html = '';
+            quizzes.forEach(quiz => {
+                const sId = currentUser.rollNumber || currentUser.id;
+                const result = getStudentQuizResult(quiz.id, sId);
+                const isCompleted = !!result;
+
+                const statusClass = isCompleted ? 'success' : 'primary';
+                const statusText = isCompleted ? 'Completed' : 'Available';
+
+                html += `
+                    <div class="card-modern animate-fade-in mb-3">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-lg-8">
+                                    <div class="d-flex align-items-start">
+                                        <div class="me-3">
+                                            <div class="bg-${statusClass} bg-opacity-10 text-${statusClass} rounded p-3">
+                                                <i class="fas fa-question-circle fa-2x"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-2">${quiz.title}</h5>
+                                            <div class="d-flex flex-wrap gap-3 mb-2">
+                                                <small class="text-muted"><i class="fas fa-book me-1"></i> ${quiz.subject}</small>
+                                                <small class="text-muted"><i class="fas fa-user me-1"></i> ${quiz.teacher}</small>
+                                                <small class="text-muted"><i class="fas fa-clock me-1"></i> ${quiz.duration} mins</small>
+                                                <small class="text-muted"><i class="fas fa-list me-1"></i> ${quiz.totalMarks} questions</small>
+                                                <small class="text-muted"><i class="fas fa-calendar me-1"></i> ${quiz.date}</small>
+                                            </div>
+                                            ${isCompleted ? `
+                                                <div class="alert alert-success mb-0 py-2">
+                                                    <strong>Score: ${result.score}/${result.total}</strong> 
+                                                    (${((result.score / result.total) * 100).toFixed(0)}%)
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-3 mt-lg-0 text-lg-end">
+                                    <span class="badge bg-${statusClass} px-3 py-2 mb-3 d-inline-block">
+                                        <i class="fas fa-${isCompleted ? 'check-circle' : 'clock'} me-2"></i> ${statusText}
+                                    </span><br>
+                                    ${!isCompleted ?
+                        `<button class="btn btn-primary" onclick="openQuizModal(${quiz.id})">
+                                            <i class="fas fa-play me-2"></i> Start Quiz
+                                        </button>` :
+                        `<button class="btn btn-outline-primary" onclick="showResultSummary(${quiz.id})">
+                                            <i class="fas fa-eye me-2"></i> View Result
+                                        </button>`
+                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+
+            // Update stats
+            const sId = currentUser.rollNumber || currentUser.id;
+            const completedCount = results.filter(r => r.studentId == sId).length;
+            const availableCount = Math.max(0, quizzes.length - completedCount);
+
+            let totalScorePercent = 0;
+            const myResults = results.filter(r => r.studentId == sId);
+            if (myResults.length > 0) {
+                const sumPercent = myResults.reduce((acc, curr) => acc + (curr.score / curr.total), 0);
+                totalScorePercent = (sumPercent / myResults.length) * 100;
+            }
+
+            const statCompleted = document.getElementById('statCompleted');
+            const statAvailable = document.getElementById('statAvailable');
+            const statAvgScore = document.getElementById('statAvgScore');
+
+            if (statCompleted) statCompleted.innerText = completedCount;
+            if (statAvailable) statAvailable.innerText = availableCount;
+            if (statAvgScore) statAvgScore.innerText = Math.round(totalScorePercent) + '%';
+        }
+
+        function openQuizModal(id) {
+            currentQuizId = id;
+            const quiz = getAllQuizzes().find(q => q.id == id);
+            document.getElementById('quizModalTitle').innerText = quiz.title;
+            const body = document.getElementById('quizQuestionsBody');
+
+            let html = '';
+            quiz.questions.forEach((q, idx) => {
+                html += `
+                    <div class="mb-4">
+                        <h6 class="fw-bold">${idx + 1}. ${q.text}</h6>
+                        <div class="ms-3">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q${idx}" value="A" id="q${idx}A">
+                                <label class="form-check-label" for="q${idx}A">A) ${q.options.A}</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q${idx}" value="B" id="q${idx}B">
+                                <label class="form-check-label" for="q${idx}B">B) ${q.options.B}</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q${idx}" value="C" id="q${idx}C">
+                                <label class="form-check-label" for="q${idx}C">C) ${q.options.C}</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="q${idx}" value="D" id="q${idx}D">
+                                <label class="form-check-label" for="q${idx}D">D) ${q.options.D}</label>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            body.innerHTML = html;
+            new bootstrap.Modal(document.getElementById('quizModal')).show();
+        }
+
+        function submitQuizAnswers() {
+            if (!confirm("Are you sure you want to submit?")) return;
+
+            const quiz = getAllQuizzes().find(q => q.id == currentQuizId);
+            let score = 0;
+
+            quiz.questions.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                if (selected && selected.value === q.correct) {
+                    score++;
+                }
+            });
+
+            const currentUser = getCurrentUser();
+            submitQuizResult(currentQuizId, currentUser, score, quiz.questions.length);
+
+            if (typeof logActivity === 'function') {
+                logActivity('Submit', `Submitted Quiz: ${quiz.title} - Score: ${score}/${quiz.questions.length}`, currentUser.name, currentUser.role);
+            }
+
+            // Close modal
+            const modalEl = document.getElementById('quizModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+
+            showToast(`Quiz submitted! You scored ${score}/${quiz.questions.length}`, 'success');
+            loadQuizzes();
+        }
+
+        function showResultSummary(id) {
+            const currentUser = getCurrentUser();
+            const result = getStudentQuizResult(id, currentUser.rollNumber || currentUser.id);
+            document.getElementById('resultModalBody').innerHTML = `
+                <h1 class="display-4 text-primary fw-bold">${result.score} / ${result.total}</h1>
+                <p class="lead">Submitted on ${new Date(result.submittedAt).toLocaleString()}</p>
+             `;
+            new bootstrap.Modal(document.getElementById('resultModal')).show();
+        }
+    </script>
+</body>
+
+</html>

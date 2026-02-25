@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Dashboard - EduPro LMS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link active"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+                <li class="sidebar-menu-item"><a href="role-distribution.html" class="sidebar-link"><i
+                            class="fas fa-user-shield"></i><span>Roles & Permissions</span></a></li>
+                <li class="sidebar-menu-item"><a href="finance.html" class="sidebar-link"><i
+                            class="fas fa-money-bill-wave"></i><span>Funds Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="salary.html" class="sidebar-link"><i
+                            class="fas fa-wallet"></i><span>Salary Management</span></a></li>
+                <li class="sidebar-menu-item"><a href="teacher-attendance.html" class="sidebar-link"><i
+                            class="fas fa-clipboard-check"></i><span>Teacher Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="reports.html" class="sidebar-link"><i
+                            class="fas fa-file-alt"></i><span>Reports</span></a></li>
+
+                <li class="sidebar-menu-item"><a href="activity-logs.html" class="sidebar-link"><i
+                            class="fas fa-history"></i><span>Activity Logs</span></a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle"><i
+                        class="fas fa-bars fs-4"></i></button>
+                <h1 class="page-title mb-0">Super Admin Dashboard</h1>
+            </div>
+            <div class="user-menu">
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">Notifications</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar"><span>SA</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name">Super Admin</div>
+                    <div class="small text-muted">System Administrator</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content">
+            <div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, #6366f1, #a855f7);">
+                <div class="card-body text-white p-4">
+                    <h2 class="fw-bold mb-2 text-light">Welcome, Super Admin!</h2>
+                    <p class="mb-0 opacity-75">Complete system control and monitoring</p>
+                </div>
+            </div>
+
+            <!-- Stats Widget Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-widget">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1 text-uppercase small">Total Revenue (Monthly)</p>
+                                <h3 class="fw-bold mb-0 text-success" id="dashRevenue">$0</h3>
+                            </div>
+                            <div class="stat-widget-icon widget-success"><i class="fas fa-hand-holding-usd"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-widget">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1 text-uppercase small">Total Expenses</p>
+                                <h3 class="fw-bold mb-0 text-danger" id="dashExpenses">$0</h3>
+                            </div>
+                            <div class="stat-widget-icon widget-danger"><i class="fas fa-file-invoice-dollar"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-widget">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1 text-uppercase small">Net Profit</p>
+                                <h3 class="fw-bold mb-0 text-primary" id="dashProfit">$0</h3>
+                            </div>
+                            <div class="stat-widget-icon widget-info"><i class="fas fa-chart-line"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-widget">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1 text-uppercase small">Active Users</p>
+                                <h3 class="fw-bold mb-0 text-dark" id="dashUsers">0</h3>
+                            </div>
+                            <div class="stat-widget-icon widget-primary"><i class="fas fa-users"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div
+                            class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-chart-line text-primary me-2"></i> User Growth
+                            </h5>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="downloadUserReport()">Download
+                                Report</button>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="userGrowthChart" style="max-height: 300px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div
+                            class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold"><i class="fas fa-history text-secondary me-2"></i> Recent Activity
+                            </h5>
+                            <a href="activity-logs.html" class="btn btn-sm btn-link text-decoration-none">View All</a>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0 align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>User</th>
+                                            <th>Action</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentActivityBody">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/notifications.js"></script>
+    <script src="../assets/js/activity-functions.js"></script>
+    <script src="../assets/js/finance-functions.js"></script>
+    <script>
+        protectPage('superadmin');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initDashboardUser();
+            initActivityLogs();
+            initFinanceData(); // Ensure defaults exist
+            loadDashboardStats();
+            initUserGrowthChart();
+        });
+
+        function downloadUserReport() {
+            const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
+            if (users.length === 0) return alert("No user data found to export.");
+
+            let csv = "ID,Name,Email,Role,Joined Date\n";
+            users.forEach(u => {
+                csv += `${u.id},${u.name},${u.email},${u.role},${u.joinedDate || 'N/A'}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `user_report_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function initUserGrowthChart() {
+            const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
+
+            // Process data for growth (by month)
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const counts = new Array(12).fill(0);
+
+            users.forEach(u => {
+                const date = u.joinedDate ? new Date(u.joinedDate) : new Date();
+                counts[date.getMonth()]++;
+            });
+
+            // Cumulative growth
+            const cumulativeCounts = [];
+            let total = 0;
+            counts.forEach(count => {
+                total += count;
+                cumulativeCounts.push(total);
+            });
+
+            const ctx = document.getElementById('userGrowthChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Total Users',
+                        data: cumulativeCounts,
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#6366f1',
+                        pointBorderColor: '#fff',
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { borderDash: [5, 5] },
+                            ticks: { stepSize: 1 }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function loadDashboardStats() {
+            // 1. Logs & Activity
+            const logs = getLogs();
+            // Guard: these stat elements only exist on activity-logs.html, not this dashboard
+            const totalLogsEl = document.getElementById('statTotalLogs');
+            if (totalLogsEl) totalLogsEl.innerText = logs.length;
+            const todayCount = logs.filter(l => new Date(l.timestamp).toDateString() === new Date().toDateString()).length;
+            const todayLogsEl = document.getElementById('statTodayLogs');
+            if (todayLogsEl) todayLogsEl.innerText = todayCount;
+
+            // 2. Financial Stats (from lms_finance_transactions)
+            const transactions = JSON.parse(localStorage.getItem('lms_finance_transactions')) || [];
+            let totalRevenue = 0;
+            let totalExpenses = 0;
+
+            transactions.forEach(t => {
+                if (t.type === 'credit') totalRevenue += parseFloat(t.amount);
+                if (t.type === 'debit') totalExpenses += parseFloat(t.amount);
+            });
+            const netProfit = totalRevenue - totalExpenses;
+
+            // Update Financial Widgets
+            // Note: dashboard.html has different IDs for these widgets than finance.html?
+            // Let's check the HTML. It has hardcoded values in stats widgets.
+            // I need to target the H3 elements.
+            // Row 1, Col 1: Revenue
+            // Row 1, Col 2: Expenses
+            // Row 1, Col 3: Net Profit
+            // Row 1, Col 4: Active Users
+
+            // We need to add IDs to those H3 elements in the HTML first or use specific selectors.
+            // I will replace the H3 lines with IDs in a separate edit, or easier: do it all here if I can match the context.
+            // But I am in the script section. I should modify the HTML body first to add IDs.
+
+            // 3. Populate Financial Stats
+            document.getElementById('dashRevenue').innerText = `$${totalRevenue.toLocaleString()}`;
+            document.getElementById('dashExpenses').innerText = `$${totalExpenses.toLocaleString()}`;
+            document.getElementById('dashProfit').innerText = `$${netProfit.toLocaleString()}`;
+
+            // 4. Populate Users
+            const users = JSON.parse(localStorage.getItem('lms_users') || '[]');
+            document.getElementById('dashUsers').innerText = users.length;
+
+            // Render Recent Table (Top 5)
+            const tbody = document.getElementById('recentActivityBody');
+            tbody.innerHTML = '';
+
+            if (logs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted p-3">No activity yet</td></tr>';
+                return;
+            }
+
+            logs.slice(0, 5).forEach(log => {
+                let actionBadge = 'bg-secondary';
+                if (log.action === 'Login') actionBadge = 'bg-info';
+                if (log.action === 'Create') actionBadge = 'bg-success';
+                if (log.action === 'Update') actionBadge = 'bg-warning text-dark';
+                if (log.action === 'Delete') actionBadge = 'bg-danger';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="small text-muted">${new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                    <td class="fw-bold small">${log.user}</td>
+                    <td><span class="badge ${actionBadge}">${log.action}</span></td>
+                    <td class="small text-muted text-truncate" style="max-width: 150px;">${log.details}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+
+</html>

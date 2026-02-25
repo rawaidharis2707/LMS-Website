@@ -1,0 +1,457 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz - Teacher Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+                    LMS</span></a>
+        </div>
+        <nav class="sidebar-menu">
+            <ul class="list-unstyled">
+                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                            class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li class="sidebar-menu-item"><a href="marks-input.html" class="sidebar-link"><i
+                            class="fas fa-edit"></i><span>Marks Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="remarks.html" class="sidebar-link"><i
+                            class="fas fa-comments"></i><span>Student Remarks</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-assignments.html" class="sidebar-link"><i
+                            class="fas fa-upload"></i><span>Upload Assignments</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-notes.html" class="sidebar-link"><i
+                            class="fas fa-file-upload"></i><span>Upload Notes</span></a></li>
+                <li class="sidebar-menu-item"><a href="upload-lectures.html" class="sidebar-link"><i
+                            class="fas fa-video"></i><span>Upload Lectures</span></a></li>
+                <li class="sidebar-menu-item"><a href="create-quiz.html" class="sidebar-link active"><i
+                            class="fas fa-plus-circle"></i><span>Create Quiz</span></a></li>
+                <li class="sidebar-menu-item"><a href="attendance-input.html" class="sidebar-link"><i
+                            class="fas fa-check-square"></i><span>Attendance Input</span></a></li>
+                <li class="sidebar-menu-item"><a href="my-attendance.html" class="sidebar-link"><i
+                            class="fas fa-calendar-check"></i><span>My Attendance</span></a></li>
+                <li class="sidebar-menu-item"><a href="timetable.html" class="sidebar-link"><i
+                            class="fas fa-calendar-alt"></i><span>Timetable</span></a></li>
+                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                            class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
+
+            </ul>
+        </nav>
+        <div class="sidebar-footer p-3 mt-auto">
+            <button class="btn btn-outline-light w-100" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+                Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark d-lg-none me-3" id="sidebarToggle">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h1 class="page-title mb-0">Create Quiz</h1>
+            </div>
+
+            <div class="user-menu">
+                <!-- Global Search Trigger -->
+                <div class="search-trigger me-3 d-none d-md-flex align-items-center" onclick="globalSearch.openSearch()"
+                    style="cursor: pointer; background: #f1f5f9; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <i class="fas fa-search text-muted me-2"></i>
+                    <span class="text-muted small">Search (Ctrl+K)</span>
+                </div>
+
+                <!-- Notification Bell -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-dark p-2" type="button" id="notificationDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; overflow: visible;">
+                        <i class="fas fa-bell fs-5"></i>
+                        <span class="badge rounded-pill bg-danger" id="notificationBadge"
+                            style="position: absolute; top: -5px; right: -5px; font-size: 0.65rem; min-width: 18px; height: 18px; display: none; align-items: center; justify-content: center; padding: 0.25em 0.4em;">0</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow-lg" style="width: 380px; max-height: 500px;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center py-3 px-3">
+                            <h6 class="mb-0 fw-bold">Notifications</h6>
+                            <div>
+                                <button class="btn btn-sm btn-link text-primary p-0 me-2"
+                                    onclick="notificationSystem.markAllAsRead()" title="Mark all as read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link text-danger p-0"
+                                    onclick="notificationSystem.clearAll()" title="Clear all">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider m-0"></div>
+                        <div id="notificationsList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-avatar"><span>SJ</span></div>
+                <div class="d-none d-md-block ms-3">
+                    <div class="fw-bold user-name" id="userNameDisplay">Sarah Johnson</div>
+                    <div class="small text-muted" id="userRoleDisplay">Mathematics Teacher</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content px-4 py-4">
+            <div class="card-modern animate-fade-in mb-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold text-primary"><i class="fas fa-info-circle me-2"></i> Quiz Details</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form id="quizDetailsForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Quiz Title</label>
+                                <input type="text" class="form-control bg-light border-0" id="quizTitle" required
+                                    placeholder="e.g., Algebra Quiz">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Class</label>
+                                <select class="form-select bg-light border-0" required>
+                                    <option value="">Choose...</option>
+                                    <option value="10-A">Class 10-A</option>
+                                    <option value="10-B">Class 10-B</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Subject</label>
+                                <select class="form-select bg-light border-0" required>
+                                    <option value="">Choose...</option>
+                                    <option value="Mathematics">Mathematics</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Scheduled Date</label>
+                                <input type="date" class="form-control bg-light border-0" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Duration (mins)</label>
+                                <input type="number" class="form-control bg-light border-0" required
+                                    placeholder="e.g., 30">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Total Marks</label>
+                                <input type="number" class="form-control bg-light border-0" id="totalMarks" value="0"
+                                    readonly>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card-modern animate-fade-in mb-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold text-success"><i class="fas fa-question-circle me-2"></i> Questions
+                            <span class="badge rounded-pill bg-primary" id="questionCount">0</span>
+                        </h5>
+                        <button class="btn btn-primary btn-sm lift" onclick="addQuestion()">
+                            <i class="fas fa-plus me-2"></i> Add Question
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-4" id="questionsContainer">
+                    <div class="text-center py-5">
+                        <i class="fas fa-question-circle fa-3x text-light mb-3"></i>
+                        <p class="text-muted mb-0">No questions added yet. Click "Add Question" to begin.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end mb-5">
+                <button class="btn btn-success btn-lg px-5 lift shadow" onclick="createQuiz()">
+                    <i class="fas fa-check-circle me-2"></i> Finalize & Publish Quiz
+                </button>
+            </div>
+
+            <div class="card-modern animate-fade-in">
+                <div class="card-header bg-white border-0 py-4 px-4 border-bottom">
+                    <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-list me-2 text-info"></i> My Active Quizzes</h5>
+                </div>
+                <div class="card-body p-4" id="myQuizzesList">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+
+            <!-- Submissions Modal -->
+            <div class="modal fade" id="quizResultsModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="resModalTitle">Quiz Results</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body" id="resModalBody"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../assets/js/auth.js"></script>
+            <script src="../assets/js/main.js"></script>
+            <script src="../assets/js/data.js"></script>
+            <script src="../assets/js/notifications.js"></script>
+            <script src="../assets/js/storage.js"></script>
+            <script src="../assets/js/search.js"></script>
+            <script src="../assets/js/enhancements.js"></script>
+            <script src="../assets/js/activity-functions.js"></script>
+            <script src="../assets/js/quiz-functions.js"></script>
+            <script>
+                protectPage('teacher');
+                document.addEventListener('DOMContentLoaded', function () {
+                    initDashboardUser();
+                    initQuizStorage();
+                    loadMyQuizzes();
+                });
+
+                let questionNumber = 0;
+
+                function addQuestion() {
+                    questionNumber++;
+                    const container = document.getElementById('questionsContainer');
+
+                    if (questionNumber === 1) {
+                        container.innerHTML = '';
+                    }
+
+                    const questionCard = `
+                <div class="card mb-3 border" id="question-${questionNumber}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6 class="fw-bold">Question ${questionNumber}</h6>
+                            <button class="btn btn-sm btn-outline-danger" onclick="removeQuestion(${questionNumber})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Question Text</label>
+                            <textarea class="form-control q-text" rows="2" required placeholder="Enter your question..."></textarea>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <label class="form-label">Option A</label>
+                                <input type="text" class="form-control q-opt-a" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option B</label>
+                                <input type="text" class="form-control q-opt-b" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option C</label>
+                                <input type="text" class="form-control q-opt-c" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option D</label>
+                                <input type="text" class="form-control q-opt-d" required>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label">Correct Answer</label>
+                            <select class="form-select q-correct" required>
+                                <option value="">Choose...</option>
+                                <option value="A">Option A</option>
+                                <option value="B">Option B</option>
+                                <option value="C">Option C</option>
+                                <option value="D">Option D</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                    container.insertAdjacentHTML('beforeend', questionCard);
+                    updateQuestionCount();
+                }
+
+                function removeQuestion(num) {
+                    const el = document.getElementById(`question-${num}`);
+                    if (el) el.remove();
+                    updateQuestionCount();
+                }
+
+                function updateQuestionCount() {
+                    const count = document.querySelectorAll('#questionsContainer .card').length;
+                    document.getElementById('questionCount').textContent = count;
+                    document.getElementById('totalMarks').value = count;
+                }
+
+                function createQuiz() {
+                    const title = document.getElementById('quizTitle').value;
+                    // Get other fields
+                    const form = document.getElementById('quizDetailsForm');
+                    const inputs = form.querySelectorAll('input, select');
+
+                    // Assuming order based on HTML provided earlier or safely selecting:
+                    const classVal = inputs[1].value; // Select
+                    const subjectVal = inputs[2].value; // Select
+                    const dateVal = inputs[3].value; // Date
+                    const duration = inputs[4].value; // Number
+
+                    if (!title) {
+                        showToast('Please enter quiz title', 'error');
+                        return;
+                    }
+
+                    const qCards = document.querySelectorAll('#questionsContainer .card');
+                    if (qCards.length === 0) {
+                        showToast('Please add at least one question', 'error');
+                        return;
+                    }
+
+                    const questions = [];
+                    let hasInvalidOptions = false;
+                    let invalidQuestionNumber = 0;
+
+                    qCards.forEach((card, index) => {
+                        const optA = card.querySelector('.q-opt-a').value.trim();
+                        const optB = card.querySelector('.q-opt-b').value.trim();
+                        const optC = card.querySelector('.q-opt-c').value.trim();
+                        const optD = card.querySelector('.q-opt-d').value.trim();
+
+                        // Check if any options are duplicates (case-insensitive)
+                        const options = [optA, optB, optC, optD].map(opt => opt.toLowerCase()).filter(opt => opt !== '');
+                        const uniqueOptions = new Set(options);
+
+                        if (options.length !== uniqueOptions.size) {
+                            hasInvalidOptions = true;
+                            invalidQuestionNumber = index + 1;
+                            return;
+                        }
+
+                        questions.push({
+                            text: card.querySelector('.q-text').value,
+                            options: {
+                                A: optA,
+                                B: optB,
+                                C: optC,
+                                D: optD
+                            },
+                            correct: card.querySelector('.q-correct').value
+                        });
+                    });
+
+                    if (hasInvalidOptions) {
+                        showToast(`Question ${invalidQuestionNumber}: Options must be unique - no duplicates allowed!`, 'error');
+                        return;
+                    }
+
+                    const currentUser = getCurrentUser();
+                    const quizData = {
+                        title: title,
+                        class: classVal,
+                        subject: subjectVal,
+                        date: dateVal,
+                        duration: duration,
+                        totalMarks: questions.length,
+                        teacher: currentUser.name,
+                        questions: questions
+                    };
+
+                    saveQuiz(quizData);
+
+                    if (typeof logActivity === 'function') {
+                        logActivity('Create', `Created Quiz: ${title}`, currentUser.name, currentUser.role);
+                    }
+
+                    showToast('Quiz created successfully!', 'success');
+
+                    // Reset
+                    document.getElementById('quizTitle').value = '';
+                    document.getElementById('questionsContainer').innerHTML = '<p class="text-muted text-center">No questions added yet. Click "Add Question" to begin.</p>';
+                    updateQuestionCount();
+                    questionNumber = 0;
+
+                    loadMyQuizzes();
+                }
+
+                function loadMyQuizzes() {
+                    const list = getAllQuizzes();
+                    const currentUser = getCurrentUser();
+                    const myQuizzes = list.filter(q => q.teacher === currentUser.name || q.teacher === 'Sarah Johnson');
+
+                    const container = document.getElementById('myQuizzesList');
+                    container.innerHTML = '';
+
+                    if (myQuizzes.length === 0) {
+                        container.innerHTML = '<p class="text-muted">No quizzes created.</p>';
+                        return;
+                    }
+
+                    myQuizzes.sort((a, b) => b.id - a.id);
+
+                    myQuizzes.forEach(q => {
+                        const results = getQuizResults(q.id);
+                        const div = document.createElement('div');
+                        div.className = 'card mb-2 border';
+                        div.innerHTML = `
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fw-bold mb-0">${q.title}</h6>
+                            <small class="text-muted">${q.class} â€¢ ${q.subject} â€¢ ${q.date}</small>
+                        </div>
+                        <div>
+                             <span class="badge bg-info me-2">${results.length} Attempts</span>
+                             <button class="btn btn-sm btn-outline-primary" onclick="viewQuizResults(${q.id})">Results</button>
+                             <button class="btn btn-sm btn-outline-danger" onclick="deleteQuizClick(${q.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                 `;
+                        container.appendChild(div);
+                    });
+                }
+
+                function deleteQuizClick(id) {
+                    if (confirm('Delete this quiz?')) {
+                        deleteQuiz(id);
+                        loadMyQuizzes();
+                    }
+                }
+
+                function viewQuizResults(id) {
+                    const results = getQuizResults(id);
+                    const quiz = getAllQuizzes().find(q => q.id == id);
+
+                    document.getElementById('resModalTitle').innerText = `Results: ${quiz.title}`;
+                    const body = document.getElementById('resModalBody');
+
+                    if (results.length === 0) {
+                        body.innerHTML = '<p class="text-center text-muted">No students have taken this quiz yet.</p>';
+                    } else {
+                        let html = `<table class="table table-sm text-center">
+                    <thead><tr><th>Sr No</th><th>Student Name</th><th>Roll No</th><th>Score</th><th>Date</th></tr></thead>
+                    <tbody>`;
+                        results.forEach((r, idx) => {
+                            html += `<tr>
+                        <td>${idx + 1}</td>
+                        <td class="fw-bold">${r.studentName}</td>
+                        <td>${r.studentId}</td>
+                        <td><span class="badge bg-${r.score / r.total >= 0.5 ? 'success' : 'danger'}">${r.score}/${r.total}</span></td>
+                        <td>${new Date(r.submittedAt).toLocaleDateString()}</td>
+                     </tr>`;
+                        });
+                        html += `</tbody></table>`;
+                        body.innerHTML = html;
+                    }
+                    new bootstrap.Modal(document.getElementById('quizResultsModal')).show();
+                }
+            </script>
+</body>
+
+</html>
