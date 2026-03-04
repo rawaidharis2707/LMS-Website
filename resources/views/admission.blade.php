@@ -1,0 +1,1196 @@
+@extends('layouts.app')
+
+@section('styles')
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        /* Specific Styles for Admission Form */
+        body {
+            background-color: var(--bg-surface);
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+            margin-bottom: -60px;
+            padding-bottom: 100px;
+        }
+
+        .form-card {
+            border: none;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            background: white;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Stepper CSS */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .step {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            border: 4px solid white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.2);
+            transform: scale(1.1);
+        }
+
+        .step.completed {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .step-connector {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #e2e8f0;
+            z-index: 1;
+            border-radius: 2px;
+        }
+
+        .step-progress {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            height: 4px;
+            background-color: var(--success-color);
+            z-index: 1;
+            transition: width 0.4s ease;
+            border-radius: 2px;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            font-weight: 600;
+            font-family: 'Bungee', sans-serif;
+            transition: color 0.3s;
+        }
+
+        .step.active+.step-label {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* File Upload Zone */
+        .upload-zone {
+            border: 2px dashed #94a3b8;
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-color);
+            background-color: #eff6ff;
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-family: 'Bungee', sans-serif;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 0.9rem;
+        }
+
+        .form-control,
+        .form-select {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            border-color: #cbd5e1;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+@endsection
+
+@section('content')
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-2" style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Student
+                Admission Form</h1>
+            <p class="lead opacity-75">Academic Session 2025-26</p>
+        </div>
+    </header>
+
+    <section class="pb-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card form-card">
+                        <div class="card-body p-4 p-md-5">
+
+                            <!-- Stepper -->
+                            <div class="step-indicator px-2 px-md-5">
+                                <div class="step-connector"></div>
+                                <div class="step-progress" style="width: 0%"></div>
+
+                                <div class="position-relative">
+                                    <div class="step active" data-step="1">1</div>
+                                    <div class="step-label">Personal</div>
+                                </div>
+                                <div class="position-relative">
+                                    <div class="step" data-step="2">2</div>
+                                    <div class="step-label">Academic</div>
+                                </div>
+                                <div class="position-relative">
+                                    <div class="step" data-step="3">3</div>
+                                    <div class="step-label">Guardian</div>
+                                </div>
+                                <div class="position-relative">
+                                    <div class="step" data-step="4">4</div>
+                                    <div class="step-label">Docs</div>
+                                </div>
+                                <div class="position-relative">
+                                    <div class="step" data-step="5">5</div>
+                                    <div class="step-label">Fee & Submit</div>
+                                </div>
+                            </div>
+
+                            <form id="admissionWizard" class="mt-5" method="post" action="{{ route('admission.store') }}">
+                                @csrf
+
+                                <!-- Step 1: Personal & Contact -->
+                                <div class="form-step" id="step1">
+                                    <h5 class="section-title"><i class="fas fa-user-graduate me-2"></i> Student Personal
+                                        Information</h5>
+
+                                    <div class="alert alert-info border-0 rounded-3 mb-4">
+                                        <i class="fas fa-info-circle me-2"></i> Fields marked with <span
+                                            class="text-danger">*</span> are mandatory.
+                                    </div>
+
+                                    <div class="row g-4">
+                                        <!-- Photo Upload -->
+                                        <div class="col-md-3 text-center mb-3">
+                                            <div class="upload-zone p-2 h-100 d-flex flex-column align-items-center justify-content-center"
+                                                onclick="document.getElementById('photoInput').click()">
+                                                <i class="fas fa-camera fa-2x text-primary mb-2"></i>
+                                                <div class="small fw-bold">Upload Photo *</div>
+                                                <div class="text-muted" style="font-size: 0.7rem;">(Max 2MB)</div>
+                                                <input type="file" id="photoInput" name="studentPhoto" hidden
+                                                    accept="image/*"
+                                                    onchange="validateAndPreviewImage(this, 'photoPreview')" required>
+                                                <img id="photoPreview" src=""
+                                                    class="img-fluid mt-2 d-none rounded shadow-sm"
+                                                    style="max-height: 120px; width: auto;" loading="lazy">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-9">
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Full Name <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="fullName" required
+                                                        oninput="this.value = this.value.replace(/[^A-Za-z\s\.]/g, '')">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Father / Guardian Name <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="fatherName" required
+                                                        oninput="this.value = this.value.replace(/[^A-Za-z\s\.]/g, '')">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">CNIC / B-Form Number <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="cnic"
+                                                        placeholder="00000-0000000-0" required
+                                                        oninput="formatCNIC(this)" maxlength="15">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Date of Birth <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="dob" id="dobInput"
+                                                        placeholder="DD-MM-YYYY" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="form-label">Gender <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="gender" required>
+                                                <option value="">Select...</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Nationality <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="form-select" name="nationality" required>
+                                                <option value="Pakistani" selected>Pakistani</option>
+                                                <option value="Overseas">Overseas</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Religion</label>
+                                            <select class="form-select" name="religion">
+                                                <option value="">Select...</option>
+                                                <option value="Islam">Islam</option>
+                                                <option value="Christianity">Christianity</option>
+                                                <option value="Hinduism">Hinduism</option>
+                                                <option value="Sikhism">Sikhism</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Blood Group</label>
+                                            <select class="form-select" name="bloodGroup">
+                                                <option value="">Select...</option>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <h5 class="section-title mt-5"><i class="fas fa-address-book me-2"></i> Contact
+                                        Information</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Mobile Number <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="tel" class="form-control" name="mobile" required
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">WhatsApp Number</label>
+                                            <input type="tel" class="form-control" name="whatsapp"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label">Email Address <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" name="email" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Present Address <span
+                                                    class="text-danger">*</span></label>
+                                            <textarea class="form-control" name="presentAddress" rows="2"
+                                                required></textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Permanent Address <span
+                                                    class="text-danger">*</span></label>
+                                            <textarea class="form-control" name="permanentAddress" rows="2"
+                                                required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2: Academic Information -->
+                                <div class="form-step d-none" id="step2">
+                                    <h5 class="section-title"><i class="fas fa-university me-2"></i> Academic
+                                        Information</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Applying For Class / Program <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="form-select" name="classApplying" required
+                                                onchange="updateAcademicParts(this)">
+                                                <option value="">Select Program...</option>
+                                                <optgroup label="Matriculation">
+                                                    <option value="Matric Science">Matric (Science)</option>
+                                                    <option value="Matric Arts">Matric (Arts)</option>
+                                                </optgroup>
+                                                <optgroup label="Intermediate">
+                                                    <option value="FSc Pre-Medical">F.Sc (Pre-Medical)</option>
+                                                    <option value="FSc Pre-Engineering">F.Sc (Pre-Engineering)</option>
+                                                    <option value="ICS">ICS (Computer Science)</option>
+                                                    <option value="FA">FA (Humanities)</option>
+                                                    <option value="I.Com">I.Com (Commerce)</option>
+                                                </optgroup>
+                                                <optgroup label="Higher Education">
+                                                    <option value="BS IT">BS Information Technology</option>
+                                                    <option value="BS English">BS English</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Academic Part / Year <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="form-select" name="academicPart" id="academicPartSelect"
+                                                required onchange="updateMarksLimits()">
+                                                <option value="">Select Part...</option>
+                                                <option value="Part 1">Part 1</option>
+                                                <option value="Part 2">Part 2</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12 mt-4">
+                                            <div class="bg-light p-3 rounded border">
+                                                <h6 class="fw-bold text-primary mb-3">Previous Education Details</h6>
+                                                <div class="row g-3">
+                                                    <div class="col-md-8">
+                                                        <label class="form-label">Previous School / College Name <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" name="prevSchool"
+                                                            required
+                                                            oninput="this.value = this.value.replace(/[^A-Za-z\s\.]/g, '')">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">Board / University <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" name="prevBoard"
+                                                            required placeholder="e.g. BISE Lahore"
+                                                            oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '')">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Roll Number <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" name="prevRollNo"
+                                                            required maxlength="11" oninput="formatRollNo(this)">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Passing Year <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" name="passingYear"
+                                                            required placeholder="YYYY" maxlength="4"
+                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Marks Obtained <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="marksObtained"
+                                                            name="marksObtained"
+                                                            oninput="validateMarks(this); calculatePercentage()"
+                                                            required placeholder="Obt. Marks">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Total Marks <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="totalMarks"
+                                                            name="totalMarks"
+                                                            oninput="validateMarks(this); calculatePercentage()"
+                                                            required placeholder="Total Marks">
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label class="form-label">Percentage (%)</label>
+                                                        <input type="text" class="form-control bg-white" id="percentage"
+                                                            name="percentage" readonly
+                                                            style="font-weight: bold; color: var(--primary-color);">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: Guardian Information -->
+                                <div class="form-step d-none" id="step3">
+                                    <h5 class="section-title"><i class="fas fa-users me-2"></i> Parent / Guardian
+                                        Information</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Guardian Name <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="guardianName" required
+                                                oninput="this.value = this.value.replace(/[^A-Za-z\s\.]/g, '')">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Relation with Student <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="form-select" name="relation" required>
+                                                <option value="Father">Father</option>
+                                                <option value="Mother">Mother</option>
+                                                <option value="Brother">Brother</option>
+                                                <option value="Uncle">Uncle</option>
+                                                <option value="Grandfather">Grandfather</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Guardian CNIC <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="guardianCnic"
+                                                placeholder="00000-0000000-0" required oninput="formatCNIC(this)"
+                                                maxlength="15">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Guardian Mobile Number <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="tel" class="form-control" name="guardianMobile" required
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Guardian Occupation <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="guardianOccupation" required
+                                                oninput="this.value = this.value.replace(/[^A-Za-z\s\.]/g, '')">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4: Documents & Additional Info -->
+                                <div class="form-step d-none" id="step4">
+                                    <h5 class="section-title"><i class="fas fa-file-alt me-2"></i> Document Uploads</h5>
+                                    <div class="alert alert-info border-0 rounded-3 mb-4">
+                                        <i class="fas fa-info-circle me-2"></i> Allowed formats: JPG, PNG, PDF. Max
+                                        size: 2MB.
+                                    </div>
+                                    <div class="row g-4 mb-5">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Student CNIC / B-Form <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="file" class="form-control" name="docStudentCnic" required
+                                                accept=".jpg,.jpeg,.png,.pdf" onchange="validateFileSize(this)">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Guardian CNIC <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="file" class="form-control" name="docGuardianCnic" required
+                                                accept=".jpg,.jpeg,.png,.pdf" onchange="validateFileSize(this)">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Matric / Previous Result Card <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="file" class="form-control" name="docResultCard" required
+                                                accept=".jpg,.jpeg,.png,.pdf" onchange="validateFileSize(this)">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Character Certificate</label>
+                                            <input type="file" class="form-control" name="docCharacterCert"
+                                                accept=".jpg,.jpeg,.png,.pdf" onchange="validateFileSize(this)">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Domicile</label>
+                                            <input type="file" class="form-control" name="docDomicile"
+                                                accept=".jpg,.jpeg,.png,.pdf" onchange="validateFileSize(this)">
+                                        </div>
+                                    </div>
+
+                                    <h5 class="section-title"><i class="fas fa-info-circle me-2"></i> Additional
+                                        Information</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Disability (if any)</label>
+                                            <select class="form-select" name="disability">
+                                                <option value="No">No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Hafiz-e-Quran</label>
+                                            <select class="form-select" name="hafiz">
+                                                <option value="No">No</option>
+                                                <option value="Yes">Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 5: Fee & Declaration -->
+                                <div class="form-step d-none" id="step5">
+                                    <h5 class="section-title"><i class="fas fa-money-bill-wave me-2"></i> Fee Submission
+                                    </h5>
+
+                                    <div class="row mb-4">
+                                        <div class="col-md-12">
+                                            <div class="card bg-light border-0">
+                                                <div class="card-body text-center p-5">
+                                                    <div class="mb-3">
+                                                        <i class="fas fa-print fa-3x text-primary animate-float"></i>
+                                                    </div>
+                                                    <p class="mb-0 opacity-75">Start your learning adventure today. Fill
+                                                        out our simple admission form below.
+                                                    </p>
+                                                    <h5 class="fw-bold mb-3">Step 1: Download Admission Voucher</h5>
+                                                    <p class="text-muted mb-4 max-w-xl mx-auto">Please download the
+                                                        admission processing fee voucher, print it, and pay <strong>PKR
+                                                            2,000</strong> at any Allied Bank branch.</p>
+
+                                                    <!-- Hidden input to store generated Voucher ID -->
+                                                    <input type="hidden" name="voucherId" id="generatedVoucherId">
+
+                                                    <button type="button" class="btn btn-primary px-4 py-2"
+                                                        onclick="generateAdmissionVoucher()">
+                                                        <i class="fas fa-download me-2"></i> Download Fee Voucher (PDF)
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-4">
+                                        <div class="col-md-12">
+                                            <h5 class="fw-bold mb-3 text-center">Step 2: Upload Paid Receipt</h5>
+                                            <div class="upload-zone"
+                                                onclick="document.getElementById('feeReceipt').click()">
+                                                <i class="fas fa-file-invoice-dollar fa-2x text-primary mb-2"></i>
+                                                <h6 class="fw-bold">Upload Paid Voucher Copy</h6>
+                                                <p class="text-muted small mb-0">Click to browse or drag file here</p>
+                                                <input type="file" id="feeReceipt" name="feeReceipt" hidden required
+                                                    onchange="showFileName(this)">
+                                                <div id="fileNameDisplay" class="mt-2 text-success fw-bold"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h5 class="section-title mt-5"><i class="fas fa-signature me-2"></i> Declaration
+                                    </h5>
+                                    <div class="card bg-light border-0">
+                                        <div class="card-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="declarationCheck"
+                                                    required>
+                                                <label class="form-check-label" for="declarationCheck">
+                                                    I solemnly declare that the information provided above is correct to
+                                                    the best of my knowledge. I agree to abide by the rules and
+                                                    regulations of the institution. I understand that my admission is
+                                                    subject to verification of documents and clearance of dues.
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Navigation Buttons -->
+                                <div class="d-flex justify-content-between mt-5 pt-3 border-top">
+                                    <button type="button" class="btn btn-outline-secondary px-4 d-none" id="prevBtn"
+                                        onclick="changeStep(-1)">
+                                        <i class="fas fa-arrow-left me-2"></i> Back
+                                    </button>
+                                    <button type="button" class="btn btn-primary px-4 ms-auto" id="nextBtn"
+                                        onclick="changeStep(1)">
+                                        Next Step <i class="fas fa-arrow-right ms-2"></i>
+                                    </button>
+                                    <div class="d-flex gap-2 ms-auto">
+                                        <button type="button" class="btn btn-outline-primary px-4 d-none" id="viewAppBtn"
+                                            onclick="showApplicationPreview()">
+                                            <i class="fas fa-eye me-2"></i> View Application
+                                        </button>
+                                        <button type="submit" class="btn btn-success px-5 d-none" id="submitBtn">
+                                            Submit Application <i class="fas fa-paper-plane ms-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4 mb-5">
+                        <a href="{{ url('/') }}" class="text-decoration-none text-muted fw-bold">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Homepage
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preview Application Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white py-3">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-file-invoice me-2"></i> Application Review</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" id="previewContent">
+                    <!-- Populated via JS -->
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4 border-0 shadow-lg">
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center"
+                            style="width: 80px; height: 80px;">
+                            <i class="fas fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                    <h3 class="fw-bold text-success mb-2">Application Submitted!</h3>
+                    <p class="text-muted mb-4">Thank you for applying to Lumina Academy. Your application has been
+                        successfully received.</p>
+
+                    <div class="bg-light p-3 rounded mb-4">
+                        <small class="text-muted d-block text-uppercase fw-bold">Application Tracking ID</small>
+                        <h2 class="fw-extrabold text-primary mb-0" id="appIdDisplay"></h2>
+                    </div>
+
+                    <p class="small text-muted mb-4">Please save this ID for future reference. Our admissions office
+                        will contact you on your provided number within 2-3 working days.</p>
+
+                    <a href="{{ url('/') }}" class="btn btn-primary w-100 py-2">Return to Homepage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        // Form Logic (Preserved)
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        function changeStep(direction) {
+            if (direction === 1 && !validateStep(currentStep)) {
+                let firstInvalid = document.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    // If hidden (e.g. file input), find its visible container
+                    if (firstInvalid.hidden || firstInvalid.style.display === 'none') {
+                        const zone = firstInvalid.closest('.upload-zone');
+                        if (zone) firstInvalid = zone;
+                    }
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
+            document.getElementById(`step${currentStep}`).classList.add('d-none');
+            currentStep += direction;
+            document.getElementById(`step${currentStep}`).classList.remove('d-none');
+
+            updateStepperUI();
+
+            // Smooth scroll to top of card
+            document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function validateStep(step) {
+            const stepDiv = document.getElementById(`step${step}`);
+            // Select inputs that are relevant for validation (ignore buttons etc)
+            const inputs = stepDiv.querySelectorAll('input, select, textarea');
+            let valid = true;
+
+            inputs.forEach(input => {
+                // checkValidity() checks required, pattern, type, min, max etc.
+                if (!input.checkValidity()) {
+                    input.classList.add('is-invalid');
+                    valid = false;
+
+                    // Special handling for hidden file inputs
+                    if (input.type === 'file' && (input.hidden || input.style.display === 'none')) {
+                        const zone = input.closest('.upload-zone');
+                        if (zone) {
+                            zone.style.borderColor = '#dc3545'; // Bootstrap danger color
+                            zone.style.backgroundColor = '#fff5f5';
+                        }
+                    }
+                } else {
+                    input.classList.remove('is-invalid');
+
+                    // Reset special handling
+                    if (input.type === 'file') {
+                        const zone = input.closest('.upload-zone');
+                        if (zone) {
+                            zone.style.borderColor = ''; // Reset to default CSS
+                            zone.style.backgroundColor = '';
+                        }
+                    }
+                }
+            });
+
+            // --- Custom Restrictions ---
+            const studentMobile = document.querySelector('input[name="mobile"]')?.value || "";
+            const guardianMobile = document.querySelector('input[name="guardianMobile"]');
+
+            if (step === 3 && guardianMobile) {
+                if (guardianMobile.value === studentMobile && guardianMobile.value !== "") {
+                    guardianMobile.classList.add('is-invalid');
+                    alert("Restriction: Student mobile number and Guardian mobile number must be different.");
+                    valid = false;
+                }
+            }
+
+            return valid;
+        }
+
+        function updateStepperUI() {
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepEl = document.querySelector(`.step[data-step="${i}"]`);
+                if (i < currentStep) {
+                    stepEl.classList.remove('active');
+                    stepEl.classList.add('completed');
+                    stepEl.innerHTML = '<i class="fas fa-check"></i>';
+                } else if (i === currentStep) {
+                    stepEl.classList.add('active');
+                    stepEl.classList.remove('completed');
+                    stepEl.innerHTML = i;
+                } else {
+                    stepEl.classList.remove('active', 'completed');
+                    stepEl.innerHTML = i;
+                }
+            }
+
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.querySelector('.step-progress').style.width = `${progress}%`;
+
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const viewAppBtn = document.getElementById('viewAppBtn');
+
+            if (currentStep === 1) prevBtn.classList.add('d-none');
+            else prevBtn.classList.remove('d-none');
+
+            if (currentStep === totalSteps) {
+                nextBtn.classList.add('d-none');
+                submitBtn.classList.remove('d-none');
+                viewAppBtn.classList.remove('d-none');
+            } else {
+                nextBtn.classList.remove('d-none');
+                submitBtn.classList.add('d-none');
+                viewAppBtn.classList.add('d-none');
+            }
+        }
+
+        function showApplicationPreview() {
+            const form = document.getElementById('admissionWizard');
+            const previewContent = document.getElementById('previewContent');
+            const formData = new FormData(form);
+            
+            let html = `
+                <div class="preview-section mb-4">
+                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="fas fa-user me-2"></i> Personal Information</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6"><strong>Full Name:</strong> ${formData.get('fullName') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Father Name:</strong> ${formData.get('fatherName') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>CNIC:</strong> ${formData.get('cnic') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>DOB:</strong> ${formData.get('dob') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Gender:</strong> ${formData.get('gender') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Nationality:</strong> ${formData.get('nationality') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Religion:</strong> ${formData.get('religion') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Blood Group:</strong> ${formData.get('bloodGroup') || 'N/A'}</div>
+                    </div>
+                </div>
+
+                <div class="preview-section mb-4">
+                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="fas fa-address-book me-2"></i> Contact Details</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6"><strong>Mobile:</strong> ${formData.get('mobile') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>WhatsApp:</strong> ${formData.get('whatsapp') || 'N/A'}</div>
+                        <div class="col-md-12"><strong>Email:</strong> ${formData.get('email') || 'N/A'}</div>
+                        <div class="col-md-12"><strong>Present Address:</strong> ${formData.get('presentAddress') || 'N/A'}</div>
+                        <div class="col-md-12"><strong>Permanent Address:</strong> ${formData.get('permanentAddress') || 'N/A'}</div>
+                    </div>
+                </div>
+
+                <div class="preview-section mb-4">
+                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="fas fa-university me-2"></i> Academic Information</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6"><strong>Applying For:</strong> ${formData.get('classApplying') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Part/Year:</strong> ${formData.get('academicPart') || 'N/A'}</div>
+                        <div class="col-md-12"><strong>Previous School:</strong> ${formData.get('prevSchool') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Board:</strong> ${formData.get('prevBoard') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Roll No:</strong> ${formData.get('prevRollNo') || 'N/A'}</div>
+                        <div class="col-md-4"><strong>Passing Year:</strong> ${formData.get('passingYear') || 'N/A'}</div>
+                        <div class="col-md-4"><strong>Marks:</strong> ${formData.get('marksObtained') || '0'} / ${formData.get('totalMarks') || '0'}</div>
+                        <div class="col-md-4"><strong>Percentage:</strong> ${document.getElementById('percentage').value || 'N/A'}</div>
+                    </div>
+                </div>
+
+                <div class="preview-section mb-4">
+                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="fas fa-users me-2"></i> Guardian Information</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6"><strong>Guardian Name:</strong> ${formData.get('guardianName') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Relation:</strong> ${formData.get('relation') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Guardian CNIC:</strong> ${formData.get('guardianCnic') || 'N/A'}</div>
+                        <div class="col-md-6"><strong>Guardian Mobile:</strong> ${formData.get('guardianMobile') || 'N/A'}</div>
+                        <div class="col-md-12"><strong>Occupation:</strong> ${formData.get('guardianOccupation') || 'N/A'}</div>
+                    </div>
+                </div>
+
+                <div class="preview-section mb-4">
+                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="fas fa-info-circle me-2"></i> Additional Info</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6"><strong>Disability:</strong> ${formData.get('disability') || 'No'}</div>
+                        <div class="col-md-6"><strong>Hafiz-e-Quran:</strong> ${formData.get('hafiz') || 'No'}</div>
+                        <div class="col-md-12 text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Declaration Accepted</div>
+                    </div>
+                </div>
+            `;
+
+            previewContent.innerHTML = html;
+            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            previewModal.show();
+        }
+
+        function validateAndPreviewImage(input, targetId) {
+            const maxSize = 2 * 1024 * 1024; // 2MB
+            if (input.files && input.files[0]) {
+                if (input.files[0].size > maxSize) {
+                    alert('File size exceeds 2MB. Please upload a smaller image.');
+                    input.value = ''; // Clear input
+                    const img = document.getElementById(targetId);
+                    if (img) {
+                        img.src = '';
+                        img.classList.add('d-none');
+                    }
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(targetId);
+                    img.src = e.target.result;
+                    img.classList.remove('d-none');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function validateFileSize(input) {
+            const maxSize = 2 * 1024 * 1024; // 2MB
+            if (input.files && input.files[0]) {
+                if (input.files[0].size > maxSize) {
+                    alert('File size exceeds 2MB. Please upload a smaller document.');
+                    input.value = ''; // Clear input
+                }
+            }
+        }
+
+        function showFileName(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('fileNameDisplay').innerText = `File Selected: ${input.files[0].name}`;
+            }
+        }
+
+        function calculatePercentage() {
+            const obtained = parseFloat(document.getElementById('marksObtained').value) || 0;
+            const total = parseFloat(document.getElementById('totalMarks').value) || 0;
+
+            if (total > 0 && obtained <= total) {
+                const perc = ((obtained / total) * 100).toFixed(2);
+                document.getElementById('percentage').value = perc + '%';
+            } else {
+                document.getElementById('percentage').value = '';
+            }
+        }
+
+        function generateAdmissionVoucher() {
+            const name = document.querySelector('input[name="fullName"]').value || 'Applicant';
+            const father = document.querySelector('input[name="fatherName"]').value || 'Guardian';
+            const cnic = document.querySelector('input[name="cnic"]').value || '----------';
+            const fee = 2000;
+            const issueDate = new Date().toLocaleDateString();
+            const dueDate = new Date(new Date().setDate(new Date().getDate() + 7)).toLocaleDateString();
+
+            let voucherId = document.getElementById('generatedVoucherId').value;
+            if (!voucherId) {
+                voucherId = 'ADM-' + Math.floor(1000 + Math.random() * 9000);
+                document.getElementById('generatedVoucherId').value = voucherId;
+            }
+
+            const printWindow = window.open('', '', 'height=600,width=1000');
+            printWindow.document.write('<html><head><title>Admission Fee Voucher</title>');
+            printWindow.document.write(
+                '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">'
+            );
+            printWindow.document.write(`
+                <style>
+                    @page { size: landscape; margin: 0.5cm; }
+                    body { background-color: #fff; font-family: 'Times New Roman', Times, serif; color: #000; padding: 20px; }
+                    .voucher-page { width: 100%; max-width: 1100px; margin: 0 auto; }
+                    .vouchers-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+                    .voucher-copy { border: 1px dashed #333; padding: 10px; position: relative; background: #fff; font-size: 10px; }
+                    .voucher-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 5px; }
+                    .voucher-header h2 { font-size: 16px; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
+                    .voucher-header p { margin-bottom: 0; font-size: 9px; }
+                    .voucher-type { text-align: center; font-weight: bold; margin: 5px 0; text-decoration: underline; font-size: 11px; }
+                    .details-section { margin-bottom: 5px; }
+                    .detail-row { display: flex; margin-bottom: 3px; }
+                    .detail-label { font-weight: bold; width: 70px; }
+                    .detail-value { flex: 1; border-bottom: 1px dotted #999; }
+                    .fee-table { width: 100%; border-collapse: collapse; margin: 5px 0; font-size: 10px; }
+                    .fee-table th, .fee-table td { border: 1px solid #000; padding: 3px 4px; }
+                    .fee-table th { text-align: left; background-color: #f0f0f0; }
+                    .total-row td { font-weight: bold; background-color: #f0f0f0; }
+                    .footer-note { font-size: 9px; margin-top: 5px; text-align: left; }
+                    .footer-note ul { padding-left: 15px; margin: 0; }
+                    .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 40px; color: rgba(25, 135, 84, 0.05); font-weight: bold; font-family: Arial, sans-serif; pointer-events: none; white-space: nowrap; z-index: 0; }
+                </style>
+            `);
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(
+                '<div class="voucher-page"><div class="vouchers-container">'
+            );
+
+            const copies = ['BANK COPY', 'STUDENT COPY', 'SCHOOL COPY'];
+            copies.forEach(copy => {
+                printWindow.document.write(`
+                    <div class="voucher-copy">
+                        <div class="watermark">${copy}</div>
+                        <div class="voucher-header">
+                            <h2>Lumina International Academy</h2>
+                            <p>Campus Road, City | Ph: +123 456 7890</p>
+                        </div>
+                        <div class="voucher-type">${copy}</div>
+                        <div class="details-section">
+                            <div class="detail-row"><span class="detail-label">Voucher No:</span><span class="detail-value">${voucherId}</span></div>
+                            <div class="detail-row"><span class="detail-label">Issue Date:</span><span class="detail-value">${issueDate}</span></div>
+                            <div class="detail-row"><span class="detail-label">Due Date:</span><span class="detail-value">${dueDate}</span></div>
+                            <div class="detail-row"><span class="detail-label">Name:</span><span class="detail-value">${name.toUpperCase()}</span></div>
+                            <div class="detail-row"><span class="detail-label">Father:</span><span class="detail-value">${father.toUpperCase()}</span></div>
+                            <div class="detail-row"><span class="detail-label">CNIC:</span><span class="detail-value">${cnic}</span></div>
+                        </div>
+                        <table class="fee-table">
+                            <thead><tr><th>Description</th><th style="text-align: right;">Amount</th></tr></thead>
+                            <tbody>
+                                <tr><td>Admission Processing Fee</td><td style="text-align: right;">PKR 2,000</td></tr>
+                                <tr class="total-row"><td>NET TOTAL</td><td style="text-align: right;">PKR 2,000</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="footer-note"><strong>Instructions:</strong><ul><li>Fees must be deposited by the due date.</li><li>Late fee will be charged after due date.</li><li>This voucher is valid at all branches.</li></ul></div>
+                    </div>
+                `);
+            });
+
+            printWindow.document.write('</div></div></body></html>');
+            printWindow.document.close();
+        }
+
+        function updateAcademicParts(programSelect) {
+            const program = programSelect.value;
+            const partSelect = document.getElementById('academicPartSelect');
+            partSelect.innerHTML = '<option value="">Select Part...</option>';
+
+            if (program.includes('Matric')) {
+                partSelect.insertAdjacentHTML('beforeend', '<option value="Part 1">Part 1 (9th)</option>');
+                partSelect.insertAdjacentHTML('beforeend', '<option value="Part 2">Part 2 (10th)</option>');
+            } else if (program.includes('FSc') || program.includes('ICS') || program.includes('FA') || program.includes('I.Com')) {
+                partSelect.insertAdjacentHTML('beforeend', '<option value="Part 1">Part 1 (1st Year)</option>');
+                partSelect.insertAdjacentHTML('beforeend', '<option value="Part 2">Part 2 (2nd Year)</option>');
+            } else if (program.includes('BS')) {
+                partSelect.insertAdjacentHTML('beforeend', '<option value="Semester 1">Semester 1</option>');
+            } else {
+                partSelect.insertAdjacentHTML('beforeend', '<option value="Part 1">Part 1</option>');
+                partSelect.insertAdjacentHTML('beforeend', '<option value="Part 2">Part 2</option>');
+            }
+        }
+
+        function formatRollNo(input) {
+            let val = input.value.replace(/[^0-9]/g, '');
+            if (val.length > 9) val = val.slice(0, 9);
+
+            if (val.length > 6) {
+                input.value = val.slice(0, 3) + '-' + val.slice(3, 6) + '-' + val.slice(6);
+            } else if (val.length > 3) {
+                input.value = val.slice(0, 3) + '-' + val.slice(3);
+            } else {
+                input.value = val;
+            }
+        }
+
+        function validateMarks(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+            const partSelect = document.getElementById('academicPartSelect');
+            let limit = 4;
+            if (partSelect && partSelect.value && partSelect.value.includes('Part 1')) {
+                limit = 3;
+            }
+            if (input.value.length > limit) {
+                input.value = input.value.slice(0, limit);
+            }
+        }
+
+        function updateMarksLimits() {
+            const obt = document.getElementById('marksObtained');
+            const total = document.getElementById('totalMarks');
+            if (obt) validateMarks(obt);
+            if (total) validateMarks(total);
+        }
+
+        function formatCNIC(input) {
+            let val = input.value.replace(/[^0-9]/g, '');
+            if (val.length > 13) val = val.slice(0, 13);
+
+            if (val.length > 12) {
+                input.value = val.slice(0, 5) + '-' + val.slice(5, 12) + '-' + val.slice(12);
+            } else if (val.length > 5) {
+                input.value = val.slice(0, 5) + '-' + val.slice(5);
+            } else {
+                input.value = val;
+            }
+        }
+
+        document.getElementById('admissionWizard').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+            const fd = new FormData();
+            const token = form.querySelector('input[name=\"_token\"]')?.value || '';
+            fd.append('_token', token);
+
+            // required fields
+            fd.append('full_name', form.querySelector('[name=\"fullName\"]')?.value || '');
+            fd.append('father_name', form.querySelector('[name=\"fatherName\"]')?.value || '');
+            fd.append('mobile', form.querySelector('[name=\"mobile\"]')?.value || '');
+            fd.append('email', form.querySelector('[name=\"email\"]')?.value || '');
+            fd.append('class_applying', form.querySelector('[name=\"classApplying\"]')?.value || '');
+
+            // optional helpers
+            const appendIfValue = (key, val) => { if (val !== '' && val != null) fd.append(key, val); };
+            appendIfValue('cnic', form.querySelector('[name=\"cnic\"]')?.value || '');
+            appendIfValue('dob', parseDob(form.querySelector('[name=\"dob\"]')?.value || ''));
+            appendIfValue('gender', form.querySelector('[name=\"gender\"]')?.value || '');
+            appendIfValue('nationality', form.querySelector('[name=\"nationality\"]')?.value || '');
+            appendIfValue('religion', form.querySelector('[name=\"religion\"]')?.value || '');
+            appendIfValue('blood_group', form.querySelector('[name=\"bloodGroup\"]')?.value || '');
+            appendIfValue('whatsapp', form.querySelector('[name=\"whatsapp\"]')?.value || '');
+            appendIfValue('present_address', form.querySelector('[name=\"presentAddress\"]')?.value || '');
+            appendIfValue('permanent_address', form.querySelector('[name=\"permanentAddress\"]')?.value || '');
+            appendIfValue('academic_part', form.querySelector('[name=\"academicPart\"]')?.value || '');
+            appendIfValue('prev_school', form.querySelector('[name=\"prevSchool\"]')?.value || '');
+            appendIfValue('prev_board', form.querySelector('[name=\"prevBoard\"]')?.value || '');
+            appendIfValue('prev_roll_no', form.querySelector('[name=\"prevRollNo\"]')?.value || '');
+            appendIfValue('marks_obtained', form.querySelector('[name=\"marksObtained\"]')?.value || '');
+            appendIfValue('total_marks', form.querySelector('[name=\"totalMarks\"]')?.value || '');
+            const perc = (form.querySelector('[name=\"percentage\"]')?.value || '').replace('%','');
+            appendIfValue('percentage', perc);
+            appendIfValue('voucher_id', form.querySelector('[name=\"voucherId\"]')?.value || '');
+
+            const photo = form.querySelector('input[name=\"studentPhoto\"]')?.files?.[0];
+            const receipt = form.querySelector('input[name=\"feeReceipt\"]')?.files?.[0];
+            const docStudentCnic = form.querySelector('input[name=\"docStudentCnic\"]')?.files?.[0];
+            const docGuardianCnic = form.querySelector('input[name=\"docGuardianCnic\"]')?.files?.[0];
+            const docResultCard = form.querySelector('input[name=\"docResultCard\"]')?.files?.[0];
+            const docCharacterCert = form.querySelector('input[name=\"docCharacterCert\"]')?.files?.[0];
+            const docDomicile = form.querySelector('input[name=\"docDomicile\"]')?.files?.[0];
+            if (photo) fd.append('studentPhoto', photo);
+            if (receipt) fd.append('feeReceipt', receipt);
+            if (docStudentCnic) fd.append('docStudentCnic', docStudentCnic);
+            if (docGuardianCnic) fd.append('docGuardianCnic', docGuardianCnic);
+            if (docResultCard) fd.append('docResultCard', docResultCard);
+            if (docCharacterCert) fd.append('docCharacterCert', docCharacterCert);
+            if (docDomicile) fd.append('docDomicile', docDomicile);
+
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+            fetch('{{ route("admission.store") }}', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrf,
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: fd,
+                credentials: 'same-origin',
+            })
+            .then(async r => {
+                if (!r.ok) {
+                    let msg = 'Submission failed. Please try again.';
+                    try {
+                        const data = await r.json();
+                        if (data?.message) msg = data.message;
+                        if (data?.errors) {
+                            const first = Object.values(data.errors)[0];
+                            if (Array.isArray(first) && first.length) msg = first[0];
+                        }
+                    } catch (_) {}
+                    throw new Error(msg);
+                }
+                return r.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('appIdDisplay').innerText = data.application_id;
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                } else {
+                    alert(data.message || 'Submission failed. Please try again.');
+                }
+            })
+            .catch(err => alert(err?.message || 'Submission failed. Please try again.'));
+        });
+
+        function parseDob(val) {
+            if (!val) return null;
+            const parts = val.split('-');
+            if (parts.length === 3) return parts[2] + '-' + parts[1] + '-' + parts[0];
+            return val;
+        }
+    </script>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#dobInput", {
+                dateFormat: "d-m-Y",
+                maxDate: "today",
+                disableMobile: "true",
+                allowInput: true
+            });
+        });
+    </script>
+@endsection
+
