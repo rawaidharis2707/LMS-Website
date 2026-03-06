@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Admin Dashboard - EduPro LMS</title>
+    <title>Super Admin Dashboard - Lumina Academy</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -16,27 +16,27 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>Lumina Academy
                     LMS</span></a>
         </div>
         <nav class="sidebar-menu">
             <ul class="list-unstyled">
                 <li class="sidebar-menu-item"><a href="{{ route('superadmin.dashboard') }}" class="sidebar-link active"><i
                             class="fas fa-home"></i><span>Dashboard</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/announcements.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/announcements') }}" class="sidebar-link"><i
                             class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/role-distribution.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/role-distribution') }}" class="sidebar-link"><i
                             class="fas fa-user-shield"></i><span>Roles & Permissions</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/finance.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/finance') }}" class="sidebar-link"><i
                             class="fas fa-money-bill-wave"></i><span>Funds Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/salary.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/salary') }}" class="sidebar-link"><i
                             class="fas fa-wallet"></i><span>Salary Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/teacher-attendance.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/teacher-attendance') }}" class="sidebar-link"><i
                             class="fas fa-clipboard-check"></i><span>Teacher Attendance</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/reports.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/reports') }}" class="sidebar-link"><i
                             class="fas fa-file-alt"></i><span>Reports</span></a></li>
 
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/activity-logs.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/activity-logs') }}" class="sidebar-link"><i
                             class="fas fa-history"></i><span>Activity Logs</span></a></li>
             </ul>
         </nav>
@@ -92,10 +92,17 @@
         </nav>
 
         <div class="dashboard-content">
-            <div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, #6366f1, #a855f7);">
-                <div class="card-body text-white p-4">
-                    <h2 class="fw-bold mb-2 text-light">Welcome, Super Admin!</h2>
-                    <p class="mb-0 opacity-75">Complete system control and monitoring</p>
+            <div class="card-modern border-0 shadow-lg mb-4 overflow-hidden" style="background: linear-gradient(135deg, #6366f1, #a855f7);">
+                <div class="card-body p-5 position-relative">
+                    <div class="row align-items-center position-relative">
+                        <div class="col-lg-8">
+                            <h1 class="display-5 fw-bold text-white mb-3">Welcome, Super Admin!</h1>
+                            <p class="text-white-50 fs-5 mb-0">Complete system control and monitoring</p>
+                        </div>
+                        <div class="col-lg-4 text-lg-end d-none d-lg-block">
+                            <i class="fas fa-shield-alt" style="font-size: 6rem; opacity: 0.2;"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -168,7 +175,7 @@
                             class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold"><i class="fas fa-history text-secondary me-2"></i> Recent Activity
                             </h5>
-                            <a href="activity-logs.html" class="btn btn-sm btn-link text-decoration-none">View All</a>
+                            <a href="{{ url('superadmin/activity-logs') }}" class="btn btn-sm btn-link text-decoration-none">View All</a>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">

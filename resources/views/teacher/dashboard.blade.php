@@ -16,32 +16,32 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>Lumina Academy
                     LMS</span></a>
         </div>
         <nav class="sidebar-menu">
             <ul class="list-unstyled">
                 <li class="sidebar-menu-item"><a href="{{ route('teacher.dashboard') }}" class="sidebar-link active"><i
                             class="fas fa-home"></i><span>Dashboard</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/marks-input.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/marks-input') }}" class="sidebar-link"><i
                             class="fas fa-edit"></i><span>Marks Input</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/remarks.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/remarks') }}" class="sidebar-link"><i
                             class="fas fa-comments"></i><span>Student Remarks</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-assignments.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-assignments') }}" class="sidebar-link"><i
                             class="fas fa-upload"></i><span>Upload Assignments</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-notes.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-notes') }}" class="sidebar-link"><i
                             class="fas fa-file-upload"></i><span>Upload Notes</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-lectures.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-lectures') }}" class="sidebar-link"><i
                             class="fas fa-video"></i><span>Upload Lectures</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/create-quiz.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/create-quiz') }}" class="sidebar-link"><i
                             class="fas fa-plus-circle"></i><span>Create Quiz</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/attendance-input.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/attendance-input') }}" class="sidebar-link"><i
                             class="fas fa-check-square"></i><span>Attendance Input</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/my-attendance.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/my-attendance') }}" class="sidebar-link"><i
                             class="fas fa-calendar-check"></i><span>My Attendance</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/timetable.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/timetable') }}" class="sidebar-link"><i
                             class="fas fa-calendar-alt"></i><span>Timetable</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('teacher/announcements.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/announcements') }}" class="sidebar-link"><i
                             class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
 
             </ul>
@@ -109,15 +109,15 @@
 
         <div class="dashboard-content px-4 py-4">
             <!-- Welcome Section -->
-            <div class="card-modern border-0 shadow-sm mb-4 overflow-hidden"
-                style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
-                <div class="card-body p-4 position-relative" style="z-index: 1;">
-                    <div class="row align-items-center">
+            <div class="card-modern border-0 shadow-lg mb-4 overflow-hidden"
+                style="background: linear-gradient(135deg, #6366f1, #a855f7);">
+                <div class="card-body p-5 position-relative" style="z-index: 1;">
+                    <div class="row align-items-center position-relative">
                         <div class="col-lg-8">
-                            <h2 class="display-6 fw-bold text-white mb-2 animate-fade-in">
-                                Welcome back, <span class="text-info" id="welcomeName">Teacher</span>!
+                            <h2 class="display-5 fw-bold text-white mb-3 animate-fade-in">
+                                Welcome back, <span id="welcomeName">Teacher</span>!
                             </h2>
-                            <p class="text-light opacity-75 mb-0 fs-5 animate-fade-in" style="animation-delay: 0.1s;">
+                            <p class="text-white-50 fs-5 mb-0 animate-fade-in" style="animation-delay: 0.1s;">
                                 Manage your classes, track student progress, and organize your teaching day.
                             </p>
                         </div>
@@ -196,7 +196,7 @@
                             <h5 class="mb-0 fw-bold"><i class="fas fa-calendar-day text-primary me-2"></i> Today's
                                 Schedule</h5>
                             <button class="btn btn-sm btn-outline-primary lift"
-                                onclick="window.location.href='timetable.html'">View Full Timetable</button>
+                                onclick="window.location.href='{{ url('teacher/timetable') }}'">View Full Timetable</button>
                         </div>
                         <div class="card-body">
                             <div id="todaySchedule">
@@ -212,23 +212,23 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <a href="attendance-input.html"
+                                    <a href="{{ url('teacher/attendance-input') }}"
                                         class="btn btn-modern btn-outline-primary w-100 lift">
                                         <i class="fas fa-check me-2"></i> Mark Attendance
                                     </a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="marks-input.html" class="btn btn-modern btn-outline-success w-100 lift">
+                                    <a href="{{ url('teacher/marks-input') }}" class="btn btn-modern btn-outline-success w-100 lift">
                                         <i class="fas fa-edit me-2"></i> Enter Marks
                                     </a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="upload-notes.html" class="btn btn-modern btn-outline-info w-100 lift">
+                                    <a href="{{ url('teacher/upload-notes') }}" class="btn btn-modern btn-outline-info w-100 lift">
                                         <i class="fas fa-upload me-2"></i> Upload Notes
                                     </a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="create-quiz.html" class="btn btn-modern btn-outline-warning w-100 lift">
+                                    <a href="{{ url('teacher/create-quiz') }}" class="btn btn-modern btn-outline-warning w-100 lift">
                                         <i class="fas fa-plus me-2"></i> Create Quiz
                                     </a>
                                 </div>
@@ -248,7 +248,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-white border-0 text-center pb-3">
-                            <a href="announcements.html" class="btn btn-sm btn-link text-decoration-none"
+                            <a href="{{ url('teacher/announcements') }}" class="btn btn-sm btn-link text-decoration-none"
                                 onmouseover="this.style.backgroundColor='#e7f3ff'; this.style.borderRadius='8px'"
                                 onmouseout="this.style.backgroundColor='transparent'">View All
                                 Announcements</a>

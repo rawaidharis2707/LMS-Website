@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Salary Management Functions
  * Handles Staff Data, Attendance-based Deductions, and Slip Generation
  */
@@ -444,7 +444,7 @@ function printSlipMock(empId, month) {
         <body>
             <div class="slip-box">
                 <div class="header">
-                    <h2>EduPro Institute</h2>
+                    <h2>Lumina Academy</h2>
                     <p>Salary Slip for ${month}</p>
                 </div>
                 <div class="row">

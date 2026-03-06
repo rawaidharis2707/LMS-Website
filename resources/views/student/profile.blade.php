@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Profile - Student Portal</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,33 +25,33 @@
 
         <nav class="sidebar-menu">
             <ul class="list-unstyled">
-                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/dashboard') }}" class="sidebar-link"><i
                             class="fas fa-home"></i><span>Dashboard</span></a></li>
-                <li class="sidebar-menu-item"><a href="profile.html" class="sidebar-link active"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/profile') }}" class="sidebar-link active"><i
                             class="fas fa-user"></i><span>My Profile</span></a></li>
-                <li class="sidebar-menu-item"><a href="subjects.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/subjects') }}" class="sidebar-link"><i
                             class="fas fa-book"></i><span>Subjects</span></a></li>
-                <li class="sidebar-menu-item"><a href="timetable.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/timetable') }}" class="sidebar-link"><i
                             class="fas fa-calendar-alt"></i><span>Time Table</span></a></li>
-                <li class="sidebar-menu-item"><a href="attendance.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/attendance') }}" class="sidebar-link"><i
                             class="fas fa-user-check"></i><span>Attendance</span></a></li>
-                <li class="sidebar-menu-item"><a href="results.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/results') }}" class="sidebar-link"><i
                             class="fas fa-chart-bar"></i><span>Results</span></a></li>
-                <li class="sidebar-menu-item"><a href="assignments.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/assignments') }}" class="sidebar-link"><i
                             class="fas fa-tasks"></i><span>Assignments</span></a></li>
-                <li class="sidebar-menu-item"><a href="quizzes.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/quizzes') }}" class="sidebar-link"><i
                             class="fas fa-question-circle"></i><span>Quizzes</span></a></li>
-                <li class="sidebar-menu-item"><a href="notes.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/notes') }}" class="sidebar-link"><i
                             class="fas fa-file-pdf"></i><span>Notes & PDFs</span></a></li>
-                <li class="sidebar-menu-item"><a href="lectures.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/lectures') }}" class="sidebar-link"><i
                             class="fas fa-video"></i><span>Lecture Videos</span></a></li>
-                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/announcements') }}" class="sidebar-link"><i
                             class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
-                <li class="sidebar-menu-item"><a href="fees.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/fees') }}" class="sidebar-link"><i
                             class="fas fa-dollar-sign"></i><span>Fee Details</span></a></li>
-                <li class="sidebar-menu-item"><a href="fines.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/fines') }}" class="sidebar-link"><i
                             class="fas fa-exclamation-triangle"></i><span>Fine Details</span></a></li>
-                <li class="sidebar-menu-item"><a href="fee-vouchers.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('student/fee-vouchers') }}" class="sidebar-link"><i
                             class="fas fa-receipt"></i><span>Fee Vouchers</span></a></li>
             </ul>
         </nav>
@@ -338,7 +339,14 @@
 
         async function loadProfile() {
             try {
-                const response = await fetch('/user');
+                const response = await fetch('/user', {
+                    credentials: 'same-origin',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                if (!response.ok) return;
                 const data = await response.json();
                 
                 if (!data.isLoggedIn || !data.user) {
@@ -357,7 +365,7 @@
                 document.getElementById('detailRoll').innerText = user.roll_number || 'N/A';
                 document.getElementById('detailClass').innerText = user.enrolled_class || 'N/A';
                 document.getElementById('detailSection').innerText = user.enrolled_class ? user.enrolled_class.split('-')[1] || 'N/A' : 'N/A';
-                document.getElementById('detailEmail').innerText = user.email || 'N/A';
+                document.getElementById('detailEmailContact').innerText = user.email || 'N/A';
                 document.getElementById('detailLoginEmail').innerText = user.email || 'N/A';
                 
                 // Add placeholder data for missing fields

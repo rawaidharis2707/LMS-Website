@@ -16,7 +16,7 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-university"></i><span>EduPro
+            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-university"></i><span>Lumina Academy
                     LMS</span></a>
         </div>
         <nav class="sidebar-menu">
@@ -28,79 +28,79 @@
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/profile.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/profile') }}" class="sidebar-link">
                         <i class="fas fa-user"></i>
                         <span>My Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/subjects.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/subjects') }}" class="sidebar-link">
                         <i class="fas fa-book"></i>
                         <span>Subjects</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/timetable.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/timetable') }}" class="sidebar-link">
                         <i class="fas fa-calendar-alt"></i>
                         <span>Time Table</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/attendance.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/attendance') }}" class="sidebar-link">
                         <i class="fas fa-user-check"></i>
                         <span>Attendance</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/results.html') }}" class="sidebar-link active">
+                    <a href="{{ url('student/results') }}" class="sidebar-link active">
                         <i class="fas fa-chart-bar"></i>
                         <span>Results</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/assignments.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/assignments') }}" class="sidebar-link">
                         <i class="fas fa-tasks"></i>
                         <span>Assignments</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/quizzes.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/quizzes') }}" class="sidebar-link">
                         <i class="fas fa-question-circle"></i>
                         <span>Quizzes</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/notes.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/notes') }}" class="sidebar-link">
                         <i class="fas fa-file-pdf"></i>
                         <span>Notes & PDFs</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/lectures.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/lectures') }}" class="sidebar-link">
                         <i class="fas fa-video"></i>
                         <span>Lecture Videos</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/announcements.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/announcements') }}" class="sidebar-link">
                         <i class="fas fa-bullhorn"></i>
                         <span>Announcements</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/fees.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/fees') }}" class="sidebar-link">
                         <i class="fas fa-dollar-sign"></i>
                         <span>Fee Details</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/fines.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/fines') }}" class="sidebar-link">
                         <i class="fas fa-exclamation-triangle"></i>
                         <span>Fine Details</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/fee-vouchers.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/fee-vouchers') }}" class="sidebar-link">
                         <i class="fas fa-file-invoice-dollar"></i>
                         <span>Fee Vouchers</span>
                     </a>

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fine Management - EduPro LMS</title>
+    <title>Fine Management - Lumina Academy</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -15,32 +15,32 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>Lumina Academy
                     LMS</span></a>
         </div>
         <nav class="sidebar-menu">
             <ul class="list-unstyled">
-                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/dashboard') }}" class="sidebar-link"><i
                             class="fas fa-home"></i><span>Dashboard</span></a></li>
-                <li class="sidebar-menu-item"><a href="admissions.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/admissions') }}" class="sidebar-link"><i
                             class="fas fa-user-plus"></i><span>Admissions</span></a></li>
-                <li class="sidebar-menu-item"><a href="timetable-input.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/timetable-input') }}" class="sidebar-link"><i
                             class="fas fa-calendar-plus"></i><span>Timetable Input</span></a></li>
-                <li class="sidebar-menu-item"><a href="announcements-input.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/announcements-input') }}" class="sidebar-link"><i
                             class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
-                <li class="sidebar-menu-item"><a href="class-management.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/class-management') }}" class="sidebar-link"><i
                             class="fas fa-school"></i><span>Class Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="subject-assignment.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/subject-assignment') }}" class="sidebar-link"><i
                             class="fas fa-book"></i><span>Subject Assignment</span></a></li>
-                <li class="sidebar-menu-item"><a href="student-promotion.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/student-promotion') }}" class="sidebar-link"><i
                             class="fas fa-level-up-alt"></i><span>Student Promotion</span></a></li>
-                <li class="sidebar-menu-item"><a href="data-correction.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/data-correction') }}" class="sidebar-link"><i
                             class="fas fa-user-edit"></i><span>Data Correction</span></a></li>
-                <li class="sidebar-menu-item"><a href="fee-vouchers.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/fee-vouchers') }}" class="sidebar-link"><i
                             class="fas fa-receipt"></i><span>Fee Vouchers</span></a></li>
-                <li class="sidebar-menu-item"><a href="fines.html" class="sidebar-link active"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/fines') }}" class="sidebar-link active"><i
                             class="fas fa-exclamation-triangle"></i><span>Fine Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="discount-management.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/discount-management') }}" class="sidebar-link"><i
                             class="fas fa-percentage"></i><span>Discount Management</span></a></li>
             </ul>
         </nav>
@@ -116,9 +116,6 @@
                         <div class="row g-4">
                             <div class="col-md-3">
                                 <label class="form-label fw-bold small text-uppercase tracking-wider">Class</label>
-                                <select class="form-select bg-light border-0 py-3 px-4 shadow-none" id="classSelect"
-                                    required onchange="loadStudents()">
-                                    <label class="form-label fw-bold small text-uppercase tracking-wider">Class</label>
                                     <select class="form-select bg-light border-0 py-3 px-4 shadow-none" id="classSelect"
                                         required onchange="loadStudents()">
                                         <option value="">Select Class...</option>
@@ -265,8 +262,8 @@
             loadFinesTable();
         });
 
-        function loadFinesTable() {
-            const fines = getAllFines();
+        async function loadFinesTable() {
+            const fines = await getAllFines();
             // Sort by date desc
             fines.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -321,3 +318,4 @@
 </body>
 
 </html>
+

@@ -70,3 +70,36 @@ function populateClassSelect(selectElement, defaultText = 'Choose class...') {
         selectElement.appendChild(opt);
     });
 }
+
+// --- API-backed async functions (used by marks-input, attendance-input, etc.) ---
+async function getAllTeachers() {
+    try {
+        const response = await fetch('/api/teachers');
+        if (response.ok) return await response.json();
+    } catch (e) {
+        console.warn('API unavailable for teachers, falling back to localStorage:', e);
+    }
+    const data = localStorage.getItem('lms_teachers');
+    return data ? JSON.parse(data) : [];
+}
+
+async function getClasses() {
+    try {
+        const response = await fetch('/api/classes');
+        if (response.ok) return await response.json();
+    } catch (e) {
+        console.warn('API unavailable, falling back to localStorage:', e);
+    }
+    return getAllClasses();
+}
+
+async function getSubjects(classId) {
+    try {
+        const url = classId ? `/api/subjects?class_id=${classId}` : '/api/subjects';
+        const response = await fetch(url);
+        if (response.ok) return await response.json();
+    } catch (e) {
+        console.warn('API unavailable for subjects:', e);
+    }
+    return [];
+}

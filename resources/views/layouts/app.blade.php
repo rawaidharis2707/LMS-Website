@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <!-- Prefetch Key Pages -->
     <link rel="prefetch" href="/admission">
-    <link rel="prefetch" href="/admin/dashboard.html">
+    <link rel="prefetch" href="/admin/dashboard">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

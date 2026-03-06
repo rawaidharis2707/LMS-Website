@@ -7,7 +7,7 @@ window.LMS_CREDENTIALS = {
     student: {
         email: 'student@demo.com',
         password: 'password',
-        redirectUrl: 'student/dashboard.html',
+        redirectUrl: '/student/dashboard',
         role: 'student',
         userData: {
             id: '2024-10A-015',
@@ -21,7 +21,7 @@ window.LMS_CREDENTIALS = {
     teacher: {
         email: 'teacher@demo.com',
         password: 'password',
-        redirectUrl: 'teacher/dashboard.html',
+        redirectUrl: '/teacher/dashboard',
         role: 'teacher',
         userData: {
             id: 1,
@@ -35,7 +35,7 @@ window.LMS_CREDENTIALS = {
     admin: {
         email: 'admin@demo.com',
         password: 'password',
-        redirectUrl: 'admin/dashboard.html',
+        redirectUrl: '/admin/dashboard',
         role: 'admin',
         userData: {
             id: 1,
@@ -49,7 +49,7 @@ window.LMS_CREDENTIALS = {
     superadmin: {
         email: 'superadmin@demo.com',
         password: 'password',
-        redirectUrl: 'superadmin/dashboard.html',
+        redirectUrl: '/superadmin/dashboard',
         role: 'superadmin',
         userData: {
             id: 1,
@@ -66,7 +66,7 @@ window.LMS_CREDENTIALS = {
 window.DEMO_CREDENTIALS = window.LMS_CREDENTIALS;
 
 // Open login modal for specific portal
-window.openLoginModal = function(portal) {
+window.openLoginModal = function (portal) {
     const modal = new bootstrap.Modal(document.getElementById('loginModal'));
     const portalTypeInput = document.getElementById('portalType');
     const modalTitle = document.getElementById('loginModalLabel');
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('loginForm');
 
     if (loginForm) {
-        loginForm.addEventListener('submit', function (e) {
+        loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const portal = document.getElementById('portalType').value;
@@ -107,37 +107,71 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = document.getElementById('password').value;
             const rememberMe = document.getElementById('rememberMe').checked;
 
-            // Validate credentials
-            if (window.validateLogin(portal, email, password)) {
+            // Get CSRF token from meta tag
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
 
-                // --- LOGGING INJECTION ---
-                if (typeof logActivity === 'function') {
-                    // We log before redirect, but since redirect is fast, we rely on localStorage being sync
-                    logActivity('Login', `User logged in to ${portal} portal`, window.DEMO_CREDENTIALS[portal].userData.name, portal);
+            // Disable submit button
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Logging in...';
+
+            try {
+                // POST to Laravel's /login endpoint
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': csrfToken || ''
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        remember: rememberMe
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // --- LOGGING INJECTION ---
+                    if (typeof logActivity === 'function') {
+                        logActivity('Login', `User logged in to ${portal} portal`, data.user.name, portal);
+                    }
+                    // -------------------------
+
+                    // Also create localStorage session for backward compatibility
+                    window.createSession(portal, rememberMe);
+
+                    // Redirect to dashboard using server-provided URL
+                    window.location.href = data.redirect || `/${portal}/dashboard`;
+                } else {
+                    // Show error from server
+                    window.showAlert('error', data.message || 'Invalid email or password. Please try again.');
                 }
-                // -------------------------
-
-                // Create session
-                window.createSession(portal, rememberMe);
-
-                // Redirect to dashboard
-                window.location.href = window.DEMO_CREDENTIALS[portal].redirectUrl;
-            } else {
-                // Show error
-                window.showAlert('error', 'Invalid email or password. Please try again.');
+            } catch (error) {
+                console.error('Login error:', error);
+                window.showAlert('error', 'An error occurred. Please try again.');
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
             }
         });
     }
 });
 
 // Validate login credentials
-window.validateLogin = function(portal, email, password) {
+window.validateLogin = function (portal, email, password) {
     const credentials = window.DEMO_CREDENTIALS[portal];
     return email === credentials.email && password === credentials.password;
 };
 
 // Create user session
-window.createSession = function(portal, rememberMe = false) {
+window.createSession = function (portal, rememberMe = false) {
     const credentials = window.DEMO_CREDENTIALS[portal];
 
     // FETCH REAL USER DATA IF AVAILABLE (Simulated Backend lookup)
@@ -174,31 +208,31 @@ window.createSession = function(portal, rememberMe = false) {
 };
 
 // Get current session
-window.getSession = function() {
+window.getSession = function () {
     const sessionData = localStorage.getItem('lms_session') || sessionStorage.getItem('lms_session');
     return sessionData ? JSON.parse(sessionData) : null;
 };
 
 // Check if user is logged in
-window.isLoggedIn = function() {
+window.isLoggedIn = function () {
     const session = window.getSession();
     return session && session.isLoggedIn;
 };
 
 // Check if user has specific role
-window.hasRole = function(role) {
+window.hasRole = function (role) {
     const session = window.getSession();
     return session && session.role === role;
 };
 
 // Get current user data
-window.getCurrentUser = function() {
+window.getCurrentUser = function () {
     const session = window.getSession();
     return session ? session.userData : null;
 };
 
 // Logout user
-window.logout = function() {
+window.logout = async function () {
     // --- LOGGING INJECTION ---
     const session = window.getSession();
     if (session && typeof logActivity === 'function') {
@@ -208,11 +242,27 @@ window.logout = function() {
 
     localStorage.removeItem('lms_session');
     sessionStorage.removeItem('lms_session');
+
+    // Also logout from Laravel
+    try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+        await fetch('/logout', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': csrfToken || ''
+            }
+        });
+    } catch (e) {
+        // Ignore errors, redirect anyway
+    }
+
     window.location.href = '/';
 };
 
 // Protect page - redirect if not logged in
-window.protectPage = function(requiredRole = null) {
+window.protectPage = function (requiredRole = null) {
     const session = window.getSession();
 
     if (!window.isLoggedIn()) {
@@ -231,7 +281,7 @@ window.protectPage = function(requiredRole = null) {
 };
 
 // Change password
-window.changePassword = function(currentPassword, newPassword) {
+window.changePassword = function (currentPassword, newPassword) {
     const session = window.getSession();
 
     if (!session) {
@@ -256,7 +306,7 @@ window.changePassword = function(currentPassword, newPassword) {
 };
 
 // Show alert message
-window.showAlert = function(type, message) {
+window.showAlert = function (type, message) {
     // Create alert element
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show`;
@@ -279,7 +329,7 @@ window.showAlert = function(type, message) {
 };
 
 // Initialize user info in dashboard
-window.initDashboardUser = function() {
+window.initDashboardUser = function () {
     // --- DATA SYNC START ---
     const session = window.getSession();
     if (session) {

@@ -16,32 +16,32 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>Lumina Academy
                     LMS</span></a>
         </div>
         <nav class="sidebar-menu">
             <ul class="list-unstyled">
-                <li class="sidebar-menu-item"><a href="dashboard.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/dashboard') }}" class="sidebar-link"><i
                             class="fas fa-home"></i><span>Dashboard</span></a></li>
-                <li class="sidebar-menu-item"><a href="marks-input.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/marks-input') }}" class="sidebar-link"><i
                             class="fas fa-edit"></i><span>Marks Input</span></a></li>
-                <li class="sidebar-menu-item"><a href="remarks.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/remarks') }}" class="sidebar-link"><i
                             class="fas fa-comments"></i><span>Student Remarks</span></a></li>
-                <li class="sidebar-menu-item"><a href="upload-assignments.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-assignments') }}" class="sidebar-link"><i
                             class="fas fa-upload"></i><span>Upload Assignments</span></a></li>
-                <li class="sidebar-menu-item"><a href="upload-notes.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-notes') }}" class="sidebar-link"><i
                             class="fas fa-file-upload"></i><span>Upload Notes</span></a></li>
-                <li class="sidebar-menu-item"><a href="upload-lectures.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/upload-lectures') }}" class="sidebar-link"><i
                             class="fas fa-video"></i><span>Upload Lectures</span></a></li>
-                <li class="sidebar-menu-item"><a href="create-quiz.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/create-quiz') }}" class="sidebar-link"><i
                             class="fas fa-plus-circle"></i><span>Create Quiz</span></a></li>
-                <li class="sidebar-menu-item"><a href="attendance-input.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/attendance-input') }}" class="sidebar-link"><i
                             class="fas fa-check-square"></i><span>Attendance Input</span></a></li>
-                <li class="sidebar-menu-item"><a href="my-attendance.html" class="sidebar-link active"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/my-attendance') }}" class="sidebar-link active"><i
                             class="fas fa-calendar-check"></i><span>My Attendance</span></a></li>
-                <li class="sidebar-menu-item"><a href="timetable.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/timetable') }}" class="sidebar-link"><i
                             class="fas fa-calendar-alt"></i><span>Timetable</span></a></li>
-                <li class="sidebar-menu-item"><a href="announcements.html" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('teacher/announcements') }}" class="sidebar-link"><i
                             class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
             </ul>
         </nav>

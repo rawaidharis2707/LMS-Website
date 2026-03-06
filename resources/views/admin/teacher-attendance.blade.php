@@ -15,34 +15,34 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="../index.html" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+            <a href="/" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>Lumina Academy
                     LMS</span></a>
         </div>
         <nav class="sidebar-menu">
             <ul class="list-unstyled">
                 <li class="sidebar-menu-item"><a href="{{ route('admin.dashboard') }}" class="sidebar-link"><i
                             class="fas fa-home"></i><span>Dashboard</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/admissions.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/admissions') }}" class="sidebar-link"><i
                             class="fas fa-user-plus"></i><span>Admissions</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/timetable-input.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/timetable-input') }}" class="sidebar-link"><i
                             class="fas fa-calendar-plus"></i><span>Timetable Input</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/announcements.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/announcements') }}" class="sidebar-link"><i
                             class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/class-management.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/class-management') }}" class="sidebar-link"><i
                             class="fas fa-school"></i><span>Class Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/subject-assignment.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/subject-assignment') }}" class="sidebar-link"><i
                             class="fas fa-book"></i><span>Subject Assignment</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/student-promotion.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/student-promotion') }}" class="sidebar-link"><i
                             class="fas fa-level-up-alt"></i><span>Student Promotion</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/data-correction.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/data-correction') }}" class="sidebar-link"><i
                             class="fas fa-user-edit"></i><span>Data Correction</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/fee-vouchers.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/fee-vouchers') }}" class="sidebar-link"><i
                             class="fas fa-receipt"></i><span>Fee Vouchers</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/fines.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/fines') }}" class="sidebar-link"><i
                             class="fas fa-exclamation-triangle"></i><span>Fine Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/teacher-attendance.html') }}" class="sidebar-link active"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/teacher-attendance') }}" class="sidebar-link active"><i
                             class="fas fa-user-clock"></i><span>Teacher Attendance</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/discount-management.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/discount-management') }}" class="sidebar-link"><i
                             class="fas fa-percentage"></i><span>Discount Management</span></a></li>
             </ul>
         </nav>

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Finance & Salary Management Functions
  * Handles Financial Dashboard, Fee Tracking, Expenses, and Salary Generation
  */
@@ -573,7 +573,7 @@ function printVoucher(id) {
             <div class="voucher-box">
                 <div class="stamp">VOID</div>
                 <div class="header">
-                    <h2>EduPro Institute</h2>
+                    <h2>Lumina Academy</h2>
                     <p>Official Transaction Voucher</p>
                 </div>
                 <div class="row">

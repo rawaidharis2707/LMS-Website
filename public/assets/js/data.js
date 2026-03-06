@@ -1,5 +1,5 @@
-// =====================================================
-// Mock Data for EduPro LMS
+﻿// =====================================================
+// Mock Data for Lumina Academy
 // =====================================================
 
 // Shared Function: Toggle Sidebar
@@ -78,7 +78,7 @@ const teacherData = {
         id: 'TCH-001',
         name: 'Mr. Sarah Smith',
         subject: 'Mathematics',
-        email: 'sarah.smith@edupro.com',
+        email: 'sarah.smith@luminaacademy.com',
         phone: '+1 987 654 3210',
         qualification: 'M.Sc. Mathematics, B.Ed',
         experience: '8 Years',

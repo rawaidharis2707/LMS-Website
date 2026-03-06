@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -25,25 +25,25 @@
                             class="fas fa-home"></i><span>Dashboard</span></a></li>
                 <li class="sidebar-menu-item"><a href="{{ route('admin.admissions') }}" class="sidebar-link"><i
                             class="fas fa-user-plus"></i><span>Admissions</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/timetable-input.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/timetable-input') }}" class="sidebar-link"><i
                             class="fas fa-calendar-plus"></i><span>Timetable Input</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/announcements.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/announcements') }}" class="sidebar-link"><i
                             class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/class-management.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/class-management') }}" class="sidebar-link"><i
                             class="fas fa-school"></i><span>Class Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/subject-assignment.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/subject-assignment') }}" class="sidebar-link"><i
                             class="fas fa-book"></i><span>Subject Assignment</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/student-promotion.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/student-promotion') }}" class="sidebar-link"><i
                             class="fas fa-level-up-alt"></i><span>Student Promotion</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/data-correction.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/data-correction') }}" class="sidebar-link"><i
                             class="fas fa-user-edit"></i><span>Data Correction</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/fee-vouchers.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/fee-vouchers') }}" class="sidebar-link"><i
                             class="fas fa-receipt"></i><span>Fee Vouchers</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/fines.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/fines') }}" class="sidebar-link"><i
                             class="fas fa-exclamation-triangle"></i><span>Fine Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/teacher-attendance.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/teacher-attendance') }}" class="sidebar-link"><i
                             class="fas fa-user-clock"></i><span>Teacher Attendance</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('admin/discount-management.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('admin/discount-management') }}" class="sidebar-link"><i
                             class="fas fa-percentage"></i><span>Discount Management</span></a></li>
             </ul>
         </nav>
@@ -265,15 +265,15 @@
                 </div>
                 <div class="card-body p-4">
                     <div class="d-grid gap-3">
-                        <a href="announcements.html" class="btn btn-primary py-3 fw-bold lift border-0 shadow-sm"
+                        <a href="{{ url('admin/announcements') }}" class="btn btn-primary py-3 fw-bold lift border-0 shadow-sm"
                             style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">
                             <i class="fas fa-plus me-2"></i> Create Announcement
                         </a>
-                        <a href="admissions.html" class="btn btn-success py-3 fw-bold lift border-0 shadow-sm"
+                        <a href="{{ url('admin/admissions') }}" class="btn btn-success py-3 fw-bold lift border-0 shadow-sm"
                             style="background: linear-gradient(135deg, #10b981, #059669);">
                             <i class="fas fa-user-plus me-2"></i> Register Student
                         </a>
-                        <a href="fee-vouchers.html" class="btn btn-warning py-3 fw-bold lift border-0 shadow-sm"
+                        <a href="{{ url('admin/fee-vouchers') }}" class="btn btn-warning py-3 fw-bold lift border-0 shadow-sm"
                             style="background: linear-gradient(135deg, #f59e0b, #d97706);">
                             <i class="fas fa-receipt me-2"></i> Fee Management
                         </a>
@@ -287,7 +287,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="{{ asset('assets/js/auth.js') }}" defer></script>
+    <script src="{{ asset('assets/js/auth.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}" defer></script>
     <script src="{{ asset('assets/js/data.js') }}" defer></script>
     <script src="{{ asset('assets/js/notifications.js') }}" defer></script>
@@ -358,4 +358,5 @@
 </body>
 
 </html>
+
 

@@ -35,79 +35,79 @@
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/profile.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/profile') }}" class="sidebar-link">
                         <i class="fas fa-user"></i>
                         <span>My Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/subjects.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/subjects') }}" class="sidebar-link">
                         <i class="fas fa-book"></i>
                         <span>Subjects</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/timetable.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/timetable') }}" class="sidebar-link">
                         <i class="fas fa-calendar-alt"></i>
                         <span>Time Table</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/attendance.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/attendance') }}" class="sidebar-link">
                         <i class="fas fa-user-check"></i>
                         <span>Attendance</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/results.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/results') }}" class="sidebar-link">
                         <i class="fas fa-chart-bar"></i>
                         <span>Results</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/assignments.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/assignments') }}" class="sidebar-link">
                         <i class="fas fa-tasks"></i>
                         <span>Assignments</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/quizzes.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/quizzes') }}" class="sidebar-link">
                         <i class="fas fa-question-circle"></i>
                         <span>Quizzes</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/notes.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/notes') }}" class="sidebar-link">
                         <i class="fas fa-file-pdf"></i>
                         <span>Notes & PDFs</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/lectures.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/lectures') }}" class="sidebar-link">
                         <i class="fas fa-video"></i>
                         <span>Lecture Videos</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/announcements.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/announcements') }}" class="sidebar-link">
                         <i class="fas fa-bullhorn"></i>
                         <span>Announcements</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/fees.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/fees') }}" class="sidebar-link">
                         <i class="fas fa-dollar-sign"></i>
                         <span>Fee Details</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/fines.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/fines') }}" class="sidebar-link">
                         <i class="fas fa-exclamation-circle"></i>
                         <span>Fine Details</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ url('student/fee-vouchers.html') }}" class="sidebar-link">
+                    <a href="{{ url('student/fee-vouchers') }}" class="sidebar-link">
                         <i class="fas fa-file-invoice-dollar"></i>
                         <span>Fee Vouchers</span>
                     </a>
@@ -177,25 +177,24 @@
         <!-- Dashboard Content -->
         <div class="dashboard-content">
             <!-- Welcome Hero -->
-            <div class="card-modern mb-4 gradient-overlay animate-fade-in"
-                style="background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200'); background-size: cover; background-position: center;">
-                <div class="card-body text-white p-5">
-                    <div class="row align-items-center">
+            <div class="card-modern mb-4 animate-fade-in overflow-hidden border-0 shadow-lg"
+                style="background: linear-gradient(135deg, #6366f1, #a855f7);">
+                <div class="card-body text-white p-5 position-relative">
+                    <div class="row align-items-center position-relative">
                         <div class="col-md-8">
-                            <h2 class="fw-bold mb-3"
-                                style="font-family: 'Bungee', sans-serif; font-size: 2.5rem; color: #FFF; text-shadow: 0 2px 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(14, 165, 233, 0.6);">
+                            <h2 class="display-5 fw-bold text-white mb-3">
                                 Welcome back, <span class="user-name">John Doe</span>!</h2>
-                            <p class="mb-3 fs-5">Here's your academic overview for today</p>
+                            <p class="text-white-50 fs-5 mb-3">Here's your academic overview for today</p>
                             <div class="d-flex gap-3 flex-wrap">
-                                <span class="badge badge-modern bg-white text-primary"><i
+                                <span class="badge badge-modern bg-white bg-opacity-25 text-white"><i
                                         class="fas fa-calendar me-2"></i><span id="currentDate"></span></span>
-                                <span class="badge badge-modern bg-white text-primary"><i
+                                <span class="badge badge-modern bg-white bg-opacity-25 text-white"><i
                                         class="fas fa-clock me-2"></i><span id="currentTime"></span></span>
                             </div>
                         </div>
                         <div class="col-md-4 text-end d-none d-md-block">
                             <i class="fas fa-graduation-cap"
-                                style="font-size: 6rem; opacity: 0.4; animation: bounce 3s infinite;"></i>
+                                style="font-size: 6rem; opacity: 0.2;"></i>
                         </div>
                     </div>
                 </div>
@@ -273,7 +272,7 @@
                                 {{ $stats['unpaidFees'] > 0 ? $stats['unpaidFees'] . ' Vouchers' : 'No Dues' }}
                             </span>
                             @if($stats['unpaidFees'] > 0)
-                                <a href="{{ url('student/fee-vouchers.html') }}" class="text-decoration-none small">View »</a>
+                                <a href="{{ url('student/fee-vouchers') }}" class="text-decoration-none small">View »</a>
                             @endif
                         </div>
                     </div>
@@ -300,7 +299,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0 fw-bold"><i class="fas fa-calendar-day text-primary me-2"></i> Today's
                                     Schedule</h5>
-                                <a href="timetable.html" class="btn btn-sm btn-outline-primary">View Full Timetable</a>
+                                <a href="{{ url('student/timetable') }}" class="btn btn-sm btn-outline-primary">View Full Timetable</a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -340,7 +339,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="mb-0 fw-bold"><i class="fas fa-tasks text-success me-2"></i> Recent
                             Assignments</h5>
-                        <a href="assignments.html" class="btn btn-sm btn-outline-success">View All</a>
+                        <a href="{{ url('student/assignments') }}" class="btn btn-sm btn-outline-success">View All</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -369,16 +368,16 @@
                     <div class="card-modern">
                         <div class="card-body">
                             <div class="d-flex flex-wrap gap-3 justify-content-center">
-                                <a href="notes.html" class="btn btn-outline-primary btn-sm rounded-pill px-4">
+                                <a href="{{ url('student/notes') }}" class="btn btn-outline-primary btn-sm rounded-pill px-4">
                                     <i class="fas fa-file-pdf me-2"></i> Download Notes
                                 </a>
-                                <a href="lectures.html" class="btn btn-outline-success btn-sm rounded-pill px-4">
+                                <a href="{{ url('student/lectures') }}" class="btn btn-outline-success btn-sm rounded-pill px-4">
                                     <i class="fas fa-video me-2"></i> Watch Lectures
                                 </a>
-                                <a href="fees.html" class="btn btn-outline-warning btn-sm rounded-pill px-4 font-sm">
+                                <a href="{{ url('student/fees') }}" class="btn btn-outline-warning btn-sm rounded-pill px-4 font-sm">
                                     <i class="fas fa-dollar-sign me-2"></i> Pay Fees
                                 </a>
-                                <a href="results.html" class="btn btn-outline-info btn-sm rounded-pill px-4">
+                                <a href="{{ url('student/results') }}" class="btn btn-outline-info btn-sm rounded-pill px-4">
                                     <i class="fas fa-chart-bar me-2"></i> View Results
                                 </a>
                             </div>
@@ -688,8 +687,8 @@
                 }[status] || '<span class="badge bg-secondary">Unknown</span>';
 
                 const action = status === 'pending' ?
-                    '<a href="assignments.html" class="btn btn-sm btn-primary">Submit</a>' :
-                    '<a href="assignments.html" class="btn btn-sm btn-outline-primary">View</a>';
+                    '<a href="{{ url('student/assignments') }}" class="btn btn-sm btn-primary">Submit</a>' :
+                    '<a href="{{ url('student/assignments') }}" class="btn btn-sm btn-outline-primary">View</a>';
 
                 html += `
                     <tr class="animate-fade-in">

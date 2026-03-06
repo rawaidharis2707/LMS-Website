@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Super Admin Report Functions
  * Aggregates data from multiple modules to generate system-wide reports.
  */
@@ -286,13 +286,13 @@ function showReportPreview(report) {
         </head>
         <body>
             <div class="header">
-                <h1 style="margin:0; color:#1e293b;">EduPro LMS Summary</h1>
+                <h1 style="margin:0; color:#1e293b;">Lumina Academy Summary</h1>
                 <h2 style="margin:10px 0; color:#4f46e5;">${report.title}</h2>
                 <p style="color:#64748b;">Generated: ${new Date(report.date).toLocaleString()} | Operator: ${report.generatedBy}</p>
             </div>
             ${contentHtml}
             <div class="footer">
-                <p>© 2024 EduPro Institute Management System | Digital Audit Version</p>
+                <p>© 2024 Lumina Academy Management System | Digital Audit Version</p>
             </div>
             <script>window.onload = function() { window.print(); }</script>
         </body>

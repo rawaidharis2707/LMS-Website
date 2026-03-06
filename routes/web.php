@@ -25,7 +25,10 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'home')->name('home');
 
 // Auth Routes
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login', function () {
+    return redirect('/');
+})->name('login');
+Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/user', [AuthController::class, 'user'])->name('user');
 // Fallback for pages that don't include CSRF meta; keeps UX smooth while we migrate all views
@@ -155,67 +158,61 @@ Route::middleware(['auth'])->group(function () {
 // Admin section
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
-    Route::get('/dashboard.html', [DashboardController::class, 'adminDashboard']);
-    Route::view('/admissions.html', 'admin.admissions');
     Route::view('/admissions', 'admin.admissions')->name('admin.admissions');
-    Route::view('/announcements.html', 'admin.announcements');
-    Route::view('/announcements-input.html', 'admin.announcements');
-    Route::view('/class-management.html', 'admin.class-management');
-    Route::view('/data-correction.html', 'admin.data-correction');
-    Route::view('/discount-management.html', 'admin.discount-management');
-    Route::view('/fee-vouchers.html', 'admin.fee-vouchers');
-    Route::view('/fines.html', 'admin.fines');
-    Route::view('/student-promotion.html', 'admin.student-promotion');
-    Route::view('/subject-assignment.html', 'admin.subject-assignment');
-    Route::view('/teacher-attendance.html', 'admin.teacher-attendance');
-    Route::view('/timetable-input.html', 'admin.timetable-input');
+    Route::view('/announcements', 'admin.announcements');
+    Route::view('/class-management', 'admin.class-management');
+    Route::view('/data-correction', 'admin.data-correction');
+    Route::view('/discount-management', 'admin.discount-management');
+    Route::view('/fee-vouchers', 'admin.fee-vouchers');
+    Route::view('/fines', 'admin.fines');
+    Route::view('/student-promotion', 'admin.student-promotion');
+    Route::view('/subject-assignment', 'admin.subject-assignment');
+    Route::view('/teacher-attendance', 'admin.teacher-attendance');
+    Route::view('/timetable-input', 'admin.timetable-input');
 });
 
 // Student section
 Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'studentDashboard'])->name('student.dashboard');
-    Route::get('/dashboard.html', [DashboardController::class, 'studentDashboard']);
-    Route::view('/profile.html', 'student.profile');
-    Route::view('/subjects.html', 'student.subjects');
-    Route::view('/timetable.html', 'student.timetable');
-    Route::view('/attendance.html', 'student.attendance');
-    Route::view('/results.html', 'student.results');
-    Route::view('/assignments.html', 'student.assignments');
-    Route::view('/quizzes.html', 'student.quizzes');
-    Route::view('/notes.html', 'student.notes');
-    Route::view('/lectures.html', 'student.lectures');
-    Route::view('/announcements.html', 'student.announcements');
-    Route::view('/fees.html', 'student.fees');
-    Route::view('/fines.html', 'student.fines');
-    Route::view('/fee-vouchers.html', 'student.fee-vouchers');
-    Route::view('/print-voucher.html', 'student.print-voucher');
+    Route::view('/profile', 'student.profile');
+    Route::view('/subjects', 'student.subjects');
+    Route::view('/timetable', 'student.timetable');
+    Route::view('/attendance', 'student.attendance');
+    Route::view('/results', 'student.results');
+    Route::view('/assignments', 'student.assignments');
+    Route::view('/quizzes', 'student.quizzes');
+    Route::view('/notes', 'student.notes');
+    Route::view('/lectures', 'student.lectures');
+    Route::view('/announcements', 'student.announcements');
+    Route::view('/fees', 'student.fees');
+    Route::view('/fines', 'student.fines');
+    Route::view('/fee-vouchers', 'student.fee-vouchers');
+    Route::view('/print-voucher', 'student.print-voucher');
 });
 
 // Teacher section
 Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'teacherDashboard'])->name('teacher.dashboard');
-    Route::get('/dashboard.html', [DashboardController::class, 'teacherDashboard']);
-    Route::view('/marks-input.html', 'teacher.marks-input');
-    Route::view('/remarks.html', 'teacher.remarks');
-    Route::view('/upload-assignments.html', 'teacher.upload-assignments');
-    Route::view('/upload-notes.html', 'teacher.upload-notes');
-    Route::view('/upload-lectures.html', 'teacher.upload-lectures');
-    Route::view('/create-quiz.html', 'teacher.create-quiz');
-    Route::view('/attendance-input.html', 'teacher.attendance-input');
-    Route::view('/my-attendance.html', 'teacher.my-attendance');
-    Route::view('/timetable.html', 'teacher.timetable');
-    Route::view('/announcements.html', 'teacher.announcements');
+    Route::view('/marks-input', 'teacher.marks-input');
+    Route::view('/remarks', 'teacher.remarks');
+    Route::view('/upload-assignments', 'teacher.upload-assignments');
+    Route::view('/upload-notes', 'teacher.upload-notes');
+    Route::view('/upload-lectures', 'teacher.upload-lectures');
+    Route::view('/create-quiz', 'teacher.create-quiz');
+    Route::view('/attendance-input', 'teacher.attendance-input');
+    Route::view('/my-attendance', 'teacher.my-attendance');
+    Route::view('/timetable', 'teacher.timetable');
+    Route::view('/announcements', 'teacher.announcements');
 });
 
 // Superadmin section
 Route::middleware(['auth', 'role:superadmin'])->prefix('superadmin')->group(function () {
-    Route::view('/dashboard', 'superadmin.dashboard')->name('superadmin.dashboard');
-    Route::view('/dashboard.html', 'superadmin.dashboard');
-    Route::view('/announcements.html', 'superadmin.announcements');
-    Route::view('/role-distribution.html', 'superadmin.role-distribution');
-    Route::view('/finance.html', 'superadmin.finance');
-    Route::view('/salary.html', 'superadmin.salary');
-    Route::view('/teacher-attendance.html', 'superadmin.teacher-attendance');
-    Route::view('/reports.html', 'superadmin.reports');
-    Route::view('/activity-logs.html', 'superadmin.activity-logs');
+    Route::get('/dashboard', [DashboardController::class, 'superAdminDashboard'])->name('superadmin.dashboard');
+    Route::view('/announcements', 'superadmin.announcements');
+    Route::view('/role-distribution', 'superadmin.role-distribution');
+    Route::view('/finance', 'superadmin.finance');
+    Route::view('/salary', 'superadmin.salary');
+    Route::view('/teacher-attendance', 'superadmin.teacher-attendance');
+    Route::view('/reports', 'superadmin.reports');
+    Route::view('/activity-logs', 'superadmin.activity-logs');
 });

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -15,27 +15,27 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>EduPro
+            <a href="{{ url('/') }}" class="sidebar-brand"><i class="fas fa-graduation-cap"></i><span>Lumina Academy
                     LMS</span></a>
         </div>
         <nav class="sidebar-menu">
             <ul class="list-unstyled">
                 <li class="sidebar-menu-item"><a href="{{ route('superadmin.dashboard') }}" class="sidebar-link"><i
                             class="fas fa-home"></i><span>Dashboard</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/announcements.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/announcements') }}" class="sidebar-link"><i
                             class="fas fa-bullhorn"></i><span>Announcements</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/role-distribution.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/role-distribution') }}" class="sidebar-link"><i
                             class="fas fa-user-shield"></i><span>Roles & Permissions</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/finance.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/finance') }}" class="sidebar-link"><i
                             class="fas fa-money-bill-wave"></i><span>Funds Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/salary.html') }}" class="sidebar-link active"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/salary') }}" class="sidebar-link active"><i
                             class="fas fa-wallet"></i><span>Salary Management</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/teacher-attendance.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/teacher-attendance') }}" class="sidebar-link"><i
                             class="fas fa-clipboard-check"></i><span>Teacher Attendance</span></a></li>
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/reports.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/reports') }}" class="sidebar-link"><i
                             class="fas fa-file-alt"></i><span>Reports</span></a></li>
 
-                <li class="sidebar-menu-item"><a href="{{ url('superadmin/activity-logs.html') }}" class="sidebar-link"><i
+                <li class="sidebar-menu-item"><a href="{{ url('superadmin/activity-logs') }}" class="sidebar-link"><i
                             class="fas fa-history"></i><span>Activity Logs</span></a></li>
             </ul>
         </nav>
@@ -425,6 +425,9 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('assets/js/auth.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
     <script>
         protectPage('superadmin');
 

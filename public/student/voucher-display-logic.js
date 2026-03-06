@@ -1,4 +1,4 @@
-// Check copy type and paid status
+﻿// Check copy type and paid status
 const copyType = urlParams.get('copyType') || 'all';
 const isPaid = urlParams.get('paid') === 'true';
 const vouchers = document.querySelectorAll('.voucher-copy');
@@ -20,7 +20,7 @@ if (copyType === 'student') {
 
 if (isPaid) {
     document.querySelectorAll('.voucher-copy').forEach(copy => copy.classList.add('paid'));
-    document.title = 'Payment Receipt - EduPro LMS';
+    document.title = 'Payment Receipt - Lumina Academy';
     document.querySelectorAll('.voucher-type').forEach(type => {
         type.innerHTML += ' <span class="paid-badge">PAID</span>';
     });
